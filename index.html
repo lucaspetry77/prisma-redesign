@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat · Asimov Prisma</title>
+  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/chat.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="app" data-page="chat-home">
+    <main class="main" id="conteudo">
+      <section class="chat" aria-label="Chat">
+
+        <div class="welcome">
+          <div class="welcome__mark" data-crystal="orb"></div>
+          <h1 class="welcome__title" data-greet>O que vamos criar hoje?</h1>
+
+          <div class="composer-dock composer-dock--home" style="margin-top:28px;padding:0">
+            <form class="composer" aria-label="Nova mensagem"></form>
+            <p class="sr-only" id="composer-hint">Enter envia; Shift + Enter quebra a linha.</p>
+          </div>
+
+          <ul class="suggestions" role="list" aria-label="Sugestões"></ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/pages/chat.js"></script>
+</body>
+</html>

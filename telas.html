@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Telas · Asimov Prisma</title>
+  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+  <main class="page">
+    <header class="page-head">
+      <div class="page-head__text">
+        <div class="row" style="gap:12px;margin-bottom:18px"><span data-crystal="small" style="--crystal-w:44px;display:inline-flex"></span><img class="brand__logo" src="assets/img/asimov-logo.svg" alt="Asimov" style="width:84px"><span class="brand__product" style="font-size:24px">Prisma</span></div>
+        <span class="eyebrow">Front · tema claro do Asimov Design System</span>
+        <h1 class="page-title">Todas as telas</h1>
+        <p class="page-sub">Cada cartão abre a tela navegável, com dados de exemplo tirados do staging. A rota mostra o caminho equivalente no app atual.</p>
+      </div>
+    </header>
+
+    <h2 class="section-label">Entrada e chat</h2>
+    <div class="screens" data-group="chat"></div>
+    <h2 class="section-label mt-32">Organização</h2>
+    <div class="screens" data-group="org"></div>
+    <h2 class="section-label mt-32">Galeria e conta</h2>
+    <div class="screens" data-group="conta"></div>
+    <h2 class="section-label mt-32">Admin</h2>
+    <div class="screens" data-group="admin"></div>
+    <h2 class="section-label mt-32">Estados vazios</h2>
+    <div class="screens" data-group="vazio"></div>
+  </main>
+  <script src="assets/js/icons.js"></script>
+  <script>
+    const S = {
+      chat: [
+        ["login.html", "/login", "Login", "Entrada com a conta da Asimov."],
+        ["index.html", "/", "Início do chat", "Saudação, campo de mensagem, sugestões, seletor de modelo e o menu +."],
+        ["chat.html?id=d5c5bdf1", "/chat/:id", "Conversa", "Mensagens, anexos, raciocínio, troca de modelo, avaliações e Refazer."],
+        ["chat.html?q=Quero%20analisar%20uma%20planilha%20de%20vendas&model=asimov", "/chat (nova)", "Conversa nova", "Resposta simulada em streaming, com botão de parar."],
+      ],
+      org: [
+        ["projetos.html", "/projects", "Projetos", "Lista com busca, novo projeto e ações por projeto."],
+        ["projeto.html?id=p2", "/projects/:id", "Projeto", "Contexto, arquivos, conversas e campo para nova conversa no projeto."],
+        ["skills.html", "/skills", "Skills", "Suas skills e atalho para as oficiais."],
+        ["skill-nova.html", "/skills/new", "Criar skill", "Formulário com contadores e dicas."],
+        ["agentes.html", "/agents", "Agentes", "Seus agentes e favoritos da galeria."],
+        ["agente-novo.html", "/agents/new", "Criar agente", "Exemplos oficiais, formulário completo e teste ao vivo."],
+      ],
+      conta: [
+        ["galeria.html", "/gallery", "Galeria", "Explorar e favoritos, agentes e skills, filtros."],
+        ["galeria-item.html?id=g-s1", "/gallery/skills/:id", "Detalhe da skill", "Instruções, copiar, favoritar, avaliar e moderação."],
+        ["galeria-item.html?id=g-a1", "/gallery/agents/:id", "Detalhe do agente", "Conversar, usar como base e avaliar."],
+        ["perfil.html", "/profile", "Configurações", "Perfil, atalhos, exportar dados e apagar conta."],
+      ],
+      admin: [
+        ["admin-modelos.html", "/admin/models", "Modelos", "Catálogo com ligar, esconder, padrão e edição."],
+        ["admin-uso.html", "/admin/usage", "Uso", "Totais, custo por dia e por modelo, alertas e eventos."],
+        ["admin-usuarios.html", "/admin/users", "Usuários", "Gasto contra tetos e políticas de teto."],
+      ],
+      vazio: [
+        ["skills.html?vazio=1", "/skills", "Skills sem nenhuma", "Estado de quem ainda não criou skills."],
+        ["agentes.html?vazio=1", "/agents", "Agentes sem nenhum", "Estado de quem ainda não criou agentes."],
+        ["projeto.html?id=p1", "/projects/:id", "Projeto sem contexto", "Contexto e arquivos vazios."],
+      ],
+    };
+    for (const [g, items] of Object.entries(S)) {
+      document.querySelector(`[data-group="${g}"]`).innerHTML = items.map(([href, route, title, desc]) =>
+        `<a class="card card--link screen-link" href="${href}"><span class="screen-link__route">${route}</span><span class="screen-link__title">${title}</span><span class="screen-link__desc">${desc}</span></a>`).join("");
+    }
+    Prisma.hydrateIcons();
+  </script>
+</body>
+</html>

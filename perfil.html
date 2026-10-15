@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configurações · Asimov Prisma</title>
+  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="app" data-page="perfil">
+    <main class="main" id="conteudo">
+      <div class="page">
+        <header class="page-head">
+          <div class="page-head__text">
+            <span class="eyebrow">Configurações</span>
+            <h1 class="page-title">Seu perfil</h1>
+            <p class="page-sub">Conte ao Asimov Prisma como te chamar e o que ele deve saber sobre você.</p>
+          </div>
+        </header>
+
+        <div class="settings">
+          <nav class="settings__nav" aria-label="Seções das configurações">
+            <a href="#sobre" class="is-active" aria-current="location">Sobre você</a>
+            <a href="#atalhos">Atalhos</a>
+            <a href="#dados">Seus dados</a>
+            <a href="#conta">Apagar conta</a>
+          </nav>
+
+          <div>
+            <form class="card form-section settings__section" id="sobre" data-profile novalidate>
+              <div class="form-section__head"><div><h2 class="form-section__title">Sobre você</h2><p class="form-section__desc">Vale para todas as conversas.</p></div></div>
+              <div class="photo-row">
+                <span class="avatar avatar--xl avatar--neutral" data-photo>A</span>
+                <div class="stack" style="gap:8px">
+                  <div class="row"><button type="button" class="btn btn--secondary btn--sm" data-pick-photo><i class="i" data-icon="upload"></i>Trocar foto</button><input type="file" accept="image/png,image/jpeg,image/gif,image/webp" hidden data-photo-input></div>
+                  <p class="hint">PNG, JPG, GIF ou WebP de até 5 MB. A foto nova vale depois de salvar.</p>
+                </div>
+              </div>
+              <dl class="facts">
+                <div class="readonly-row"><dt>Nome no Hub</dt><dd>admin</dd></div>
+                <div class="readonly-row"><dt>E-mail</dt><dd>admin@asimov.academy</dd></div>
+              </dl>
+              <div class="field">
+                <div class="field__top"><label class="label" for="pf-nick">Como devo te chamar?</label><span class="counter"></span></div>
+                <input id="pf-nick" class="input" maxlength="40" placeholder="Ex.: Carlão">
+                <p class="hint">É assim que o Asimov Prisma vai te chamar nas conversas.</p>
+              </div>
+              <div class="field">
+                <div class="field__top"><label class="label" for="pf-about">O que você faz e o que devo saber sobre você?</label><span class="counter"></span></div>
+                <textarea id="pf-about" class="textarea" maxlength="2000" rows="5" placeholder="Ex.: Sou contador, uso Excel todo dia e quero aprender a automatizar relatórios. Prefiro respostas curtas, com exemplo prático."></textarea>
+                <p class="hint">Profissão, objetivos, como prefere as respostas.</p>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn--primary" data-save disabled>Salvar</button>
+              </div>
+            </form>
+
+            <section class="card form-section settings__section" id="atalhos">
+              <div class="form-section__head"><div><h2 class="form-section__title">Atalhos</h2></div></div>
+              <div class="list-card" style="padding:0;margin:-6px -10px">
+                <a class="list-row" href="https://hub.asimov.academy" target="_blank" rel="noopener"><i class="i" data-icon="book"></i><span class="list-row__title">Seus cursos no Hub</span><span class="list-row__meta">abre em nova aba</span><i class="i" data-icon="external"></i></a>
+                <a class="list-row" href="projetos.html"><i class="i" data-icon="folder"></i><span class="list-row__title">Seus projetos</span><i class="i" data-icon="chevron-right"></i></a>
+                <a class="list-row" href="agentes.html"><i class="i" data-icon="bot"></i><span class="list-row__title">Seus agentes</span><i class="i" data-icon="chevron-right"></i></a>
+              </div>
+            </section>
+
+            <section class="card form-section settings__section" id="dados">
+              <div class="form-section__head">
+                <div><h2 class="form-section__title">Seus dados</h2><p class="form-section__desc">Baixe uma cópia de tudo o que você guardou no Asimov Prisma: perfil, conversas, skills, agentes, projetos, salvos, memórias, avaliações e favoritos. Sem créditos nem custo. Uma vez por dia.</p></div>
+              </div>
+              <button type="button" class="btn btn--secondary" data-export><i class="i" data-icon="download"></i>Exportar meus dados</button>
+            </section>
+
+            <section class="card form-section settings__section danger-zone" id="conta">
+              <div class="form-section__head">
+                <div><h2 class="form-section__title">Apagar conta</h2><p class="form-section__desc">Apaga sua conta e tudo o que é seu, na hora e sem volta.</p></div>
+              </div>
+              <button type="button" class="btn btn--danger-outline" data-delete><i class="i" data-icon="trash"></i>Apagar minha conta</button>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/motion.js"></script>
+  <script>
+    (() => {
+      const P = Prisma, { $, $$ } = P;
+      const form = $("[data-profile]");
+      const initial = () => [$("#pf-nick").value, $("#pf-about").value].join("|");
+      let saved = initial();
+      form.addEventListener("input", () => ($("[data-save]").disabled = initial() === saved));
+      form.addEventListener("submit", (e) => { e.preventDefault(); saved = initial(); $("[data-save]").disabled = true; P.toast("Perfil salvo", "check-circle"); });
+      $("[data-pick-photo]").addEventListener("click", () => $("[data-photo-input]").click());
+      $("[data-photo-input]").addEventListener("change", (e) => {
+        const f = e.target.files[0];
+        if (!f) return;
+        if (f.size > 5 * 1024 * 1024) { P.toast("A foto precisa ter até 5 MB", "alert"); return; }
+        $("[data-photo]").innerHTML = `<img src="${URL.createObjectURL(f)}" alt="Prévia da foto">`;
+        $("[data-save]").disabled = false;
+      });
+      $("[data-export]").addEventListener("click", (e) => {
+        e.currentTarget.disabled = true;
+        e.currentTarget.innerHTML = `${P.icon("clock")}Preparando o arquivo…`;
+        setTimeout(() => P.toast("Exportação pronta. O download começou", "download"), 1200);
+      });
+      $("[data-delete]").addEventListener("click", () => {
+        P.modal({
+          title: "Apagar sua conta?",
+          desc: "Conversas, skills, agentes, projetos e arquivos somem na hora. Não dá para desfazer. Seus cursos no Hub continuam.",
+          body: `<div class="field"><label class="label" for="del-confirm">Para confirmar, digite <strong>APAGAR</strong></label><input id="del-confirm" class="input" autocomplete="off" autofocus></div>`,
+          buttons: [{ label: "Cancelar" }, { label: "Apagar minha conta", variant: "danger", id: "del-ok", disabled: true, onClick: () => (location.href = "login.html") }],
+          onOpen: (m) => $("#del-confirm", m).addEventListener("input", (e) => ($("#del-ok", m).disabled = e.target.value.trim().toUpperCase() !== "APAGAR")),
+        });
+      });
+      // O destaque acompanha a posição da página, inclusive em seções longas.
+      const links = $$(".settings__nav a");
+      const sections = $$(".settings__section");
+      let selectedByLink = null;
+      let frame = null;
+      const offset = () => matchMedia("(max-width: 899px)").matches ? 80 : 24;
+      const selectSection = (id) => links.forEach((link) => {
+        const active = link.hash === "#" + id;
+        link.classList.toggle("is-active", active);
+        if (active) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+      const updateSection = () => {
+        frame = null;
+        if (selectedByLink && Math.abs(scrollY - selectedByLink.y) < 2) {
+          selectSection(selectedByLink.id);
+          return;
+        }
+        selectedByLink = null;
+        let current = sections[0];
+        for (const section of sections) {
+          if (section.getBoundingClientRect().top <= offset() + 8) current = section;
+        }
+        if (scrollY > 0 && innerHeight + scrollY >= document.documentElement.scrollHeight - 2) current = sections.at(-1);
+        selectSection(current.id);
+      };
+      const scheduleSection = () => { if (frame === null) frame = requestAnimationFrame(updateSection); };
+      const goToSection = (id, push = false) => {
+        const section = sections.find((s) => s.id === id);
+        if (!section) return;
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+        const y = Math.min(maxScroll, Math.max(0, section.getBoundingClientRect().top + scrollY - offset()));
+        selectedByLink = { id, y };
+        if (push) history.pushState(null, "", "#" + id);
+        scrollTo({ top: y, behavior: "instant" });
+        selectSection(id);
+      };
+      links.forEach((link) => link.addEventListener("click", (e) => {
+        if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        goToSection(link.hash.slice(1), true);
+      }));
+      addEventListener("scroll", scheduleSection, { passive: true });
+      addEventListener("resize", () => { selectedByLink = null; scheduleSection(); });
+      addEventListener("hashchange", () => goToSection(location.hash.slice(1)));
+      if (location.hash) requestAnimationFrame(() => goToSection(location.hash.slice(1)));
+      else updateSection();
+      P.ready();
+    })();
+  </script>
+</body>
+</html>

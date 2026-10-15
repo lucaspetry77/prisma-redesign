@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat · Asimov Prisma</title>
+  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/chat.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="app" data-page="chat" data-conv="d5c5bdf1">
+    <main class="main" id="conteudo">
+      <section class="chat" aria-labelledby="chat-title">
+        <header class="chat-head">
+          <h1 class="chat-head__title" id="chat-title" data-title>Conversa</h1>
+          <div class="chat-head__actions">
+            <button type="button" class="icon-btn" data-toast="Link copiado" data-toast-icon="link" aria-label="Compartilhar por link"><i class="i" data-icon="link"></i></button>
+            <button type="button" class="icon-btn" data-chat-more aria-haspopup="menu" aria-expanded="false" aria-label="Mais ações da conversa"><i class="i" data-icon="more"></i></button>
+          </div>
+        </header>
+
+        <div class="thread" aria-live="polite"></div>
+
+        <div class="composer-dock">
+          <form class="composer" aria-label="Nova mensagem"></form>
+          <p class="composer-hint" id="composer-hint">O Asimov Prisma pode errar. Confira informações importantes.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/pages/chat.js"></script>
+</body>
+</html>

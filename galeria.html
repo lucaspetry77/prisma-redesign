@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galeria · Asimov Prisma</title>
+  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="app" data-page="galeria">
+    <main class="main" id="conteudo">
+      <div class="page page--wide">
+        <header class="page-head">
+          <div class="page-head__text">
+            <span class="eyebrow">Galeria</span>
+            <h1 class="page-title">Agentes e skills prontos</h1>
+            <p class="page-sub">Feitos pela Asimov e pela comunidade. Converse com um agente na hora ou copie uma skill para adaptar.</p>
+          </div>
+        </header>
+
+        <div class="tabs" role="tablist" aria-label="Visão" data-view>
+          <button type="button" role="tab" class="tabs__btn" aria-selected="true" data-v="explorar">Explorar</button>
+          <button type="button" role="tab" class="tabs__btn" aria-selected="false" tabindex="-1" data-v="favoritos">Meus favoritos<span class="tabs__count" data-fav-count></span></button>
+        </div>
+
+        <div class="filters">
+          <div class="segmented" role="tablist" aria-label="Tipo" data-type>
+            <button type="button" role="tab" class="segmented__btn" aria-selected="true" data-t="agents"><i class="i i--sm" data-icon="bot"></i>Agentes</button>
+            <button type="button" role="tab" class="segmented__btn" aria-selected="false" tabindex="-1" data-t="skills"><i class="i i--sm" data-icon="skill"></i>Skills</button>
+          </div>
+          <div class="filters__pills">
+          <div class="field"><label class="label" for="f-origin">Origem</label>
+            <select id="f-origin" class="select"><option value="">Todas as origens</option><option value="oficial">Oficiais da Asimov</option><option value="comunidade">Da comunidade</option></select></div>
+          <div class="field"><label class="label" for="f-cat">Categoria</label>
+            <select id="f-cat" class="select"></select></div>
+          </div>
+        </div>
+
+        <!-- Resultado: quantos itens e a ordem, separados dos filtros -->
+        <div class="results-bar">
+          <span class="results-bar__count" data-count aria-live="polite"></span>
+          <label class="sort"><span class="sort__label">Ordenar por</span>
+            <select id="f-order" class="sort__select"><option value="recentes">Mais recentes</option><option value="avaliados">Melhor avaliados</option><option value="nome">Nome (A–Z)</option></select>
+          </label>
+        </div>
+
+        <div class="grid grid--cards" data-grid></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/motion.js"></script>
+  <script>
+    (() => {
+      const P = Prisma, D = PrismaData, { $, $$, esc } = P;
+      const params = new URLSearchParams(location.search);
+      const st = { view: "explorar", type: params.get("tipo") === "skills" ? "skills" : "agents", origin: "", order: "recentes", cat: "" };
+      const toneVars = (t) => `--tone:var(--tone-${t});--tone-dark:var(--tone-${t}-dark)`;
+      const grid = $("[data-grid]");
+
+      const card = (it, type) => P.galleryCard(it, type);
+
+      const cats = () => {
+        const list = D.gallery[st.type];
+        const counts = {};
+        list.forEach((i) => (counts[i.category] = (counts[i.category] || 0) + 1));
+        $("#f-cat").innerHTML = `<option value="">Todas as categorias</option>` + Object.keys(counts).sort().map((c) => `<option value="${esc(c)}" ${c === st.cat ? "selected" : ""}>${esc(c)} (${counts[c]})</option>`).join("");
+      };
+
+      const render = () => {
+        let items = D.gallery[st.type].slice();
+        if (st.view === "favoritos") items = items.filter((i) => i.fav);
+        if (st.origin === "comunidade") items = [];
+        if (st.cat) items = items.filter((i) => i.category === st.cat);
+        if (st.order === "nome") items.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+        const favs = D.gallery.agents.filter((i) => i.fav).length + D.gallery.skills.filter((i) => i.fav).length;
+        $("[data-fav-count]").textContent = favs || "";
+        const noun = st.type === "agents" ? ["agente", "agentes"] : ["skill", "skills"];
+        $("[data-count]").textContent = `${items.length} ${items.length === 1 ? noun[0] : noun[1]}`;
+        grid.innerHTML = items.length ? items.map((i) => card(i, st.type)).join("") : `
+          <div class="card empty empty--center" style="grid-column:1/-1">
+            <span class="icon-chip empty__icon"><i class="i" data-icon="${st.view === "favoritos" ? "heart" : "search"}"></i></span>
+            <p class="empty__title">${st.view === "favoritos" ? "Nenhum favorito aqui ainda" : st.origin === "comunidade" ? "A comunidade ainda não publicou nada" : "Nada com esses filtros"}</p>
+            <p class="empty__text">${st.view === "favoritos" ? "Toque no coração de um agente ou skill para guardar aqui." : st.origin === "comunidade" ? "Quando alunos publicarem agentes e skills, eles aparecem aqui. Que tal ser o primeiro?" : "Tente outra categoria ou limpe os filtros."}</p>
+            ${st.origin === "comunidade" ? `<a class="btn btn--primary" href="agente-novo.html">Criar e publicar um agente</a>` : ""}
+          </div>`;
+        P.hydrateIcons(grid);
+      };
+
+      $("[data-view]").addEventListener("tabchange", (e) => { st.view = e.detail.dataset.v; render(); });
+      $("[data-type]").addEventListener("tabchange", (e) => { st.type = e.detail.dataset.t; st.cat = ""; cats(); render(); });
+      $("#f-origin").addEventListener("change", (e) => { st.origin = e.target.value; render(); });
+      $("#f-order").addEventListener("change", (e) => { st.order = e.target.value; render(); });
+      $("#f-cat").addEventListener("change", (e) => { st.cat = e.target.value; render(); });
+
+      grid.addEventListener("click", (e) => {
+        const f = e.target.closest("[data-fav]");
+        if (f) {
+          const it = [...D.gallery.agents, ...D.gallery.skills].find((x) => x.id === f.dataset.fav);
+          it.fav = !it.fav;
+          f.setAttribute("aria-pressed", it.fav);
+          f.classList.remove("is-pop"); void f.offsetWidth; f.classList.add("is-pop");
+          P.toast(it.fav ? "Adicionado aos favoritos" : "Tirado dos favoritos", "heart");
+          if (st.view === "favoritos") render(); else $("[data-fav-count]").textContent = [...D.gallery.agents, ...D.gallery.skills].filter((i) => i.fav).length || "";
+        }
+        if (e.target.closest("[data-copy-skill]")) P.toast("Skill copiada para Suas skills", "copy");
+      });
+
+      P.ready();
+      cats();
+      render();
+      if (st.type === "skills") { st.type = "agents"; $("[data-type] [data-t='skills']").click(); }
+    })();
+  </script>
+</body>
+</html>

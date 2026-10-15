@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projetos · Asimov Prisma</title>
+  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="app" data-page="projetos">
+    <main class="main" id="conteudo">
+      <div class="page">
+        <header class="page-head">
+          <div class="page-head__text">
+            <span class="eyebrow">Projetos</span>
+            <h1 class="page-title">Conversas com contexto</h1>
+            <p class="page-sub">Organize conversas, arquivos e instruções por assunto. Tudo o que você conversa num projeto já começa sabendo dele.</p>
+          </div>
+          <div class="page-head__actions">
+            <button type="button" class="btn btn--primary" data-new-project><i class="i" data-icon="plus"></i>Novo projeto</button>
+          </div>
+        </header>
+
+        <div class="toolbar">
+          <div class="input-icon">
+            <i class="i i--sm" data-icon="search"></i>
+            <label class="sr-only" for="busca">Buscar projetos</label>
+            <input id="busca" class="input" type="search" placeholder="Buscar projetos" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="grid grid--3" data-projects></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/motion.js"></script>
+  <script src="assets/js/pages/projects.js"></script>
+</body>
+</html>

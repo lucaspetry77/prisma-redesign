@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uso · Admin · Asimov Prisma</title>
+  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="app" data-page="admin">
+    <main class="main" id="conteudo">
+      <div class="page page--wide">
+        <nav class="segmented admin-nav" aria-label="Admin">
+          <a class="segmented__btn" href="admin-modelos.html"><i class="i i--sm" data-icon="cpu"></i>Modelos</a>
+          <a class="segmented__btn" href="admin-uso.html" aria-current="page"><i class="i i--sm" data-icon="chart"></i>Uso</a>
+          <a class="segmented__btn" href="admin-usuarios.html"><i class="i i--sm" data-icon="users"></i>Usuários</a>
+        </nav>
+
+        <header class="page-head">
+          <div class="page-head__text">
+            <span class="eyebrow">Admin</span>
+            <h1 class="page-title">Uso</h1>
+            <p class="page-sub">Consumo e custo real do período, em R$, créditos e tokens.</p>
+          </div>
+        </header>
+
+        <form class="card filterbar" data-filters>
+          <div class="field"><label class="label" for="u-from">De</label><input id="u-from" class="input" type="date" value="2026-09-30"></div>
+          <div class="field"><label class="label" for="u-to">Até</label><input id="u-to" class="input" type="date" value="2026-10-06"></div>
+          <div class="field"><label class="label" for="u-group">Agrupar por</label><select id="u-group" class="select"><option>Dia</option><option>Usuário</option><option>Modelo</option></select></div>
+          <div class="segmented" role="group" aria-label="Atalhos de período">
+            <button type="button" class="segmented__btn" aria-current="page" data-range="7">7 dias</button>
+            <button type="button" class="segmented__btn" data-range="30">30 dias</button>
+          </div>
+          <span class="filterbar__spacer"></span>
+          <button type="submit" class="btn btn--primary">Aplicar</button>
+        </form>
+        <p class="footnote" data-period></p>
+
+        <div class="block-title"><h2>Totais do período</h2></div>
+        <div class="kpis" data-kpis></div>
+        <p class="footnote" data-fx></p>
+
+        <div class="split mt-8">
+          <section>
+            <div class="block-title"><h2>Custo real por dia</h2><p>R$ · passe o mouse nas barras</p></div>
+            <div class="card bars" data-bars></div>
+          </section>
+          <section>
+            <div class="block-title"><h2>Custo por modelo</h2><p>Por conversa</p></div>
+            <div class="table-wrap">
+              <table class="table"><thead><tr><th>Modelo</th><th class="num">Conversas</th><th>Custo</th><th class="num">Médio</th></tr></thead><tbody data-by-model></tbody></table>
+            </div>
+          </section>
+        </div>
+
+        <div class="block-title"><h2>Por dia</h2><p>Tabela do gráfico</p></div>
+        <div class="table-wrap">
+          <table class="table"><thead><tr><th>Dia</th><th class="num">Custo real</th><th class="num">Custo (US$)</th><th class="num">Créditos</th><th class="num">Mensagens</th><th class="num">Usuários</th></tr></thead><tbody data-by-day></tbody></table>
+        </div>
+
+        <div class="block-title"><h2>Alertas de custo</h2></div>
+        <div class="card empty" style="padding:18px 20px">
+          <div class="row"><span class="icon-chip icon-chip--sm" style="--tone:var(--success);--tone-dark:var(--success)"><i class="i" data-icon="check-circle"></i></span><p class="ink" style="font-weight:600">Nenhum dia passou do limiar no período.</p></div>
+          <p class="hint">O alerta sai quando o custo real de um dia passa do limiar diário.</p>
+        </div>
+
+        <div class="block-title">
+          <h2>Eventos</h2>
+          <div class="field" style="min-width:200px"><label class="sr-only" for="ev-type">Tipo de evento</label>
+            <select id="ev-type" class="select" style="min-height:34px;padding-top:5px;padding-bottom:5px;font-size:13px"><option value="">Todos os eventos</option><option>Aviso de créditos</option><option>Bloqueio de créditos</option><option>Alerta de custo</option><option>Login negado</option><option>Limite de requisições</option></select></div>
+        </div>
+        <div class="table-wrap">
+          <table class="table"><thead><tr><th>Tipo</th><th>Quando</th><th>Usuário</th><th>Resumo</th></tr></thead><tbody data-events></tbody></table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/motion.js"></script>
+  <script>
+    (() => {
+      const P = Prisma, D = PrismaData, { $, $$, esc } = P;
+      const U = D.usage;
+      const brl = (v) => "R$ " + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      $("[data-period]").textContent = `Período: ${U.period} (dias de São Paulo).`;
+      $("[data-fx]").textContent = U.fx;
+      const T = U.totals;
+      const kpi = (label, value, sub = "", cls = "") => `<div class="card kpi ${cls}"><span class="kpi__label">${label}</span><span class="kpi__value">${esc(value)}</span>${sub ? `<span class="kpi__sub">${esc(sub)}</span>` : ""}</div>`;
+      $("[data-kpis]").innerHTML = [
+        kpi("Custo real", T.costBRL, `${T.costUSD} · ${T.credits} créditos`, "kpi--hero"),
+        kpi("Mensagens", T.messages, `Intervalo médio: ${T.interval}`, "kpi--hero"),
+        kpi("Economia de cache", T.cacheSaving, `Taxa de cache: ${T.cacheRate}`),
+        kpi("Overhead", T.overhead, T.overheadSub),
+        kpi("Tokens usados", T.tokens, `${T.cachedTokens} em cache`),
+        kpi("Respostas truncadas", T.truncated, `Barradas no portão: ${T.gated}`),
+      ].join("");
+
+      // Gráfico: uma série (custo real por dia), escala fixa de 0 a 1,50
+      const max = 1.5;
+      const ticks = [0, 0.5, 1, 1.5];
+      $("[data-bars]").innerHTML = `
+        <div class="bars__plot" role="img" aria-label="Custo real por dia: ${U.days.map((d) => `${d.day} ${brl(d.brl)}`).join(", ")}">
+          <div class="bars__grid" aria-hidden="true">${ticks.map((t) => `<span style="bottom:${(t / max) * 100}%"><b>${t.toLocaleString("pt-BR", { minimumFractionDigits: t ? 2 : 0 })}</b></span>`).join("")}</div>
+          ${U.days.map((d) => `<div class="bars__col" tabindex="0" aria-label="${d.full}: ${brl(d.brl)}, ${d.messages} mensagens">
+            <span class="bars__bar ${d.brl ? "" : "is-zero"}" style="height:${d.brl ? Math.max(2, (d.brl / max) * 100) : 1}%"></span>
+            <span class="bars__tip"><strong>${d.full}</strong>${brl(d.brl)} · ${d.usd}<br>${d.messages} mensagens · ${d.users} ${d.users === 1 ? "usuário" : "usuários"}</span>
+          </div>`).join("")}
+        </div>
+        <div class="bars__x" aria-hidden="true">${U.days.map((d) => `<span>${d.day}</span>`).join("")}</div>`;
+
+      const maxCost = Math.max(...D.models.map((m) => m.cost));
+      $("[data-by-model]").innerHTML = D.models.filter((m) => m.conversations).sort((a, b) => b.cost - a.cost).map((m) => `
+        <tr><td><span class="cell-name">${P.modelIcon(m)}<span class="strong">${esc(m.name)}</span></span></td>
+        <td class="num">${m.conversations}</td>
+        <td><div class="inline-bar"><span class="inline-bar__track"><span class="inline-bar__fill" style="width:${maxCost ? (m.cost / maxCost) * 100 : 0}%"></span></span><span class="tnum">≈ ${brl(m.cost)}</span></div></td>
+        <td class="num">≈ ${brl(m.conversations ? m.cost / m.conversations : 0)}</td></tr>`).join("");
+
+      $("[data-by-day]").innerHTML = U.days.filter((d) => d.messages).map((d) => `<tr><td class="strong">${d.full}</td><td class="num">${brl(d.brl)}</td><td class="num">${d.usd}</td><td class="num">${d.credits}</td><td class="num">${d.messages}</td><td class="num">${d.users}</td></tr>`).join("");
+
+      const renderEvents = (type = "") => {
+        const rows = U.events.filter((e) => !type || e.type === type);
+        $("[data-events]").innerHTML = rows.length ? rows.map((e) => `<tr><td><span class="badge ${e.kind === "danger" ? "badge--danger" : "badge--muted"}">${esc(e.type)}</span></td><td class="tnum">${esc(e.when)}</td><td class="mono">${esc(e.user)}</td><td class="wrap">${esc(e.summary)}</td></tr>`).join("")
+          : `<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:24px">Nenhum evento desse tipo no período.</td></tr>`;
+      };
+      renderEvents();
+      $("#ev-type").addEventListener("change", (e) => renderEvents(e.target.value));
+
+      $$("[data-range]").forEach((b) => b.addEventListener("click", () => {
+        $$("[data-range]").forEach((x) => x.removeAttribute("aria-current"));
+        b.setAttribute("aria-current", "page");
+        const days = +b.dataset.range;
+        const to = new Date("2026-10-06T12:00:00");
+        const from = new Date(to); from.setDate(to.getDate() - days + 1);
+        $("#u-from").value = from.toISOString().slice(0, 10);
+      }));
+      $("[data-filters]").addEventListener("submit", (e) => { e.preventDefault(); P.toast("Período aplicado", "calendar"); });
+      P.ready();
+    })();
+  </script>
+</body>
+</html>

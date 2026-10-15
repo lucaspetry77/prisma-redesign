@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Galeria · Asimov Prisma</title>
+  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="app" data-page="galeria">
+    <main class="main" id="conteudo">
+      <div class="page" data-item></div>
+    </main>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/motion.js"></script>
+  <script>
+    (() => {
+      const P = Prisma, D = PrismaData, { $, $$, esc } = P;
+      const id = new URLSearchParams(location.search).get("id") || "g-s1";
+      const isAgent = id.startsWith("g-a");
+      const it = (isAgent ? D.gallery.agents : D.gallery.skills).find((x) => x.id === id) || D.gallery.skills[0];
+      const toneVars = (t) => `--tone:var(--tone-${t});--tone-dark:var(--tone-${t}-dark)`;
+      const instructions = it.instructions || `---\nname: ${it.name}\ndescription: ${it.desc}\n---\n${isAgent ? `Você é o ${it.name}, um agente oficial da Asimov Academy.\n${it.desc}\n\n` : ""}Como responder:\n\n- Comece pelo que importa, sem introdução longa;\n- Use listas curtas quando houver mais de duas ideias;\n- Se faltar informação, pergunte antes ou diga qual suposição você fez;\n- Escreva em português do Brasil, com linguagem simples.`;
+      document.title = `${it.name} · Galeria · Asimov Prisma`;
+
+      $("[data-item]").innerHTML = `
+        <a class="crumb" href="galeria.html${isAgent ? "" : "?tipo=skills"}"><i class="i" data-icon="chevron-left"></i>Galeria</a>
+        <div class="detail">
+          <div>
+            <div class="detail__hero">
+              ${isAgent ? `<span class="avatar avatar--xl avatar--square tone-${it.tone}" style="${toneVars(it.tone)};border-radius:18px">${esc(it.initials)}</span>` : `<span class="icon-chip" style="width:64px;height:64px;border-radius:18px"><i class="i i--lg" data-icon="skill"></i></span>`}
+              <div>
+                <h1 class="page-title">${esc(it.name)}</h1>
+                <div class="detail__tags">
+                  <span class="by" style="font-size:14px">por <strong>Asimov</strong>${P.verified("Oficial da Asimov", "verified--lg")}</span>
+                  <span class="muted" aria-hidden="true">·</span>
+                  <span class="badge">${P.icon(isAgent ? "bot" : "skill")}${isAgent ? "Agente" : "Skill"}</span>
+                  <span class="badge">${esc(it.category)}</span>
+                </div>
+              </div>
+            </div>
+            <p class="detail__desc">${esc(it.desc)}</p>
+            ${isAgent ? "" : `<div class="note mt-16"><i class="i i--sm" data-icon="check-circle"></i><span>Esta skill oficial já está no painel de skills das suas conversas. Ligue pelo botão <strong>+</strong> do campo de mensagem.</span></div>`}
+
+            <div class="block-title"><h2>Instruções</h2><p>${P.fmt(instructions.length)} caracteres</p></div>
+            <div class="codeblock is-clamped" data-code>
+              <div class="codeblock__bar"><span>${isAgent ? "agente" : "skill"}.md</span><button type="button" class="btn btn--ghost btn--sm" data-copy-ins><i class="i" data-icon="copy"></i>Copiar</button></div>
+              <pre>${esc(instructions)}</pre>
+            </div>
+            <button type="button" class="btn btn--ghost btn--sm mt-8" data-expand aria-expanded="false"><i class="i" data-icon="chevron-down"></i>Ver tudo</button>
+
+            <div class="block-title"><h2>Avaliações</h2><p>Sem avaliações ainda</p></div>
+            <div class="card card--pad">
+              <p class="label">Sua avaliação</p>
+              <div class="stars mt-8" role="radiogroup" aria-label="Sua avaliação">${[1, 2, 3, 4, 5].map((n) => `<button type="button" class="star" role="radio" aria-checked="false" aria-label="${n} ${n === 1 ? "estrela" : "estrelas"}" data-star="${n}"><i class="i" data-icon="star"></i></button>`).join("")}</div>
+              <p class="hint mt-8" data-star-hint>Toque numa estrela para avaliar.</p>
+            </div>
+          </div>
+
+          <aside class="detail__aside">
+            <div class="card card--pad stack">
+              ${isAgent
+                ? `<a class="btn btn--primary btn--lg btn--block" href="chat.html?${new URLSearchParams({ q: "Oi! Vamos começar?", agent: it.id })}"><i class="i" data-icon="chat"></i>Conversar</a>
+                   <a class="btn btn--secondary btn--block" href="agente-novo.html"><i class="i" data-icon="copy"></i>Usar como base</a>`
+                : `<button type="button" class="btn btn--primary btn--lg btn--block" data-toast="Skill copiada para Suas skills" data-toast-icon="copy"><i class="i" data-icon="copy"></i>Copiar skill</button>
+                   <a class="btn btn--secondary btn--block" href="skill-nova.html"><i class="i" data-icon="pencil"></i>Usar como base</a>`}
+              <button type="button" class="btn btn--ghost btn--block fav-btn" data-fav aria-pressed="${it.fav}"><i class="i" data-icon="heart"></i><span>${it.fav ? "Favoritado" : "Favoritar"}</span></button>
+              <dl class="stat-list" style="padding-top:14px;border-top:1px solid var(--line)">
+                <div><dt>Autor</dt><dd><span class="by">Asimov${P.verified()}</span></dd></div>
+                <div><dt>Publicado em</dt><dd>${esc(it.date)}</dd></div>
+                <div><dt>Categoria</dt><dd>${esc(it.category)}</dd></div>
+                <div><dt>Avaliação</dt><dd>—</dd></div>
+              </dl>
+            </div>
+            <div class="card card--pad stack" style="gap:10px">
+              <span class="eyebrow" style="color:var(--muted)">Moderação</span>
+              <p class="hint">Só administradores veem esta área.</p>
+              <button type="button" class="btn btn--danger-outline btn--sm" data-remove><i class="i" data-icon="trash"></i>Remover da galeria</button>
+            </div>
+          </aside>
+        </div>`;
+
+      const code = $("[data-code]");
+      $("[data-expand]").addEventListener("click", (e) => {
+        const open = code.classList.toggle("is-clamped") === false;
+        e.currentTarget.setAttribute("aria-expanded", open);
+        e.currentTarget.innerHTML = `${P.icon(open ? "chevron-down" : "chevron-down")}${open ? "Mostrar menos" : "Ver tudo"}`;
+        $(".i", e.currentTarget).style.transform = open ? "rotate(180deg)" : "";
+      });
+      $("[data-copy-ins]").addEventListener("click", () => { navigator.clipboard?.writeText(instructions).catch(() => {}); P.toast("Instruções copiadas", "copy"); });
+      $("[data-fav]").addEventListener("click", (e) => {
+        it.fav = !it.fav;
+        e.currentTarget.setAttribute("aria-pressed", it.fav);
+        $("span:last-child", e.currentTarget).textContent = it.fav ? "Favoritado" : "Favoritar";
+        e.currentTarget.classList.remove("is-pop"); void e.currentTarget.offsetWidth; e.currentTarget.classList.add("is-pop");
+      });
+      $$("[data-star]").forEach((b) => b.addEventListener("click", () => {
+        const n = +b.dataset.star;
+        $$("[data-star]").forEach((x) => { x.classList.toggle("is-on", +x.dataset.star <= n); x.setAttribute("aria-checked", +x.dataset.star === n); });
+        $("[data-star-hint]").textContent = `Você deu ${n} ${n === 1 ? "estrela" : "estrelas"}. Obrigado!`;
+      }));
+      $("[data-remove]").addEventListener("click", () => P.confirm({ title: "Remover da galeria?", desc: `“${esc(it.name)}” deixa de aparecer para todos. Quem já copiou continua com a cópia.`, confirm: "Remover", onConfirm: () => (location.href = "galeria.html") }));
+      P.ready();
+    })();
+  </script>
+</body>
+</html>
