@@ -24,7 +24,7 @@
     const rows = models.filter((m) => (!st.modality || m.modality === st.modality) && (!q || P.norm(`${m.name} ${m.key} ${m.provider}`).includes(q))).sort((a, b) => (a.modality === b.modality ? a.order - b.order : a.modality === "text" ? -1 : 1));
     $("[data-count]").textContent = P.plural(rows.length, "modelo", "modelos");
     tbody.innerHTML = rows.length ? rows.map((m) => `
-      <tr class="is-clickable" data-edit="${m.key}" tabindex="0" aria-label="Editar ${esc(m.name)}">
+      <tr class="is-clickable ${m.on ? "" : "is-off"}" data-edit="${m.key}" tabindex="0" aria-label="Editar ${esc(m.name)}">
         <td class="sticky-col cell-main"><span class="cell-name">${P.modelIcon(m, "model-icon--lg")}<span><span class="strong row" style="gap:6px">${esc(m.name)}${m.isDefault ? `<span class="badge badge--accent">Padrão</span>` : ""}${m.badge ? `<span class="badge">${esc(m.badge)}</span>` : ""}</span><span class="cell-sub t-mono">${esc(m.key)} · ${m.modality === "image" ? "imagem" : "texto"}</span></span></span></td>
         <td data-label="Fornecedor" class="mono"><span class="t-clamp-1" style="display:block;max-width:190px" title="${esc(m.provider)}">${esc(m.provider)}</span></td>
         <td data-label="Entrada · US$/1M" class="num">${usd(m.priceIn)}</td>
@@ -45,6 +45,7 @@
 
   const edit = (m) => {
     const isNew = !m;
+    history.replaceState(null, "", m ? `admin-modelos.html?modelo=${encodeURIComponent(m.key)}` : "admin-modelos.html");
     const v = m || { name: "", key: "", provider: "", modality: "text", order: models.length + 1, badge: "", priceIn: null, priceOut: null, ctx: null, maxOut: null, cacheMin: null, files: false, images: false, prefs: "" };
     const el = P.sheet({
       title: isNew ? "Novo modelo" : v.name,
@@ -89,6 +90,7 @@
         });
       } }],
       onOpen: (sh) => { P.bindFields(sh); },
+      onClose: () => history.replaceState(null, "", "admin-modelos.html"),
     });
     return el;
   };
@@ -102,7 +104,12 @@
     if (m.isDefault && !i.checked) { i.checked = true; P.toast(`${m.name} é o modelo padrão. Escolha outro padrão antes de ${i.dataset.k === "on" ? "desligar" : "esconder"}.`, { icon: "info" }); return; }
     m[i.dataset.k] = i.checked;
     P.api.send("PATCH", `/v1/models/${m.key}`, { [i.dataset.k]: i.checked })
-      .then(() => { P.toast(`${m.name}: ${i.dataset.k === "on" ? (i.checked ? "ligado" : "desligado") : (i.checked ? "visível no seletor" : "escondido do seletor")}`); renderDefault(); })
+      .then(() => {
+        const k = i.dataset.k, v = m[k];
+        const sync = () => { const row = i.closest("tr"); row?.classList.toggle("is-off", !m.on); const inp = tbody.querySelector(`[data-k="${k}"][data-m="${m.key}"]`); if (inp) inp.checked = m[k]; renderDefault(); };
+        sync();
+        P.toast(`${m.name}: ${k === "on" ? (v ? "ligado" : "desligado") : (v ? "visível no seletor" : "escondido do seletor")}`, { action: { label: "Desfazer", onClick: () => { m[k] = !v; sync(); P.api.send("PATCH", `/v1/models/${m.key}`, { [k]: !v }); } } });
+      })
       .catch((err) => { m[i.dataset.k] = !i.checked; i.checked = !i.checked; P.toast(err.message, { danger: true }); });
   });
   $("#default-model").addEventListener("change", (e) => {
@@ -120,6 +127,6 @@
 
   P.ready();
   tbody.innerHTML = P.skeleton.table(9, 6);
-  P.api.get("/v1/models").then((list) => { models = list; D.models = models; renderDefault(); render(); })
+  P.api.get("/v1/models").then((list) => { models = list; D.models = models; renderDefault(); render(); const k = P.params.get("modelo"); const m = k && models.find((x) => x.key === k); if (m) edit(m); })
     .catch((err) => { $("[data-table]").outerHTML = P.errorState(err.message); P.hydrateIcons(document); document.querySelector("[data-retry]")?.addEventListener("click", () => location.reload()); });
 })();

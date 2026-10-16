@@ -461,6 +461,7 @@
 .table tbody tr:hover { background: var(--surface-2); }
 .table tbody tr.is-clickable { cursor: pointer; }
 .table tbody tr.is-selected { background: var(--accent-wash); }
+.table tbody tr.is-off td:not(:nth-last-child(-n+3)) { opacity: .55; } /* linha desligada esmaecida (C.1) */
 .table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .table .strong { color: var(--ink); font-weight: 500; }
 .table .mono { font-family: var(--font-mono); font-size: 12px; color: var(--body); }
