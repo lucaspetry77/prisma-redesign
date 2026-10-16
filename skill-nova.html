@@ -2,98 +2,85 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Criar skill · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="description" content="Crie ou edite uma skill.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/pages.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="skills">
-    <main class="main" id="conteudo">
-      <form class="page" data-skill-form novalidate>
-        <div class="sticky-actions">
-          <div>
-            <a class="crumb" href="skills.html" style="margin:0 0 4px"><i class="i" data-icon="chevron-left"></i>Skills</a>
-            <h1 class="page-title" style="font-size:28px" data-form-title>Criar skill</h1>
-          </div>
-          <div class="row">
-            <a class="btn btn--ghost" href="skills.html">Cancelar</a>
-            <button type="submit" class="btn btn--primary" data-save disabled>Salvar skill</button>
-          </div>
-        </div>
 
-        <div class="form-layout">
+  <div class="app" data-page="skill-nova" data-nav="skills" data-title="Skill">
+    <main class="main" id="conteudo" tabindex="-1">
+      <form data-form novalidate>
+        <div class="editor-bar">
+          <a class="icon-btn icon-btn--sm" href="skills.html" aria-label="Voltar para Skills" data-tip="Voltar"><i class="i " data-icon="arrow-left"></i></a>
+          <div class="editor-bar__title"><h1 data-title>Criar skill</h1><span class="save-state" data-save-state aria-live="polite">Rascunho</span></div>
+          <a class="btn btn--ghost" href="skills.html">Cancelar</a>
+          <button type="submit" class="btn btn--primary" data-save>Salvar skill</button>
+        </div>
+        <div class="editor">
           <div>
-            <section class="card form-section">
+            <section class="card form-card" aria-labelledby="sk-id">
+              <div class="form-card__head"><div><h2 class="form-card__title" id="sk-id">Identificação</h2><p class="form-card__desc">Como a skill aparece no painel do <strong>+</strong> do campo de mensagem.</p></div></div>
+              <div class="field"><div class="field__top"><label class="label" for="sk-name">Nome <span class="req" aria-hidden="true">*</span></label><span class="counter"></span></div>
+                <input id="sk-name" class="input" maxlength="60" placeholder="Ex.: Respostas em tópicos curtos" autocomplete="off" required></div>
+              <div class="field"><div class="field__top"><label class="label" for="sk-desc">Descrição <span class="req" aria-hidden="true">*</span></label><span class="counter"></span></div>
+                <input id="sk-desc" class="input" maxlength="160" placeholder="Ex.: Responde em até 5 tópicos e termina com o próximo passo." autocomplete="off" required aria-describedby="sk-desc-h">
+                <p class="hint" id="sk-desc-h">Uma frase sobre o que a skill faz. Ajuda você a escolher a certa no painel.</p></div>
+              <div class="field"><div class="field__top"><label class="label" for="sk-cat">Categoria <small>opcional</small></label><span class="counter"></span></div>
+                <input id="sk-cat" class="input" maxlength="40" list="cats" placeholder="Ex.: Produtividade" autocomplete="off">
+                <datalist id="cats"><option>Automação</option><option>Dados</option><option>Design</option><option>Escrita</option><option>Estudos</option><option>Produtividade</option><option>Programação</option><option>Reuniões</option></datalist></div>
+            </section>
+            <section class="card form-card" aria-labelledby="sk-ins-t">
+              <div class="form-card__head"><div><h2 class="form-card__title" id="sk-ins-t">Instruções <span class="req" aria-hidden="true">*</span></h2><p class="form-card__desc">O que a IA deve fazer em toda resposta enquanto a skill estiver ligada.</p></div>
+                <button type="button" class="btn btn--secondary btn--sm" data-template><i class="i " data-icon="notebook"></i>Inserir modelo</button></div>
               <div class="field">
-                <div class="field__top"><label class="label" for="sk-name">Nome <span class="req">*</span></label><span class="counter"></span></div>
-                <input id="sk-name" class="input" maxlength="60" placeholder="Ex.: Respostas em tópicos curtos" required>
-              </div>
-              <div class="field">
-                <div class="field__top"><label class="label" for="sk-desc">Descrição <span class="req">*</span></label><span class="counter"></span></div>
-                <input id="sk-desc" class="input" maxlength="160" placeholder="Uma frase sobre o que a skill faz. Aparece no painel de skills." required>
-              </div>
-              <div class="field">
-                <div class="field__top"><label class="label" for="sk-ins">Instruções <span class="req">*</span></label><span class="counter"></span></div>
-                <textarea id="sk-ins" class="textarea textarea--code" maxlength="19967" placeholder="Ao responder, use no máximo 5 tópicos, uma frase cada.&#10;Termine sempre com o próximo passo prático.&#10;Se faltar informação, pergunte antes de supor." required></textarea>
-                <p class="hint">Aceita markdown como texto, sem pré-visualização formatada.</p>
-              </div>
-              <div class="field">
-                <div class="field__top"><label class="label" for="sk-cat">Categoria <small>(opcional)</small></label><span class="counter"></span></div>
-                <input id="sk-cat" class="input" maxlength="40" list="cats" placeholder="Ex.: Produtividade">
-                <datalist id="cats"><option>Automação</option><option>Dados</option><option>Design</option><option>Escrita</option><option>Estudos</option><option>Produtividade</option><option>Programação</option><option>Reuniões</option></datalist>
+                <div class="write-tabs">
+                  <div class="seg seg--sm" role="tablist" aria-label="Modo">
+                    <button type="button" role="tab" class="seg__btn" aria-selected="true" aria-controls="sk-write" data-t="write">Escrever</button>
+                    <button type="button" role="tab" class="seg__btn" aria-selected="false" aria-controls="sk-prev" tabindex="-1" data-t="preview">Visualizar</button>
+                  </div>
+                  <span class="counter"></span>
+                </div>
+                <div id="sk-write"><label class="sr-only" for="sk-ins">Instruções</label>
+                  <textarea id="sk-ins" class="textarea textarea--code" maxlength="19967" rows="12" required placeholder="Ao responder, use no máximo 5 tópicos, uma frase cada.&#10;Termine sempre com o próximo passo prático.&#10;Se faltar informação, pergunte antes de supor."></textarea></div>
+                <div id="sk-prev" hidden><div class="md-preview prose" data-preview aria-live="polite"></div></div>
+                <p class="hint">Aceita markdown (títulos, listas, negrito). A visualização serve só para conferir a estrutura.</p>
               </div>
             </section>
           </div>
-
-          <aside class="form-layout__aside">
+          <aside class="editor__aside">
             <div class="card tips">
-              <span class="eyebrow">Como escrever uma boa skill</span>
-              <div class="tips__item"><span class="tips__num">1</span><p><strong class="ink">Uma regra por linha.</strong> Frases curtas no imperativo: “use”, “termine”, “evite”.</p></div>
-              <div class="tips__item"><span class="tips__num">2</span><p><strong class="ink">Diga o formato.</strong> Lista, tabela, número de itens, tamanho da resposta.</p></div>
-              <div class="tips__item"><span class="tips__num">3</span><p><strong class="ink">Dê um exemplo.</strong> Uma resposta modelo vale mais que três adjetivos.</p></div>
-              <div class="tips__item"><span class="tips__num">4</span><p><strong class="ink">Diga o que fazer na dúvida.</strong> “Se faltar informação, pergunte antes.”</p></div>
-              <div class="note"><i class="i i--sm" data-icon="info"></i><span>Ligue a skill pelo botão <strong>+</strong> do campo de mensagem, em “Skills”. Até 5 por conversa.</span></div>
+              <p class="tips__title">Como escrever uma boa skill</p>
+              <ol>
+                <li><span><strong>Uma regra por linha.</strong> Frases curtas no imperativo: “use”, “termine”, “evite”.</span></li>
+                <li><span><strong>Diga o formato.</strong> Lista, tabela, número de itens, tamanho da resposta.</span></li>
+                <li><span><strong>Dê um exemplo.</strong> Uma resposta modelo vale mais que três adjetivos.</span></li>
+                <li><span><strong>Diga o que fazer na dúvida.</strong> “Se faltar informação, pergunte antes.”</span></li>
+              </ol>
             </div>
+            <div class="alert"><i class="i " data-icon="info"></i><span>Para usar, abra o <strong>+</strong> do campo de mensagem e escolha “Skills”. Até 5 por conversa.</span></div>
           </aside>
         </div>
       </form>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
-  <script>
-    (() => {
-      const P = Prisma, D = PrismaData, { $ } = P;
-      const form = $("[data-skill-form]");
-      const req = ["#sk-name", "#sk-desc", "#sk-ins"].map((s) => $(s));
-      const editing = D.mySkills.find((s) => s.id === new URLSearchParams(location.search).get("id"));
-      if (editing) {
-        $("[data-form-title]").textContent = "Editar skill";
-        document.title = "Editar skill · Asimov Prisma";
-        $("#sk-name").value = editing.name;
-        $("#sk-desc").value = editing.desc;
-        $("#sk-cat").value = editing.category;
-        $("#sk-ins").value = "Responda sempre em até 5 tópicos, com uma frase cada.\nTermine com o próximo passo prático.";
-      }
-      const check = () => ($("[data-save]").disabled = req.some((i) => !i.value.trim()));
-      form.addEventListener("input", check);
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        P.toast(editing ? "Skill atualizada" : "Skill criada", "check-circle");
-        setTimeout(() => (location.href = "skills.html"), 700);
-      });
-      P.ready();
-      check();
-    })();
-  </script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/pages/skill-form.js"></script>
 </body>
 </html>

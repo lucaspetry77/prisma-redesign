@@ -16,6 +16,7 @@
   const comp = P.composer($("[data-composer]"), {
     placeholder: "Pergunte, peça ou cole um texto",
     label: "Mensagem para o Prisma",
+    skills: P.params.get("skills") ? P.params.get("skills").split("|") : [],
     phrases: ["Crie um agente para atender clientes…", "Analise minha planilha de vendas…", "Monte um plano de estudos de Python…", "Resuma a reunião de hoje…", "Sugira cores para a minha marca…"],
     onSend: ({ text, files, model, agent, skills, project }) => {
       const q = new URLSearchParams({ q: text, model });

@@ -2,88 +2,55 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Skills · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="description" content="Instruções que a IA segue enquanto estão ligadas numa conversa.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/pages.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="skills">
-    <main class="main" id="conteudo">
+
+  <div class="app" data-page="skills" data-nav="skills" data-title="Skills">
+    <main class="main" id="conteudo" tabindex="-1">
       <div class="page">
         <header class="page-head">
           <div class="page-head__text">
-            <span class="eyebrow">Skills</span>
-            <h1 class="page-title">Instruções que você liga e desliga</h1>
-            <p class="page-sub">Uma skill é um conjunto de instruções que a IA segue em toda resposta da conversa em que ela está ligada. Até 5 por conversa.</p>
+            <h1 class="page-title">Skills</h1>
+            <p class="page-sub">Instruções que a IA segue enquanto estão ligadas numa conversa. Ligue até 5 por vez no <strong>+</strong> do campo de mensagem.</p>
           </div>
           <div class="page-head__actions">
-            <a class="btn btn--primary" href="skill-nova.html"><i class="i" data-icon="plus"></i>Criar skill</a>
+            <a class="btn btn--secondary" href="galeria.html?tipo=skills"><i class="i " data-icon="gallery"></i>Skills oficiais</a>
+            <a class="btn btn--primary" href="skill-nova.html"><i class="i " data-icon="plus"></i>Criar skill</a>
           </div>
         </header>
-
-        <h2 class="section-label">Suas skills</h2>
-        <div data-my-skills></div>
-
-        <a class="card card--link list-row mt-24" href="galeria.html?tipo=skills" style="padding:16px 18px">
-          <span class="icon-chip icon-chip--sm"><i class="i" data-icon="gallery"></i></span>
-          <span class="list-row__title">Skills oficiais e da comunidade estão na Galeria</span>
-          <span class="list-row__meta">12 oficiais</span>
-          <i class="i" data-icon="chevron-right"></i>
+        <div class="toolbar" role="search">
+          <div class="input-icon toolbar__search"><i class="i " data-icon="search"></i><label class="sr-only" for="q">Buscar suas skills</label><input id="q" class="input" type="search" placeholder="Buscar suas skills" autocomplete="off" data-search></div>
+        </div>
+        <div class="chips" role="group" aria-label="Filtrar por categoria" data-cats style="margin:-6px 0 18px"></div>
+        <div data-skills></div>
+        <a class="card card--interactive list-item mt-8" href="galeria.html?tipo=skills" style="border-radius:var(--r-xl)">
+          <span class="icon-chip icon-chip--accent"><i class="i " data-icon="verified"></i></span>
+          <span class="grow"><span class="list-item__title" style="display:block">Skills oficiais da Asimov</span><span class="list-item__desc">Já aparecem no painel de skills das suas conversas. Copie uma para adaptar.</span></span>
+          <span class="list-item__meta" data-official-count></span><i class="i i--sm" data-icon="chevron-right"></i>
         </a>
       </div>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
-  <script>
-    (() => {
-      const P = Prisma, D = PrismaData, { $, esc } = P;
-      const box = $("[data-my-skills]");
-      // ?vazio=1 mostra o estado vazio
-      if (new URLSearchParams(location.search).has("vazio")) D.mySkills = [];
-      const render = () => {
-        box.innerHTML = D.mySkills.length
-          ? `<div class="grid grid--2">${D.mySkills.map((s) => `
-            <article class="card card--link g-card">
-              <div class="g-card__head">
-                <span class="icon-chip"><i class="i" data-icon="skill"></i></span>
-                <div class="grow"><h3 class="g-card__title"><a href="skill-nova.html?id=${s.id}">${esc(s.name)}</a></h3><p class="g-card__by">Atualizada ${esc(s.updated)} · ${s.uses} conversas</p></div>
-                <button type="button" class="icon-btn icon-btn--sm" style="position:relative;z-index:2" data-more="${s.id}" aria-haspopup="menu" aria-expanded="false" aria-label="Mais ações para “${esc(s.name)}”"><i class="i" data-icon="more"></i></button>
-              </div>
-              <p class="g-card__desc">${esc(s.desc)}</p>
-              <div class="g-card__tags"><span class="badge">${esc(s.category)}</span><span class="badge badge--muted"><i class="i" data-icon="lock"></i>Só você</span></div>
-            </article>`).join("")}</div>`
-          : `<div class="card empty">
-              <span class="icon-chip empty__icon"><i class="i" data-icon="skill"></i></span>
-              <p class="empty__title">Você ainda não criou nenhuma skill.</p>
-              <p class="empty__text">Comece por algo que você repete toda conversa: “responda em tópicos”, “use português sem jargão”, “feche com o próximo passo”.</p>
-              <a class="btn btn--primary" href="skill-nova.html"><i class="i" data-icon="plus"></i>Criar skill</a>
-            </div>`;
-        P.hydrateIcons(box);
-      };
-      render();
-      box.addEventListener("click", (e) => {
-        const b = e.target.closest("[data-more]");
-        if (!b) return;
-        const s = D.mySkills.find((x) => x.id === b.dataset.more);
-        P.menu(b, [
-          { label: "Editar", icon: "pencil", onClick: () => (location.href = "skill-nova.html?id=" + s.id) },
-          { label: "Publicar na galeria", icon: "gallery", soon: true, onClick: () => P.toast("Publicar skills chega depois do MVP", "clock") },
-          { sep: true },
-          { label: "Apagar", icon: "trash", danger: true, onClick: () => P.confirm({ title: `Apagar “${esc(s.name)}”?`, desc: "Ela sai de todas as conversas e agentes em que estava ligada.", onConfirm: () => { D.mySkills.splice(D.mySkills.indexOf(s), 1); render(); P.toast("Skill apagada", "trash"); } }) },
-        ], { label: "Ações da skill", align: "end" });
-      });
-      P.ready();
-    })();
-  </script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/pages/skills.js"></script>
 </body>
 </html>
