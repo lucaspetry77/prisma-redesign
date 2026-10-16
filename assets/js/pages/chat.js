@@ -190,7 +190,7 @@
       await P.api.send("POST", "/v1/conversations/messages", { text }, { delay: 120 });
     } catch (err) {
       thread.lastElementChild.remove();
-      comp.showError(err, text);
+      comp.showError({ message: "A conexão falhou antes de a mensagem chegar." }, text);
       return;
     }
     const wrap = document.createElement("div");

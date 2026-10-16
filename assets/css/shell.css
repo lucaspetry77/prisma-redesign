@@ -19,7 +19,7 @@
 
 /* ───────────────────────── Barra lateral ───────────────────────── */
 
-.sidebar { position: sticky; top: 0; height: 100dvh; z-index: var(--z-sidebar); min-width: 0; }
+.sidebar { --muted: var(--muted-on-page); position: sticky; top: 0; height: 100dvh; z-index: var(--z-sidebar); min-width: 0; }
 .sidebar__inner { height: 100%; display: flex; flex-direction: column; padding: 10px 8px 10px 10px; gap: 2px; overflow: hidden; }
 .sidebar__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 40px; padding: 0 2px 0 6px; margin-bottom: 6px; }
 

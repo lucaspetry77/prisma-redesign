@@ -51,6 +51,7 @@
   --body: #52525b;    /* --claro-body */
   --muted: #71717a;   /* --claro-muted (4,8:1 no branco) */
   --faint: #a1a1aa;   /* --claro-faint (só decorativo, nunca texto essencial) */
+  --muted-on-page: #66666e; /* app: --muted escurecido para AA (5,2:1) sobre --page */
 
   /* ── Linhas ── modo-claro.css */
   --line: #e4e4e7;          /* --claro-line */

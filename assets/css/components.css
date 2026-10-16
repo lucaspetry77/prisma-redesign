@@ -125,7 +125,7 @@
   box-shadow: var(--shadow-xs);
   transition: border-color var(--d-fast), box-shadow var(--d-fast), background-color var(--d-fast);
 }
-.input::placeholder, .textarea::placeholder { color: var(--faint); }
+.input::placeholder, .textarea::placeholder { color: var(--muted); } /* placeholder legível: 4,8:1 (o --faint dá 2,6:1) */
 .input:hover, .textarea:hover, .select:hover { border-color: color-mix(in srgb, var(--line-strong) 60%, var(--muted)); }
 .input:focus-visible, .textarea:focus-visible, .select:focus-visible,
 .input:focus, .textarea:focus, .select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-ring); }
@@ -529,8 +529,8 @@
 .list-item { position: relative; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 10px 16px; border-top: 1px solid var(--line); transition: background-color var(--d-instant); min-width: 0; }
 .list-item:first-child { border-top: 0; }
 a.list-item:hover, .list-item.is-link:hover { background: var(--surface-2); }
-.list-item__title { font-size: var(--text-sm); font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.list-item__desc { font-size: var(--text-xs); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.list-item__title { display: block; font-size: var(--text-sm); font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.list-item__desc { display: block; font-size: var(--text-xs); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .list-item__meta { flex: none; font-size: var(--text-xs); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* Número que conta (UI Arc · number ticker): cada dígito rola na vertical */
