@@ -25,7 +25,10 @@
   const uid = () => Math.random().toString(36).slice(2, 9);
   const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
   const mod = isMac ? "⌘" : "Ctrl";
-  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // ?movimento=reduzido força o ramo de movimento reduzido (o mesmo de prefers-reduced-motion), para QA
+  const forceReduced = params.get("movimento") === "reduzido";
+  if (forceReduced) document.documentElement.classList.add("reduce-motion");
+  const reduced = forceReduced || matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
   const html = (strings, ...vals) => strings.reduce((acc, s, i) => acc + s + (i < vals.length ? (vals[i] ?? "") : ""), "");
   const debounce = (fn, ms = 150) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };

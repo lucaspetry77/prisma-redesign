@@ -77,4 +77,22 @@
   .btn:active:not(:disabled), .icon-btn:active:not(:disabled), .chip:active, .card--interactive:active, .star:active { transform: none; }
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
   html { scroll-behavior: auto; }
+  .msg, .composer__strip, .ctx-pill, .file-card, .composer__mode, .chart__bar, .check input:checked::after, .send-btn.is-swap .i, .fav.is-pop .i { animation: none !important; }
+  .btn:hover, .btn:active:not(:disabled), .btn--glow:hover, .send-btn:active:not(:disabled), .back:hover .i { transform: none; }
+  .ticker__col, .chart__tip { transition: none; }
 }
+
+/* O mesmo ramo, ligado por ?movimento=reduzido (core.js) para verificar no navegador sem mudar a preferência do sistema. */
+html.reduce-motion .pop, html.reduce-motion .dialog, html.reduce-motion .cmdk, html.reduce-motion .toast, html.reduce-motion .tooltip, html.reduce-motion .sheet, html.reduce-motion .anim-entry, html.reduce-motion .anim-rise { animation-name: fade-in !important; animation-duration: var(--dur-fast) !important; }
+html.reduce-motion .pop.is-leaving, html.reduce-motion .overlay.is-leaving .dialog, html.reduce-motion .cmdk-layer.is-leaving .cmdk, html.reduce-motion .toast.is-leaving, html.reduce-motion .sheet-layer.is-leaving .sheet { animation-name: fade-out !important; animation-duration: var(--dur-instant) !important; }
+html.reduce-motion .toast { transform: none !important; }
+html.reduce-motion .words .w { animation: none; }
+html.reduce-motion .skel::after, html.reduce-motion .btn--glow::before, html.reduce-motion .crystal__shine, html.reduce-motion .crystal__iris, html.reduce-motion .crystal__float, html.reduce-motion .crystal__shadow, html.reduce-motion .crystal__body { animation: none !important; }
+html.reduce-motion .spinner { animation-duration: 1.6s; }
+html.reduce-motion [data-reveal] { opacity: 1; transform: none; transition: none; }
+html.reduce-motion .btn:active:not(:disabled), html.reduce-motion .icon-btn:active:not(:disabled), html.reduce-motion .chip:active, html.reduce-motion .card--interactive:active, html.reduce-motion .star:active { transform: none; }
+html.reduce-motion::view-transition-old(root), html.reduce-motion::view-transition-new(root) { animation: none; }
+html.reduce-motion { scroll-behavior: auto; }
+html.reduce-motion .msg, html.reduce-motion .composer__strip, html.reduce-motion .ctx-pill, html.reduce-motion .file-card, html.reduce-motion .composer__mode, html.reduce-motion .chart__bar, html.reduce-motion .check input:checked::after, html.reduce-motion .send-btn.is-swap .i, html.reduce-motion .fav.is-pop .i { animation: none !important; }
+html.reduce-motion .btn:hover, html.reduce-motion .btn:active:not(:disabled), html.reduce-motion .btn--glow:hover, html.reduce-motion .send-btn:active:not(:disabled), html.reduce-motion .back:hover .i { transform: none; }
+html.reduce-motion .ticker__col, html.reduce-motion .chart__tip { transition: none; }

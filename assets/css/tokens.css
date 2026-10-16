@@ -1,9 +1,12 @@
 /* Asimov Prisma · tokens (tema claro)
  *
- * Fonte de verdade: Asimov Design System (github.com/asimov-academy/asimov-design-system).
- * - Fundações (tipografia, escala de espaçamento, raios, curvas): assets/overview/_astro/global.*.css
- * - Modo claro (superfícies, tinta, linhas, sombras, vidro, acento escurecido): assets/modo-claro.css
- * - Temas de acento: assets/themes.js (aqui, "cyan_asimov")
+ * Fonte de verdade: Asimov Design System, em duas formas oficiais:
+ * - Pacote do DS (asimov-academy/asimov-mkt-dashboard, design/asimov-academy-ds): AGENTS.md, tokens.json,
+ *   assets/css/tokens.css, design-system.css, components.html, starter.html. Só tem o tema escuro.
+ *   Dele vêm: Inter como única fonte, escala de espaço, raios, curvas, botões, campos, abas, tabela, toast.
+ * - Repositório do DS (asimov-academy/asimov-design-system): assets/modo-claro.css, a derivação clara oficial.
+ *   Dele vêm: superfícies, tinta, linhas, sombras, vidro claro e o acento escurecido para texto.
+ * Tema de acento: "cyan_asimov" (tokens.json), um dos oito nomeados do DS ("Ciano").
  * Cada token abaixo diz de onde veio. O que é derivado para o app (não existe no DS) está marcado com "app:".
  * A explicação de cada decisão está em docs/redesign/01-design-system.md.
  */
@@ -12,7 +15,6 @@
 @font-face { font-family: Inter; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/inter-500.woff2") format("woff2"); }
 @font-face { font-family: Inter; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/inter-600.woff2") format("woff2"); }
 @font-face { font-family: Inter; font-style: normal; font-weight: 700; font-display: swap; src: url("../fonts/inter-700.woff2") format("woff2"); }
-@font-face { font-family: "Instrument Serif"; font-style: italic; font-weight: 400; font-display: swap; src: url("../fonts/instrument-serif-italic.woff2") format("woff2"); }
 
 :root {
   color-scheme: light;
@@ -23,12 +25,19 @@
   --accent-dark: #0891b2;
   --accent-light: #22d3ee;
   --accent-glow: #67e8f9;
+  --accent-rgb-space: 6 182 212;                                    /* --ui-accent-rgb-space (tokens.css do pacote) */
   --accent-ink: color-mix(in srgb, var(--accent-dark) 78%, #000);   /* modo-claro: --claro-accent-ink (texto, AA) */
   --accent-wash: color-mix(in srgb, var(--accent) 9%, #fff);        /* modo-claro: --claro-accent-wash */
   --accent-line: color-mix(in srgb, var(--accent) 32%, #fff);       /* modo-claro: --claro-accent-line */
   --accent-ring: color-mix(in srgb, var(--accent) 28%, transparent);/* app: anel de foco */
   --accent-halo: color-mix(in srgb, var(--accent) 32%, transparent);/* modo-claro: halo do .button-glow */
   --selection: color-mix(in srgb, var(--accent) 22%, transparent);  /* modo-claro: ::selection */
+  --focus: var(--accent-dark);                                      /* app: anel de foco (3,7:1 no branco; o accent-light do escuro dá 1,8:1) */
+  /* CTA sólido do pacote (.btn--solid: degradê 135° accent-dark → accent) escurecido para texto branco AA */
+  --cta-from: color-mix(in srgb, var(--accent-dark) 78%, #000);    /* 5,6:1 */
+  --cta-to: color-mix(in srgb, var(--accent) 70%, #000);           /* 4,7:1 */
+  --cta-glow: 0 0 16px color-mix(in srgb, var(--accent) 25%, transparent);       /* .btn--solid */
+  --cta-glow-hover: 0 0 28px color-mix(in srgb, var(--accent) 40%, transparent); /* .btn--solid:hover */
 
   /* ── Superfícies ── modo-claro.css */
   --page: #f4f4f5;              /* --claro-page */
@@ -69,10 +78,10 @@
   --glow-accent: 0 0 25px var(--accent-halo), 0 8px 40px color-mix(in srgb, var(--accent) 18%, transparent), 0 4px 12px -4px rgb(9 9 11 / .12); /* .button-glow (claro) */
   --glow-cta: 0 8px 22px -8px color-mix(in srgb, var(--accent) 70%, transparent), inset 0 1px rgb(255 255 255 / .25); /* .index4-pricing-card__cta--primary (claro) */
 
-  /* ── Semânticas ── app: o DS não define estados de sistema; tons do Tailwind (mesma base do DS),
-   * escurecidos para texto AA no branco, como o DS faz com o acento. */
+  /* ── Semânticas ── tokens.css do pacote: --success #4ade80, --warning #fbbf24, --danger #fb7185, --info #60a5fa
+   * (escuro). No claro, a mesma família de cor escurecida para texto AA, como o DS faz com o acento. */
   --success: #15803d;  --success-solid: #16a34a; --success-wash: #f0fdf4; --success-line: #bbf7d0;
-  --warning: #a16207;  --warning-solid: #eab308; --warning-wash: #fefce8; --warning-line: #fde68a;
+  --warning: #b45309;  --warning-solid: #f59e0b; --warning-wash: #fffbeb; --warning-line: #fde68a;
   --danger: #be123c;   --danger-solid: #e11d48;  --danger-wash: #fff1f2;  --danger-line: #fecdd3;
   --info: #1d4ed8;     --info-wash: #eff6ff;
 
@@ -86,12 +95,12 @@
   --tone-amber: #eab308;  --tone-amber-dark: #ca8a04;
   --tone-green: #22c55e;  --tone-green-dark: #16a34a;
 
-  /* ── Tipografia ── global.css: Inter + Instrument Serif; títulos em 500 com tracking-tight */
+  /* ── Tipografia ── AGENTS.md: "Inter é a fonte de títulos e interface"; Instrument Serif é legado e
+   * não faz parte da identidade. h1/h2/h3 em 500 com tracking -.035em (design-system.css). */
   --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-display: "Instrument Serif", ui-serif, Georgia, serif;  /* --font-display */
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; /* --font-mono */
-  --tracking-tight: -.025em;   /* --tracking-tight */
-  --tracking-tighter: -.05em;  /* --tracking-tighter */
+  --tracking-tight: -.035em;   /* h1, h2, h3 { letter-spacing: -.035em } (design-system.css) */
+  --tracking-tighter: -.05em;  /* .metric-value, .type-hero */
   --tracking-wide: .05em;      /* --tracking-wider */
   --tracking-label: .18em;     /* .trail-overview-v2-card__label */
   /* Escala: a do DS (text-xs → 5xl) com dois passos de app (13 e 15) para densidade de interface */
@@ -112,24 +121,28 @@
   --leading-normal: 1.5;   /* --text-base--line-height */
   --leading-relaxed: 1.65; /* --font-size-card--line-height */
 
-  /* ── Espaçamento ── global.css: --spacing .25rem (escala de 4px) */
-  --s-0: 2px;  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 20px;
-  --s-6: 24px; --s-7: 28px; --s-8: 32px; --s-10: 40px; --s-12: 48px; --s-16: 64px; --s-20: 80px;
+  /* ── Espaçamento ── tokens.css do pacote: --space-1…24 (AGENTS.md: 4/8/12/16/24/32/48/64/96) */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-6: 24px; --s-8: 32px; --s-12: 48px; --s-16: 64px; --s-24: 96px;
+  --gutter-mobile: 20px;  /* AGENTS.md: "Mobile tem 20–24px de margem" */
 
-  /* ── Raios ── global.css (--radius-lg .5rem, -xl .75rem, -2xl 1rem) + cards do DS (faq 1.25rem, compacto 1.375rem) */
-  --r-xs: 6px;
-  --r-sm: 8px;      /* --radius-lg */
-  --r-md: 10px;     /* app: controles (campo, botão) */
-  --r-lg: 12px;     /* --radius-xl */
-  --r-xl: 16px;     /* --radius-2xl: cards */
-  --r-2xl: 20px;    /* .faq-item: painéis e modais */
-  --r-3xl: 22px;    /* .trail-overview-v2-card--compact */
-  --r-full: 999px;
+  /* ── Raios ── AGENTS.md: "8px em controles, 16px em painéis, 24px em cards, pill em CTAs" (tokens.css:
+   * --radius-sm 8, --radius-md 16, --radius-card 24, --radius-pill). Extensões de app do design-system.css:
+   * métrica e tabela 12, alerta 10, botão quadrado 10, dialog 20. */
+  --r-xs: 6px;        /* app: kbd, dica, segmento interno (.segmented button 5px) */
+  --r-control: 8px;   /* --radius-sm */
+  --r-square: 10px;   /* .btn--square */
+  --r-alert: 10px;    /* .alert */
+  --r-metric: 12px;   /* .metric, .table-wrap, .toast */
+  --r-panel: 16px;    /* --radius-md */
+  --r-dialog: 20px;   /* dialog */
+  --r-card: 24px;     /* --radius-card */
+  --r-pill: 9999px;   /* --radius-pill */
 
-  /* ── Movimento ── global.css + components.css do DS */
-  --ease-out: cubic-bezier(.23, 1, .32, 1);       /* .trail-overview-v2-card, --faq-ease */
-  --ease-entry: cubic-bezier(.2, .8, .2, 1);      /* --animate-fade-slide-in */
-  --ease-in-out: cubic-bezier(.4, 0, .2, 1);      /* --ease-in-out / --default-transition-timing-function */
+  /* ── Movimento ── tokens.json (motion) + tokens.css do pacote */
+  --ease-out: cubic-bezier(.2, .8, .2, 1);        /* --ease-out (tokens.css) = motion.reveal */
+  --ease-entry: cubic-bezier(.2, .8, .2, 1);      /* motion.reveal: 1s */
+  --ease-in-out: cubic-bezier(.4, 0, .2, 1);      /* motion.card: .5s */
+  --ease-soft: cubic-bezier(.23, 1, .32, 1);      /* --faq-ease (components do DS) */
   --ease-drawer: cubic-bezier(.32, .72, 0, 1);    /* app: gavetas e folhas (curva de sheet do iOS) */
   --ease-spring: cubic-bezier(.34, 1.36, .64, 1); /* app: confirmação com leve passagem */
   --d-instant: 100ms;
@@ -137,8 +150,10 @@
   --d-base: 200ms;
   --d-panel: 250ms;
   --d-slow: 350ms;    /* .faq-item / .faq-body */
-  --d-card: 400ms;    /* .trail-overview-v2-card transform */
-  --d-entry: 1000ms;  /* fadeSlideIn */
+  --d-card: 500ms;    /* motion.card */
+  --d-entry: 1000ms;  /* motion.reveal / fadeSlideIn */
+  --d-spin: 3s;       /* motion.buttonSpin */
+  --d-hover: 250ms;   /* .btn { transition: … .25s } */
   /* UI Arc (components/arc/lib/motion-tokens.ts): durações e molas. Sem linear(), caem nas curvas do DS. */
   --dur-instant: 120ms;
   --dur-fast: 160ms;
@@ -168,9 +183,9 @@
   --content-w-narrow: 760px;
   --chat-w: 768px;
   --topbar-h: 52px;
-  --control-h: 36px;
-  --control-h-sm: 30px;
-  --control-h-lg: 44px;
+  --control-h: 44px;     /* .btn { min-height: 44px }; campos com padding 12px 14px */
+  --control-h-sm: 34px;  /* .btn--small */
+  --control-h-lg: 48px;  /* .button-glow */
 }
 
 /* Molas do UI Arc em CSS puro (curvas linear() calculadas do visualDuration do Motion; ver 03-interacoes.md).
@@ -188,3 +203,6 @@
 @media (prefers-reduced-motion: reduce) {
   :root { --dur-spring-smooth: 0ms; --dur-spring-snappy: 0ms; --dur-spring-morph: 0ms; --stagger-item: 0ms; --stagger-line: 0ms; --stagger-word: 0ms; --d-card: 0ms; }
 }
+
+/* O mesmo ramo, ligado por ?movimento=reduzido (core.js) para verificar no navegador sem mudar a preferência do sistema. */
+html.reduce-motion { --dur-spring-smooth: 0ms; --dur-spring-snappy: 0ms; --dur-spring-morph: 0ms; --stagger-item: 0ms; --stagger-line: 0ms; --stagger-word: 0ms; --d-card: 0ms; }

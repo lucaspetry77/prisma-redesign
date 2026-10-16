@@ -10,7 +10,7 @@
 
   const name = D.user.nickname || D.user.name;
   const greet = $("[data-greet]");
-  greet.innerHTML = `O que vamos criar hoje, <em>${esc(name)}</em>?`;
+  greet.textContent = `O que vamos criar hoje, ${name}?`;
   $("[data-mark]").innerHTML = P.crystal({ hero: true });
 
   const comp = P.composer($("[data-composer]"), {
