@@ -72,6 +72,8 @@
         st.categories = [a.category].filter(Boolean);
         renderCats();
         $$("input, textarea", form).forEach((el) => el.dispatchEvent(new Event("input", { bubbles: true })));
+        $("[data-based]").hidden = false;
+        $("[data-based-name]").textContent = a.name;
         P.toast(`Formulário preenchido com “${a.name}”. Ajuste antes de salvar.`);
         $("#sec-identidade").scrollIntoView({ behavior: P.reduced ? "auto" : "smooth", block: "start" });
       };
@@ -79,6 +81,11 @@
       else fill();
     });
   }
+
+  $("[data-clear-all]")?.addEventListener("click", () => P.confirm({
+    title: "Limpar o formulário?", desc: "Nome, descrição, instruções e categorias voltam ao vazio.", confirm: "Limpar tudo", danger: false,
+    onConfirm: () => { [name, desc, ins, first].forEach((el) => { el.value = ""; el.dispatchEvent(new Event("input", { bubbles: true })); }); st.categories = []; renderCats(); $("[data-based]").hidden = true; name.focus(); },
+  }));
 
   /* ── Imagem ── */
   $("[data-pick-image]").addEventListener("click", () => $("[data-image]").click());
