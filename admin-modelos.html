@@ -2,138 +2,56 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Modelos · Admin · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="description" content="Catálogo de modelos do seletor.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/pages.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="admin">
-    <main class="main" id="conteudo">
+
+  <div class="app" data-page="admin-modelos" data-nav="admin" data-title="Modelos">
+    <main class="main" id="conteudo" tabindex="-1">
       <div class="page page--wide">
-        <nav class="segmented admin-nav" aria-label="Admin">
-          <a class="segmented__btn" href="admin-modelos.html" aria-current="page"><i class="i i--sm" data-icon="cpu"></i>Modelos</a>
-          <a class="segmented__btn" href="admin-uso.html"><i class="i i--sm" data-icon="chart"></i>Uso</a>
-          <a class="segmented__btn" href="admin-usuarios.html"><i class="i i--sm" data-icon="users"></i>Usuários</a>
-        </nav>
-
         <header class="page-head">
-          <div class="page-head__text">
-            <span class="eyebrow">Admin</span>
-            <h1 class="page-title">Modelos</h1>
-            <p class="page-sub">O catálogo de modelos do chat. Ligar, esconder e editar vale na hora, sem deploy.</p>
-          </div>
-          <div class="page-head__actions">
-            <button type="button" class="btn btn--primary" data-new-model><i class="i" data-icon="plus"></i>Novo modelo</button>
-          </div>
+          <div class="page-head__text"><h1 class="page-title">Modelos</h1><p class="page-sub">O catálogo do seletor de modelo. Ligar, esconder e editar vale na hora, sem deploy.</p></div>
+          <div class="page-head__actions"><button type="button" class="btn btn--primary" data-new><i class="i " data-icon="plus"></i>Novo modelo</button></div>
         </header>
-
-        <div class="table-wrap">
+        <div class="card default-model">
+          <span class="icon-chip icon-chip--accent"><i class="i " data-icon="cpu"></i></span>
+          <div class="grow"><label class="default-model__label" for="default-model">Modelo padrão do chat</label><p class="default-model__hint">Quem não escolher um modelo conversa com este. Precisa estar ligado e visível.</p></div>
+          <select id="default-model" class="select" style="width:auto;min-width:200px"></select>
+        </div>
+        <div class="toolbar" role="search">
+          <div class="input-icon toolbar__search"><i class="i " data-icon="search"></i><label class="sr-only" for="m-q">Buscar modelos</label><input id="m-q" class="input" type="search" placeholder="Buscar por nome, chave ou fornecedor" autocomplete="off" data-search></div>
+          <div class="chips" role="group" aria-label="Modalidade" data-mod><button type="button" class="chip" data-v="" aria-pressed="true">Todos</button><button type="button" class="chip" data-v="text" aria-pressed="false">Texto</button><button type="button" class="chip" data-v="image" aria-pressed="false">Imagem</button></div>
+          <span class="toolbar__spacer"></span><span class="toolbar__count" data-count aria-live="polite"></span>
+        </div>
+        <div class="table-wrap table-wrap--cards" data-table>
           <table class="table">
-            <thead>
-              <tr>
-                <th class="sticky-col">Nome</th>
-                <th>Chave</th>
-                <th>Ligado</th>
-                <th>Visível</th>
-                <th>Padrão</th>
-                <th class="num">Ordem</th>
-                <th>Selo</th>
-                <th class="num">Entrada <span class="cell-sub" style="display:inline">US$/1M</span></th>
-                <th class="num">Saída <span class="cell-sub" style="display:inline">US$/1M</span></th>
-                <th class="num">Contexto máx.</th>
-                <th class="num">Saída máx.</th>
-                <th>Arquivos</th>
-                <th>Imagens</th>
-                <th class="num">Mín. cache</th>
-                <th>Fornecedor</th>
-                <th>Modalidade</th>
-                <th>Preferências de fornecedor</th>
-                <th><span class="sr-only">Ações</span></th>
-              </tr>
-            </thead>
+            <thead><tr><th class="sticky-col">Modelo</th><th>Fornecedor</th><th class="num">Entrada <span class="t-xs">US$/1M</span></th><th class="num">Saída <span class="t-xs">US$/1M</span></th><th class="num">Contexto</th><th>Aceita</th><th>Ligado</th><th>No seletor</th><th class="shrink"><span class="sr-only">Editar</span></th></tr></thead>
             <tbody data-rows></tbody>
           </table>
         </div>
-        <p class="footnote">Preços em US$ por 1 milhão de tokens. “—” quando o valor não foi cadastrado. Role a tabela para os lados para ver todas as colunas.</p>
+        <p class="hint mt-3">Clique numa linha para ver e editar todos os campos. “—” quando o valor não foi cadastrado.</p>
       </div>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
-  <script>
-    (() => {
-      const P = Prisma, D = PrismaData, { $, esc } = P;
-      const usd = (v) => v == null ? "—" : "US$ " + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 4 });
-      const num = (v) => v == null ? "—" : P.fmt(v);
-      const yes = (b) => b ? `<span class="status">Sim</span>` : `<span class="status status--off">Não</span>`;
-      const sw = (m, k, label) => `<label class="switch" title="${label}"><input type="checkbox" data-k="${k}" data-m="${m.key}" ${m[k] ? "checked" : ""} aria-label="${label}: ${esc(m.name)}"><span class="switch__track"></span></label>`;
-      const render = () => {
-        $("[data-rows]").innerHTML = D.models.slice().sort((a, b) => a.order - b.order).map((m) => `
-          <tr>
-            <td class="sticky-col"><span class="cell-name">${P.modelIcon(m, "model-icon--lg")}<span class="strong">${esc(m.name)}</span></span></td>
-            <td class="mono">${esc(m.key)}</td>
-            <td>${sw(m, "on", "Ligado")}</td>
-            <td>${sw(m, "visible", "Visível no seletor")}</td>
-            <td>${m.isDefault ? `<span class="badge badge--accent">Padrão</span>` : `<button type="button" class="btn btn--ghost btn--sm" data-default="${m.key}">Tornar padrão</button>`}</td>
-            <td class="num">${m.order}</td>
-            <td>${m.badge ? `<span class="badge">${esc(m.badge)}</span>` : "—"}</td>
-            <td class="num">${usd(m.priceIn)}</td>
-            <td class="num">${usd(m.priceOut)}</td>
-            <td class="num">${num(m.ctx)}</td>
-            <td class="num">${num(m.maxOut)}</td>
-            <td>${yes(m.files)}</td>
-            <td>${yes(m.images)}</td>
-            <td class="num">${num(m.cacheMin)}</td>
-            <td class="mono">${esc(m.provider)}</td>
-            <td>${esc(m.modality)}</td>
-            <td class="wrap" style="color:var(--muted)">${esc(m.prefs)}</td>
-            <td><button type="button" class="btn btn--secondary btn--sm" data-edit="${m.key}"><i class="i" data-icon="pencil"></i>Editar</button></td>
-          </tr>`).join("");
-        P.hydrateIcons($("[data-rows]"));
-      };
-      const field = (id, label, value, hint, type = "text") => `<div class="field"><label class="label" for="${id}">${label}</label><input id="${id}" class="input" type="${type}" value="${value ?? ""}" ${type === "number" ? 'step="any"' : ""}>${hint ? `<p class="hint">${hint}</p>` : ""}</div>`;
-      const editModal = (m) => P.modal({
-        title: m ? `Editar ${m.name}` : "Novo modelo",
-        desc: m ? `Chave <code>${esc(m.key)}</code> · fornecedor <code>${esc(m.provider)}</code> · modalidade ${esc(m.modality)}${m.isDefault ? " · modelo padrão do chat" : ""}. Nome, chave, fornecedor e modalidade não mudam por aqui.` : "Cadastre um modelo do OpenRouter. Ele entra desligado; ligue quando estiver pronto.",
-        wide: true,
-        body: `
-          ${m ? "" : `<div class="grid grid--2">${field("nm-name", "Nome", "", "Como aparece no seletor.")}${field("nm-key", "Chave", "", "Única, sem espaços. Ex.: gpt-5")}</div><div class="grid grid--2 mt-16">${field("nm-prov", "Fornecedor", "", "Ex.: openai/gpt-5")}<div class="field"><label class="label" for="nm-mod">Modalidade</label><select id="nm-mod" class="select"><option>text</option><option>text+image</option></select></div></div><hr style="border:0;border-top:1px solid var(--line);margin:20px 0">`}
-          <div class="grid grid--2">${field("ed-order", "Ordem no seletor", m?.order, "", "number")}${field("ed-badge", "Selo", m?.badge, "Até 40 caracteres. Vazio tira o selo.")}</div>
-          <div class="grid grid--2 mt-16">${field("ed-in", "Preço de entrada (US$ por 1M tokens)", m?.priceIn, "Vazio = sem valor.", "number")}${field("ed-out", "Preço de saída (US$ por 1M tokens)", m?.priceOut, "Vazio = sem valor.", "number")}</div>
-          <div class="grid grid--2 mt-16">${field("ed-ctx", "Contexto máximo (tokens)", m?.ctx, "Vazio = sem valor.", "number")}${field("ed-max", "Saída máxima (tokens)", m?.maxOut, "Vazio = sem valor.", "number")}</div>
-          <div class="grid grid--2 mt-16">${field("ed-cache", "Mínimo para cache (tokens)", m?.cacheMin, "Vazio = sem valor.", "number")}<div class="field"><span class="label">Aceita</span><div class="row" style="gap:20px;min-height:40px"><label class="check"><input type="checkbox" ${m?.files ? "checked" : ""}><span class="check__title">Arquivos</span></label><label class="check"><input type="checkbox" ${m?.images ? "checked" : ""}><span class="check__title">Imagens</span></label></div></div></div>
-          <div class="field mt-16"><label class="label" for="ed-prefs">Preferências de fornecedor (JSON)</label><textarea id="ed-prefs" class="textarea textarea--code" style="min-height:90px" placeholder='{"order": ["anthropic"], "allow_fallbacks": true}'></textarea><p class="hint">Vazio volta ao padrão do sistema.</p></div>`,
-        buttons: [{ label: "Cancelar" }, { label: m ? "Salvar" : "Criar modelo", variant: "primary", onClick: (el) => {
-          if (m) { m.order = +$("#ed-order", el).value || m.order; m.badge = $("#ed-badge", el).value.trim().slice(0, 40); render(); }
-          P.toast(m ? `${m.name} atualizado` : "Modelo criado, ainda desligado", "check-circle");
-        } }],
-      });
-      document.addEventListener("click", (e) => {
-        if (e.target.closest("[data-new-model]")) editModal(null);
-        const ed = e.target.closest("[data-edit]");
-        if (ed) editModal(D.models.find((m) => m.key === ed.dataset.edit));
-        const df = e.target.closest("[data-default]");
-        if (df) { D.models.forEach((m) => (m.isDefault = m.key === df.dataset.default)); render(); P.toast("Modelo padrão trocado", "check-circle"); }
-      });
-      $("[data-rows]").addEventListener("change", (e) => {
-        const i = e.target.closest("[data-k]");
-        if (!i) return;
-        const m = D.models.find((x) => x.key === i.dataset.m);
-        m[i.dataset.k] = i.checked;
-        P.toast(`${m.name}: ${i.dataset.k === "on" ? (i.checked ? "ligado" : "desligado") : (i.checked ? "visível no seletor" : "escondido do seletor")}`, "check-circle");
-      });
-      render();
-      P.ready();
-    })();
-  </script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/pages/admin-models.js"></script>
 </body>
 </html>
