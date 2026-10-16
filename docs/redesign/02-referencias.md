@@ -1,6 +1,6 @@
 # 02 · Referências (Mobbin)
 
-Pesquisa feita com o MCP do Mobbin (`search_screens` e `search_flows`, plataforma web) em 15/10/2026, olhando as imagens de verdade:
+Pesquisa feita com o MCP do Mobbin (`search_screens`, `search_flows` e `search_sections`, plataforma web) em 15/10/2026, olhando as imagens de verdade:
 cada descrição abaixo diz o que aparece na tela, não o que os metadados dizem. Daqui saem **estrutura e decisão**; o visual é o do
 Asimov Design System (01-design-system.md). 159 links de telas, todos copiados dos resultados (`mobbin_url`).
 
@@ -675,6 +675,318 @@ Itens destrutivos ficam por último no menu ⋯, em vermelho e separados por div
 - **Carregamento:** Square, Neon, Greptile, [Lovable](https://mobbin.com/screens/8e03e592-d510-4804-a6ce-d998c7c115bc) (tabela skeleton com paginação).
 - **Erro:** Revolut (no painel), Remote (na página), PayPal (Debug ID).
 - **Limite estourado:** [Rox](https://mobbin.com/screens/c259bb12-d530-49cb-8eb9-ccf9bf520221) (barra vermelha 1.535 / 1.000) e [HubSpot](https://mobbin.com/screens/87475a17-3412-413a-b933-1842718c0e78) ("Credit limit reached" + "Buy Credits").
+
+---
+
+## Parte D · Fluxos e seções (search_flows e search_sections)
+
+Segunda rodada, em 15/10/2026: para cada tela, uma busca de **fluxo** (`search_flows`) e uma de **seção** (`search_sections`),
+plataforma web, olhando as imagens. 51 links novos. Os fluxos foram a evidência forte; as seções vêm quase só de sites
+públicos (páginas de marketing), e cada tela diz quando a busca não trouxe nada útil.
+
+**Resultado:** todos os padrões adotados nas Partes A a C foram **confirmados**. Os ajustes sugeridos foram tratados assim:
+
+| Tela | Ajuste sugerido | Decisão |
+|---|---|---|
+| Início | Chips de continuação depois da primeira resposta | Anotado (05-handoff): depende de sugestões vindas da API |
+| Conversa | Guardar a versão anterior ao refazer, com paginador "‹ 2 de 2 ›" | Anotado: o contrato não guarda versões de resposta |
+| Composer | Progresso do upload no anexo e enviar desabilitado até terminar | Já atendido: cartão "Preparando anexo…" e enviar desabilitado enquanto carrega |
+| Login | Faixa de erro dentro do cartão | Já atendido: `?erro=acesso` e `?erro=sessao` |
+| Barra lateral | "Ver todas as conversas" no fim dos Recentes | **Feito**: abre a busca só com conversas, todas listadas |
+| Configurações | (confirma) | — |
+| Projetos | Link para projeto de exemplo no modal de criar | Anotado: não há projeto de exemplo nos dados |
+| Projeto | Estado "Processando" entre enviando e pronto | Anotado: depende do status de processamento da API |
+| Skills | Barra de formatação no Escrever; botão "Usar" no cartão | "Usar numa conversa" está no menu do cartão e no toast de criação; barra de formatação anotada |
+| Agentes | Barra fixa "Descartar · Salvar" ao ter mudanças | Já atendido: barra fixa no topo com estado de salvamento e Salvar |
+| Galeria | Contagem em "Meus favoritos" | Já atendido |
+| Item | Ação principal fixa ao rolar | Já atendido no desktop (coluna lateral fixa); no celular, anotado |
+| Admin · Modelos | Rótulo "Ligado/Desligado" ao lado do interruptor | Anotado: no celular a linha vira cartão com rótulo; no desktop o cabeçalho da coluna nomeia o interruptor |
+| Admin · Uso | Fuso horário sob o título | Já atendido: "dias de São Paulo" |
+| Admin · Usuários | "Reinicia em X dias" sob cada barra | Anotado: o contrato não traz a data de renovação por usuário |
+| Estados | Vazio de primeiro uso sem ilustração grande | Já atendido: ícone, título, frase, ação |
+| Confirmação | Botão com o nome da ação; explicar por que está bloqueado | Já atendido: "Apagar conversa", "Apagar minha conta", "Remover"; a palavra a digitar aparece no rótulo |
+
+### D.A · Chat
+Complemento de [02-referencias.md](../02-referencias.md), Parte A. Para cada tela foram feitas uma busca `search_flows` e uma `search_sections` no Mobbin (web, 4 resultados cada). As descrições abaixo vêm das imagens retornadas. As buscas de seções devolvem sobretudo sites de marketing, então valem para hierarquia e layout, não para o comportamento do app.
+
+#### 1. Início / novo chat
+
+**Fluxos (search_flows):**
+- **Mistral AI (Le Chat): começar um chat pela home** · [link](https://mobbin.com/flows/258dd102-8934-47b5-8920-8da1059a5cba) — A home tem só o símbolo e um composer em pílula: "+" à esquerda, modo "Fast/Think ▾" e enviar à direita. Ao enviar, a tela vira a conversa, o título gerado aparece no topo ("Understanding Black Holes Basics ▾") e o chat entra na barra lateral em "Chats". Confirma o modelo à direita no composer e a passagem direta da home para a conversa. Esta home não tem chips.
+- **Google Gemini: criar um chat** · [link](https://mobbin.com/flows/27f23501-1817-4668-b685-7ae30a16e483) — Saudação em duas linhas ("Hello, Alex / What should we do today?") com 4 cards de sugestão com foto e o composer preso embaixo. É a alternativa com cards grandes. O Prisma fica com chips curtos, mais densos e ligados aos próprios recursos.
+- **SchoolAI: começar um chat** · [link](https://mobbin.com/flows/ba9145fd-d519-487c-908e-27345aed361b) — "Hi, Alex." + composer com atalhos internos (Files, Standards, PowerUps) e, abaixo, uma lista vertical de 7 sugestões com ícone + "More Ideas". Depois do envio aparecem o bubble do usuário à direita e "Processing…". A resposta termina com chips de continuação acima do composer ("Create worksheet with animal addition", "More Ideas"). Confirma saudação + composer + sugestões e traz uma ideia que o Prisma não tem: sugestões de continuação depois da resposta.
+
+**Seções (search_sections):**
+- **OpenAI: "Ask ChatGPT anything"** · [link](https://mobbin.com/sites/sections/480ba2cf-3cf2-4682-aaca-8f79f61c8ea4) — Título de uma linha e input em pílula centralizado, com um exemplo no placeholder ("Recommend an easy potluck dish") e enviar circular. Não tem chips. Confirma a ordem título → composer único no centro.
+- **Copy.ai: "What do you need to write?"** · [link](https://mobbin.com/sites/sections/c646a2dd-b699-44fc-a414-9a9a8b908cc2) — Pergunta grande com uma palavra colorida e um input que, focado, abre uma lista de sugestões (about us, business plan, cart abandonment email…). É uma variante com sugestões em autocomplete do campo, não em chips. Não muda o padrão.
+- **Mistral AI: hero do site** · [link](https://mobbin.com/sites/sections/880db9fc-5ec5-4d6c-ae16-aaacbdc46979) — Headline + subtítulo + campo "Talk to le Chat" com botão de seta e dois links embaixo. Só confirma a hierarquia. A quarta seção (Claude) veio num quadro de carregamento, com só "Meet" esmaecido, e não serve.
+
+**Conclusão:** Confirma o padrão adotado (saudação + composer central com modelo à direita + sugestões que preenchem sem enviar). O ajuste concreto é mostrar 2 ou 3 chips de continuação acima do composer depois da primeira resposta (SchoolAI).
+
+#### 2. Conversa
+
+**Fluxos (search_flows):**
+- **Jasper: regenerar um chat** · [link](https://mobbin.com/flows/f6200d70-0c2c-41bc-9173-402af703d3a9) — A resposta vem sem bubble, com barra de ações (copiar, regenerar, documento, 👍, 👎) e chips de continuação. Ao regenerar:
+  - o composer mostra "Sit back and relax, Jasper is making magic…" e um botão de parar;
+  - aparece um card de etapas ("Crafting a bold brand story", com checklist);
+  - a resposta ganha um paginador "‹ 2 of 2 ›".
+
+  Confirma o parar no lugar do enviar e o status por etapa. O paginador de versões é o que falta no padrão do Prisma para regenerar.
+- **Retool: conversar com a IA** · [link](https://mobbin.com/flows/658aaa56-8a76-45b4-a21f-7bcb33674ab9) — Componente de chat com o vazio "No messages here yet" e um spinner dentro do campo durante o envio. Todas as mensagens têm avatar, nome e tempo relativo ("1 minute ago"), e a resposta tem um ícone de copiar no canto. É um padrão mais simples (avatar + nome em tudo), que o Prisma não segue. Serve só como referência de vazio e de envio.
+- **OpenAI Platform: regenerar uma mensagem** · [link](https://mobbin.com/flows/11c32fad-17c5-4a10-90d4-72ea131e0542) — Na prática é o editor de prompt: um popover sobre a mensagem do desenvolvedor recebe a instrução ("Add cafe to visit") e "Update" reescreve o texto, com "Unsaved changes" e "Save". Não é um fio de chat e não muda o padrão.
+
+**Seções (search_sections):**
+- **Intercom (Fin): widget de chat** · [link](https://mobbin.com/sites/sections/19604466-8f10-440d-8f55-5fcad0e9573a) — A resposta do bot traz um bloco "Source" e o rótulo "Answer". O usuário escreve em bubble azul à direita, há uma resposta rápida "That helped" e o campo tem anexar e emoji. Confirma o bubble do usuário à direita e a fonte colada à resposta.
+- **Mistral AI: "Trusted to deliver for any use case"** · [link](https://mobbin.com/sites/sections/53b5ae79-fb60-4129-a797-f2f3e58f6763) — Exemplo de conversa: a mensagem do usuário fica num card com hora (08:33) e a resposta tem bloco de código colorido. Confirma markdown completo com código na resposta. Não mostra barra de ações.
+- **Sana: colagem do produto** · [link](https://mobbin.com/sites/sections/45967642-1d6b-4776-a059-979ba7761f48) — Card de raciocínio por etapas: "Understanding your question", "Rephrasing", "Getting context" e, no fim, "Finished working 1.6 seconds". Confirma o status textual por etapa e a duração no final ("Pensou por…"). Nenhuma seção mostrou a barra copiar/👍/👎/regenerar.
+
+**Conclusão:** Confirma o fio adotado (IA sem bubble, usuário à direita, status por etapa, parar no lugar do enviar). O ajuste concreto: ao regenerar, guardar a versão anterior e mostrar o paginador "‹ 2 de 2 ›" no rodapé da resposta (Jasper; o ChatGPT faz o mesmo, "‹ 1/2 ›", no fluxo de anexos da tela 3).
+
+#### 3. Composer e seletor de modelo
+
+**Fluxos (search_flows):**
+- **Unify: adicionar arquivos** · [link](https://mobbin.com/flows/9012e553-192b-4e96-a4ea-8c0e543562f8) — Composer com clipe à esquerda e "GPT 5.4 ▾" colado ao enviar, à direita. Cada arquivo entra como card no topo do composer: ícone do tipo, nome, tipo ("PDF File.pdf / PDF", "1.png / Image") e ×. Confirma `[+] ··· [modelo ▾] [enviar]` e a fila de anexos em cards dentro do composer.
+- **Notion: adicionar uma imagem** · [link](https://mobbin.com/flows/de9d473f-8ce5-425c-8136-ffb63451ac7f) — O "+" abre um popover com "Add images, PDFs, or CSVs", "Mention pages or people", "Create image · New" e "Research mode" com toggle. A imagem aparece como miniatura com spinner, e o enviar fica cinza enquanto ela sobe. Depois a miniatura ganha um ×. O modelo aparece como "Auto" junto do enviar. Confirma o menu "+" com anexar, modos e toggle, e acrescenta o estado de upload.
+- **ChatGPT: enviar arquivos no chat** · [link](https://mobbin.com/flows/03c56987-d6ce-4097-a881-7ad4e67bdb4a) — Miniatura de imagem e card "Design process.docx / Document" com ×, acima do campo. Aqui o modelo fica no topo da página ("ChatGPT 4o ▾"), não no composer. A resposta mostra "‹ 1/2 ›" e regenerar com ▾. O lugar do seletor diverge; o Prisma mantém o modelo no composer, como Unify, Notion e Mistral.
+
+**Seções (search_sections):**
+- **OpenAI: "What can I help with?"** · [link](https://mobbin.com/sites/sections/b48c2cd5-6d94-4e3c-8966-6b829802e974) — Textarea grande com enviar no canto e uma fila de chips de modo embaixo (Search with ChatGPT, Talk with ChatGPT, Research, Sora, More). Não tem seletor de modelo. Confirma os chips curtos sob o composer, o que vale mais para o Início do que para o seletor.
+- **Threads: "Chat, simplified"** · [link](https://mobbin.com/sites/sections/c8298ec9-7270-43f1-ab68-59c47b2ca42c) — Composer com "+", emoji, @ e botão "Send", com a dica "Shift + Return to add a new line" logo abaixo. Confirma deixar o atalho Enter/⇧Enter visível perto do campo. Não é produto de IA e não tem modelo.
+- **Mistral AI: hero do site** · [link](https://mobbin.com/sites/sections/880db9fc-5ec5-4d6c-ae16-aaacbdc46979) — Só um campo com botão de seta. A quarta seção (Adaline) é um formulário de cadastro, sem relação com o tema. Nenhuma seção mostrou dropdown de modelo: a evidência do seletor vem só dos fluxos.
+
+**Conclusão:** Confirma o composer adotado (modelo ▾ ao lado do enviar, anexos em cards ou miniaturas dentro do card, menu "+" com anexar e modos). O ajuste concreto: mostrar o progresso do upload na própria miniatura ou card (spinner ou %, como Notion e Sana) e deixar o enviar desabilitado até o arquivo terminar de subir.
+
+#### 4. Login SSO
+
+**Fluxos (search_flows):**
+- **WorkOS: testar o single sign-on** · [link](https://mobbin.com/flows/dba285e0-22b1-4ce6-94af-cc62e59e5980) — Do painel, o fluxo vai para um card "Sign in" (e-mail + Continue, "OR", ícones Google/Microsoft/GitHub/Apple) e daí para uma tela neutra "Test Identity Provider", com o card "Signing in test user / sam@example.com". Confirma a tela intermediária de redirecionamento, que já estava no padrão (mesma referência do doc 02).
+- **incident.io: entrar** · [link](https://mobbin.com/flows/93a5db68-6f50-4b51-90fd-0b5ae39257a5) — "Welcome back" com ícone, botões Slack e Microsoft, campo de e-mail + "Sign in with SAML SSO" e termos em texto pequeno. No erro, uma faixa vermelha aparece dentro do bloco, logo abaixo dos botões: "SAML login failed, please try again or contact your administrator." Cobre a lacuna do doc 02, onde nenhuma referência mostrava erro: o erro fica no próprio bloco e diz o que fazer.
+- **Twingate: entrar** · [link](https://mobbin.com/flows/430942ac-9004-4999-91aa-b1ce2d2537df) — Página centrada com o avatar do espaço ("S"), o nome e o domínio acima de botões de provedor empilhados. O rodapé tem "Terms • Privacy • © 2025". Confirma a página sem navegação, o bloco centrado e Termos/Privacidade no rodapé.
+
+**Seções (search_sections):**
+- **1Password: "Unlock with SSO"** · [link](https://mobbin.com/sites/sections/fda22efc-33ab-4290-be60-bac0603fe772) — A ilustração do app mostra um único botão "Sign in with Okta", com um aviso curto de que a conta passou a entrar pelo Okta e de que a ajuda vem do administrador. Confirma o botão único + uma linha de apoio que explica de onde vem a conta.
+- **ClickUp: "Secure login with Single Sign-On"** · [link](https://mobbin.com/sites/sections/7cc957b1-e446-49e9-8313-d23e837b446c) — Seção de marketing com a escolha do provedor em rádios (No SSO provider, Google, Microsoft, Okta, SAML). É configuração de admin, não tela de login, e não se aplica.
+- **Antimetal: tela de senha** · [link](https://mobbin.com/sites/sections/a887c577-ee28-4a2d-a374-7f83af3efcd3) — Um terminal "Enter password" sobre fundo animado. Não é SSO e não serve. A quarta seção (Cycle) é um hero com "Get started" e "Login", também sem relação.
+
+**Conclusão:** Confirma o login adotado (um único botão, linha de apoio sobre a conta Asimov, tela intermediária "Entrando como…"). O incident.io dá a referência que faltava para o erro: uma faixa vermelha dentro do card, sob o botão, com a causa e "tente de novo ou fale com o suporte".
+
+#### 5. Barra lateral e busca ⌘K
+
+**Fluxos (search_flows):**
+- **ChatGPT: buscar chats** · [link](https://mobbin.com/flows/1a04bbe5-7a8e-4f66-b782-7a904ceabfbf) — A lupa no topo da barra lateral abre um modal centrado "Search chats…" com ×.
+  - Sem consulta: mostra "New chat" e o grupo "Today" com os recentes.
+  - Ao digitar "AI": filtra, mostra um trecho da conversa sob cada título e "Today" no item em foco.
+
+  Confirma o modal com Ações + Recentes quando não há consulta, e snippet + data quando há.
+- **Replit: buscar na command palette** · [link](https://mobbin.com/flows/a759233c-a74c-42ce-b6f8-f68de3274b8d) — A paleta abre no topo da tela. Ao digitar "coffee", aparece o grupo "Files" com caminho + nome e o termo em negrito. No fim vem a ação "Code Search: coffee", que leva o termo para outra busca. Confirma os grupos por tipo, o termo em negrito e a ação final que reaproveita o termo (no Prisma, "Perguntar ao Prisma: 'x'").
+- **Claude: buscar chats** · [link](https://mobbin.com/flows/f654040a-05f4-4692-b901-332dc3d8acea) — Página inteira "Your chat history" (não é paleta), com campo de busca, o contador "7 chats with Claude · Select" e cards com "Last message 39 minutes ago". Ao digitar "build", o contador vira "3 chats matching "build"". O Prisma não tem uma página com todas as conversas; os recentes só existem na barra lateral e no ⌘K.
+
+**Seções (search_sections):**
+- **Discord: Developer Portal** · [link](https://mobbin.com/sites/sections/2e0a873d-1006-487b-84d2-740a5cf78c29) — Barra lateral com o campo "Search ⌘ K" no topo, grupos com rótulo em caixa alta (INTERACTIONS, RESOURCES) e o item ativo preenchido com a cor de acento. Confirma o atalho ⌘K visível no próprio item de busca.
+- **Slack: "Bring all your work to one place"** · [link](https://mobbin.com/sites/sections/0bd844b5-2e13-4c99-b74c-0c9d3e8da498) — Barra lateral com o nome do espaço e um botão de escrever no topo, atalhos (All Unreads, Threads, Mentions & reactions) e as seções recolhíveis "Channels" e "Direct Messages", cada uma com "+". Confirma a ação primária no topo e as seções recolhíveis com criação no cabeçalho.
+- **Threads: "Chat, simplified"** · [link](https://mobbin.com/sites/sections/c8298ec9-7270-43f1-ab68-59c47b2ca42c) — "Compose" como botão de destaque, Inbox com contador (7), seções recolhíveis e um rodapé com a linha do usuário e o status. Confirma a linha da conta no rodapé. Nenhuma das quatro seções é de app de IA com recentes agrupados por data, então essa parte do padrão continua apoiada só no doc 02.
+
+**Conclusão:** Confirma a barra lateral e a paleta adotadas. O ajuste concreto: pôr um "Ver todas as conversas" no fim dos Recentes, levando a uma lista com busca e contador de resultados (Claude).
+
+#### 6. Configurações / perfil
+
+**Fluxos (search_flows):**
+- **StackAI: editar perfil** · [link](https://mobbin.com/flows/08c5119c-d284-4f7b-ac42-ed85bc32b133) — Subnav agrupada à esquerda (Account, Workspace, Security, Integrations, Billing, Support) e conteúdo em cards:
+  - foto com inicial + "Upload picture" ("PNG, JPEG under 2MB");
+  - nome com "Save" inline, cinza até o nome mudar, escuro durante a edição e cinza de novo depois de salvar;
+  - e-mail somente leitura e User ID copiável;
+  - card "Delete account" com botão vermelho, por último.
+
+  Ao salvar aparece o toast "Changed full name" no canto. Confirma o "Salvar só com mudança" + toast e a exclusão no fim da página.
+- **Gamma: configurações da conta** · [link](https://mobbin.com/flows/515134d0-f2be-45fa-a4b7-be9bb9a27612) — O menu da conta (Account settings, idioma, Sign out, créditos) abre um modal com abas: Basic info, Email notifications, Sign in & security, Data control. Em segurança ficam "Sign out of all devices" e uma "Danger zone" rotulada, com "Delete my account" vermelho em contorno e ícone de lixeira. Confirma a zona de perigo rotulada no fim e o botão destrutivo em contorno. O Prisma usa página com subnav, não modal.
+- **Calendly: editar perfil** · [link](https://mobbin.com/flows/469d3753-56cd-4697-921a-7b8b06a7d339) — "Back to home" + subnav, e um formulário longo (foto com Update/Remove, nome, mensagem de boas-vindas, idioma, formatos, fuso). A barra final junta "Save Changes" e "Cancel" com "Delete Account" vermelho na mesma linha, e um toast verde no topo diz "Your settings have been saved!". É um contraexemplo: excluir ao lado de salvar facilita o clique errado, o que reforça isolar a zona de perigo. Nenhum dos quatro fluxos chegou ao modal de confirmação da exclusão.
+
+**Seções (search_sections):**
+- **Clerk: componentes de UI** · [link](https://mobbin.com/sites/sections/b5af01ca-fc41-4ba7-92c5-fe2319030193) — Painel "Account / Manage your account info" com nav lateral curta (Profile, Security). Os dados aparecem em linhas, com o rótulo à esquerda e o valor à direita: foto + nome, e-mails com selo "Primary" e "+ Add email address", telefone e contas conectadas (Google). Confirma a subnav curta e os dados que vêm da conta mostrados como leitura, não como inputs.
+- **PayPal: controles da conta** · [link](https://mobbin.com/sites/sections/b7825f79-73ab-4f48-9e55-881224f45f24) — Quatro blocos com ícone. "Know your data rights" junta atualizar, excluir, pedir cópia dos dados e fechar a conta num só lugar. Confirma juntar "Exportar meus dados" e "Excluir conta" em "Dados e conta".
+- **Canva: Central de Ajuda, "Account settings"** · [link](https://mobbin.com/sites/sections/bb79426a-466d-4a3f-8349-4e80f3517931) — É um índice de artigos de ajuda (Setting up your account, Managing your account…), não uma tela de configurações, e não serve como referência de layout. A quarta seção (Clerk, segunda) repete o mesmo componente de perfil.
+
+**Conclusão:** Confirma o padrão adotado (subnav, Salvar só com mudança + toast, dados da conta somente leitura, zona de perigo isolada no fim). As buscas não trouxeram o modal de confirmação, que continua apoiado em Greptile, Chatbase e Supabase no doc 02.
+
+### D.B · Organizar e criar
+Complementa a Parte B de `02-referencias.md`. Para cada tela foram feitas uma chamada `search_flows` e uma `search_sections` (web, limite 4). As descrições vêm das imagens retornadas. Observação geral: `search_sections` busca seções de sites públicos, quase sempre páginas de marketing. Por isso a evidência de seções é mais fraca que a de fluxos e, em alguns casos, não serve. Isso está dito em cada tela.
+
+---
+
+#### 1. Projetos — lista
+
+**Fluxos (search_flows):**
+- **Claude — Lista de projetos → criar → detalhe** · [link](https://mobbin.com/flows/e311c9be-4861-46a5-afc0-2962d580460f) — "Projects" com "+ New project" no canto direito, busca "Search projects…" de largura total, "Sort by: Activity" alinhado à direita e cards em 2 colunas (nome, descrição, "Updated 1 day ago", badge "Example project"). A criação é uma página com só dois campos ("What are you working on?" e "What are you trying to achieve?") e leva direto ao detalhe com Instructions e Files à direita. Confirma o header, a toolbar busca + ordenar e o card com data relativa.
+- **ChatGPT — "New project" na sidebar → modal → projeto vazio** · [link](https://mobbin.com/flows/d5ce91cb-ab14-4772-8cdf-c723b1c4561c) — Modal "Project name" com um campo e o bloco "What's a project?" ("Projects keep chats, files, and custom instructions in one place…"), Cancel / Create project. O projeto abre com título, composer "New chat in this project", cards "Add files" e "Add instructions" e skeleton de conversas sob "Chats will show up here". Confirma o modal leve com explicação e o pós-criação direto no detalhe.
+- **Claude — "Create a personal project" com explicação e exemplo** · [link](https://mobbin.com/flows/7fa72af5-f422-465e-ad5e-979dc418cdf2) — A página de criação traz um quadro "How to use projects" que termina com o link "Try an example project". O projeto criado mostra o badge "Private", o painel "Project knowledge" com "+ Set custom instructions · Optional" e o vazio "Start a chat to keep conversations organized and re-use project knowledge". Reforça o projeto-exemplo e sugere linkar para ele já no momento da criação.
+
+**Seções (search_sections):**
+- **Claude (blog) — Grid com busca, "Filter and sort" e toggle Grid/List** · [link](https://mobbin.com/sites/sections/3611151d-f476-4ba7-b5e7-5c155d8f5150) — Busca "Search posts" acima do grid de 3 colunas, toggle "Grid | List" no canto direito e sidebar com dropdowns Sort by / Category / Product / Use case. Confirma o toggle Cards/Lista na mesma linha da busca. A sidebar de filtros seria excesso para Projetos.
+- **Kajabi (blog) — Busca, categoria e ordenação numa linha só** · [link](https://mobbin.com/sites/sections/7e5fd686-022d-487f-b0fd-8b4da2cd61ac) — Busca larga, dropdown "Blog Category" e botão "Sort by date" lado a lado, com "Showing 588 Items:" e "Clear All Filters" abaixo e grid de 3 cards. Confirma a toolbar em uma linha. A contagem de resultados só faz sentido quando há busca ativa.
+- Os outros dois resultados (MOUTHWASH Studio, portfólio sem busca nem ordenação; Kajabi case studies, com chips de indústria) não acrescentam nada à lista de projetos.
+
+**Conclusão:** Confirma o padrão adotado. Ajuste pequeno: colocar o link "Ver o projeto de exemplo" dentro do bloco "O que é um projeto?" do modal de criação (Claude).
+
+---
+
+#### 2. Projeto — detalhe
+
+**Fluxos (search_flows):**
+- **v0 — Instruções e fontes do projeto num painel "Knowledge"** · [link](https://mobbin.com/flows/8c410473-a9f9-4412-8fcb-20ce34fa0c38) — Painel lateral "Project Settings" com a aba "Knowledge": textarea "Project Instructions" com placeholder-exemplo ("e.g., This project uses App Router, Next.js and Tailwind."), "Save Changes" desabilitado até haver mudança, e "Sources" vazio com "No Sources — Add files this project can reference when generating responses" + "Upload Files". Ao salvar, aparece o toast "Project Instructions updated". Confirma o placeholder com exemplo, o "Salvar" desabilitado sem mudanças, o vazio explicativo e o toast.
+- **v0 — Upload de arquivo nas fontes** · [link](https://mobbin.com/flows/41a137c7-c6d4-40c2-aaec-aa463560e784) — A linha do arquivo aparece na hora com "Uploading…" e, ao terminar, troca para o tamanho ("619.17KB"). O botão "Upload Files" sobe para o topo da lista e cada linha tem kebab. Confirma o estado por arquivo (enviando → pronto) dentro do próprio card.
+- **StackAI — Base de conhecimento com status de indexação** · [link](https://mobbin.com/flows/0fc54d36-bd44-44af-b4cb-f960d7c5f03f) — Tabela Name / Size / Status em que o arquivo fica com um ícone tracejado de "indexando" e depois vira um check verde. O rodapé resume "Files: 1 · Indexed: 1 · Errors: 0", e há "Upload", busca de arquivos e filtro "All Statuses". Mostra que "enviado" e "pronto para a IA usar" são estados diferentes.
+
+**Seções (search_sections):**
+- **Dovetail — "Organize insights and files in projects"** · [link](https://mobbin.com/sites/sections/5f3aacd7-4602-44fd-88ed-6ae63810e4c3) — Seção de marketing com miniaturas de produto: breadcrumb "Industry Research / Research Reports" e arquivos em cards com capa, avatares e "1 hour ago". Só reforça o breadcrumb de volta. Não mostra painel lateral.
+- **Apollo — Lista "Knowledge Base"** · [link](https://mobbin.com/sites/sections/43ef1126-b8b1-47a4-93de-21cfd0848c52) — Lista de títulos de artigos com uma ilustração ao lado. Não serve para esta tela. O outro resultado (central de ajuda do monday.com) também não serve. Nenhuma seção mostra a página de projeto com painel de arquivos.
+
+**Conclusão:** Confirma o layout em 2 colunas com cards Contexto e Arquivos (a evidência vem dos fluxos). Ajuste concreto: incluir o estado "Processando" entre "Enviando" e "Pronto" em cada arquivo e um resumo "N arquivos · N prontos · N com erro" no card Arquivos (StackAI).
+
+---
+
+#### 3. Skills — lista e editor
+
+**Fluxos (search_flows):**
+- **Langdock — Adicionar prompt na biblioteca** · [link](https://mobbin.com/flows/5ee4a8b2-4065-4102-9fa1-d5bbdeaa72f1) — "Prompt library" com subtítulo, busca, pastas (Private "Only you", Workspace, ASMobbin) e "Add folder" + "Add prompt". O modal tem seletor de pasta, título, corpo, "+ Add variable", botão expandir e o aviso "Other users with access to the folder will be able to see and use this prompt". Depois vêm o toast "Prompt created." e o card dentro da pasta. Confirma o toast e o aviso de visibilidade. O Prisma mantém a página inteira em vez de modal, porque as instruções são longas.
+- **WRITER — Criar prompt com tags e "Use"** · [link](https://mobbin.com/flows/8fcb6d15-086e-4e9d-8385-18fa1a656709) — "Prompt Library" com abas My prompts / Team / WRITER, sidebar de categorias com bolinhas coloridas, busca e sort. O formulário "New prompt" tem Title, Prompt* (dica "Add a variable by wrapping it in curly brackets") e Tags. Na lista, cada item mostra as variáveis destacadas no texto, chips de tag com "+3 more" e um botão "Use" na própria linha. Sugere um "Usar" direto no card, não só no toast.
+- **StackAI — Biblioteca vazia → criar → card** · [link](https://mobbin.com/flows/7b75e275-f391-4d54-be02-a2a1229f9ac5) — Vazio "No prompts yet — Get started by creating your first prompt for your organization" + "New Prompt". O modal pede Title*, Description e Prompt Content*. O card mostra título, descrição, prévia do conteúdo num bloco cinza e "Last updated". Fecha com o toast "Prompt created". Confirma nome + descrição + instruções e o card com prévia.
+
+**Seções (search_sections):**
+- **Hashnode — Editor Markdown WYSIWYG em blocos** · [link](https://mobbin.com/sites/sections/ce305258-5218-49f8-8cf0-cc49059d10e4) — Barra flutuante com negrito, itálico, tachado, H1/H2/H3, código e link, mais "Type '/' for commands". O texto da seção fala em escrever em Markdown com prévia instantânea ou usar o modo WYSIWYG "for non-technical writers". Sugere uma toolbar mínima de formatação na aba "Escrever" para quem não conhece markdown.
+- **Resend — Menu de comandos "/"** · [link](https://mobbin.com/sites/sections/ce06ce83-bb44-441c-a88d-b33817246dd6) — Lista suspensa com Image, Heading 1, Heading 2, Bullet List, Numbered List, Button, Divider e HTML. É uma alternativa à toolbar, mas mais escondida para o público do Prisma.
+- **The Content Architecture — Markdown cru com numeração de linhas** · [link](https://mobbin.com/sites/sections/29bfe158-19c6-48e3-b87a-f4e5e03b0e6f) — README.MD monoespaçado com números de linha ao lado de uma árvore de arquivos. Equivale ao modo "Markdown" do Prisma. Nenhuma das seções mostra literalmente as abas Escrever | Visualizar (o 4º resultado, Framer, não tem relação).
+
+**Conclusão:** Confirma o editor em página inteira com abas "Escrever | Visualizar". Ajuste concreto: adicionar uma toolbar mínima (negrito, título, lista) na aba Escrever (Hashnode) e um botão "Usar" no card da lista (WRITER).
+
+---
+
+#### 4. Agentes — lista e criador
+
+**Fluxos (search_flows):**
+- **Mistral (Le Chat) — Criar agente com preview** · [link](https://mobbin.com/flows/6530f9fd-763a-4503-8888-c9414ed211f1) — "My Agents" com abas All / Mine / Shared, vazio "No agents yet — Create an agent to get started" e, logo abaixo, "Browse Agents" com cards oficiais "By Mistral". O editor divide a tela: à esquerda avatar, nome, descrição, Instructions, Guardrails, Tone e Knowledge; no topo, breadcrumb "Agents / Cosmic Explorer", indicador verde "Saved" e "Private"; à direita, "Preview your agent" com "Open New Chat" e composer rotulado com o nome do agente ("@New agent" → "@Cosmic Explorer"), já respondendo. Confirma a vitrine oficial sob a lista vazia, o builder em 2 colunas, o status de salvamento e o preview ao vivo.
+- **Chatbase — Playground com barra de alterações não salvas** · [link](https://mobbin.com/flows/52947e76-b30a-4f91-8832-f424a32b744b) — À esquerda ficam o status "Trained", "Compare AI models", o seletor de Model, "AI Actions" e "Instructions (System prompt)" com dropdown de modelos prontos ("Base Instructions", "Customer support agent") e botão de reset. À direita, o chat de teste num canvas pontilhado com botão de recarregar. Ao editar, aparece no rodapé do formulário a barra "You have unsaved changes. Do you wish to save them?" com Discard / Save to agent. Confirma o teste ao vivo e o estado "Alterações não salvas", e mostra uma forma melhor de exibi-lo.
+- **Mistral (La Plateforme) — Testar antes de publicar** · [link](https://mobbin.com/flows/ba6dbc06-cfa8-4090-b4e2-5b0a3b72471a) — Form com Model, Temperature (slider + valor), Instructions e Demonstrations (pares entrada/saída). O painel de teste vazio diz "Write something to test the agent before deployment". No topo, Deployment com checkboxes (API / Le Chat), "Update", "Reset changes" e lixeira. Confirma a microcopy do painel "Testar" vazio e sugere um "Desfazer alterações".
+
+**Seções (search_sections):**
+- **ReadMe — Painel "Assistant" ao lado do conteúdo** · [link](https://mobbin.com/sites/sections/614eea9b-f552-4201-acd0-971719210520) — Chat lateral à direita (pergunta, resposta, polegares para cima e para baixo, "Ask anything…") sobreposto à documentação. Só confirma que o chat em coluna lateral funciona ao lado de conteúdo denso.
+- **Retool — "AI-assisted app builder"** · [link](https://mobbin.com/sites/sections/6849eef0-51dd-45da-8f2c-03a12c29666d) — Seção de marketing com um painel de chat flutuante ("Generated components", "Awaiting response", Accept / Reject) sobre um canvas. A relação é fraca. Os outros dois resultados (Superhuman, beehiiv) são ilustrações de marketing sem relação. Nenhuma seção mostra formulário + preview.
+
+**Conclusão:** Confirma o builder em 2 colunas com painel "Testar" e status de salvamento. Ajuste concreto: mostrar "alterações não salvas" como uma barra fixa no rodapé do formulário, com "Descartar | Salvar" (Chatbase), e incluir "Desfazer alterações" no kebab (Mistral).
+
+---
+
+#### 5. Galeria — explorar
+
+**Fluxos (search_flows):**
+- **ChatGPT — Explore GPTs** · [link](https://mobbin.com/flows/5d674bb5-ffe5-4120-a7c3-e031b6347fb2) — "GPTs" + subtítulo, busca grande e abas de categoria em linha (Top Picks, Writing, Productivity, Research & Analysis, Education, Lifestyle, Programming). Abaixo vêm "Featured — Curated top picks from this week" em 2×2, "Trending — Most popular GPTs by our community" em ranking 1–6 com "See more" e "By ChatGPT". "My GPTs" + "+ Create" ficam no topo. Confirma o destaque oficial no topo, a comunidade abaixo e as categorias em linha horizontal.
+- **Kit — Favoritar template** · [link](https://mobbin.com/flows/825ad1d5-dcb9-4675-8b56-2779e8c09955) — "Choose your template" com sidebar contendo o botão "Favorites 0" e "Filter by category" em checkboxes. O coração aparece no canto do card ao passar o mouse; ao clicar, fica vermelho e o contador vai a "Favorites 1". Cada card tem "Preview" / "Choose". Confirma o favorito no canto do card e sugere um contador na aba "Favoritos".
+- **Adobe Express — Curtir template** · [link](https://mobbin.com/flows/8e368d01-938e-4a8b-b7f5-fcfe66d23dcb) — Detalhe em modal com coração, "Add as pages" e "Start new file" (primário). Ao favoritar, o coração fica vermelho e aparece o toast "Template was added to your favorites" com o botão "View Favorites". Confirma o toast de favorito. Uma ação "Ver favoritos" é alternativa ao "Desfazer".
+
+**Seções (search_sections):**
+- **Zendesk — Marketplace de apps** · [link](https://mobbin.com/sites/sections/726427a2-84fa-4439-a882-2610aec65a3d) — Sidebar "Filters" com campo "Filter apps" e categorias com contagem ("Productivity & Time-tracking 573"…), "1 - 24 of 1393 apps", "Sort by: Most relevant" à direita e cards com ícone, nome, descrição, estrelas e "Free to install". Confirma a contagem por categoria, o total de resultados, o sort à direita e a nota no card.
+- **Coda — Packs com selo verificado** · [link](https://mobbin.com/sites/sections/3e2b0de0-46f7-4d62-b6a2-d2c6139406a9) — Sidebar com Price (checkboxes) e Categories, e grid "Recommended Packs" com ícone, nome + selo azul de verificado, "By Coda" e badge de plano (Free, Pro / $5, Team / $10). Confirma o selo oficial colado ao nome do autor.
+- **Klarna — Facetas laterais com contagem** · [link](https://mobbin.com/sites/sections/c39270b0-f69d-4ab5-9991-b3669ee6ded0) — Facetas (Sale, Price com slider, Category com busca e contagem, "Show all 401", Retailer, Brand), "1000+ products", "Sort by popularity" e cards com "★ 4.5". As três seções usam sidebar, e não chips, porque têm dezenas ou centenas de categorias. O 4º resultado (Whop) é marketing sem barra de filtros.
+
+**Conclusão:** Confirma os chips de categoria horizontais (o ChatGPT faz o mesmo com poucas categorias; as seções só vão para a sidebar porque têm dezenas delas). Ajuste concreto: mostrar contador na aba "Favoritos (n)" (Kit).
+
+---
+
+#### 6. Item da galeria
+
+**Fluxos (search_flows):**
+- **ChatGPT — Buscar GPT e abrir o detalhe** · [link](https://mobbin.com/flows/9a28009a-6664-4c0f-90ba-d1b4f1007158) — Modal "Journalist Pro" com avatar, nome, "By futuretech.ninja" com ícones de links, descrição e a linha de stats "★ 4.2 Ratings (500+)" · "Other Category" · "25K+ Conversations". Depois vêm "Conversation Starters" em cards, "Capabilities" com checks, histograma "Ratings" de 5 barras e "More by futuretech.ninja" em carrossel. O CTA "Start Chat" fica fixo no rodapé enquanto o conteúdo rola, com kebab no topo. Confirma stats, starters clicáveis, histograma e "Também deste autor", e mostra o CTA fixo.
+- **PlayAI — Detalhe de template de agente** · [link](https://mobbin.com/flows/7160ddeb-d8f3-4935-8679-31da8489db24) — Grid com "Use This Agent Template" em cada card. Ao abrir, um painel lateral mostra avatar, nome, chip "For Business (Templates)", "15.8K conversations · 17.3K minutes spoken", descrição, "Share Agent" e kebab, com os CTAs empilhados no rodapé ("Talk" primário, "Call a number" secundário). Confirma a métrica de uso no header e o CTA primário ancorado embaixo.
+- **Google AI Studio — Gallery** · [link](https://mobbin.com/flows/3f0ed8ce-3330-429c-b2f1-4fac7b73f6eb) — Chips horizontais de categoria com seta de rolagem (Featured, All apps, Gemini 3, Nano Banana, Games and Visualizations, GenMedia…), banner de destaque, cards com capa, nome, chips de tag e descrição, e "Recently viewed" na sidebar. Não mostra o detalhe do item. Serve mais à tela 5, onde confirma chips com scroll horizontal.
+
+**Seções (search_sections):**
+- **ClickUp — Página de template** · [link](https://mobbin.com/sites/sections/d789524a-c8df-4586-ab0a-e994bbc0113c) — Prévia grande, título "Apparel Design Management" com o primário "Add template" na mesma linha, à direita, metadados "Folder · Intermediate", descrição e o acordeão "Template Includes" ("5 statuses", "9 custom fields"). Confirma o CTA na linha do título e um bloco "o que vem incluído", análogo ao bloco Instruções.
+- **Airtable — Template com "Use template"** · [link](https://mobbin.com/sites/sections/c57038f7-716a-49c7-89f4-ae89ded0cede) — Título grande, tag "#MARKETING", botão primário "Use template" à direita e prévia embutida do template, com sidebar de busca e categorias. Confirma título + categoria + CTA primário no header.
+- **Webflow — Descrição, tags e "More by"** · [link](https://mobbin.com/sites/sections/c5b3e5d9-58fd-4bf6-97ee-843d7e3e0929) — "Description", botão "Open live site", tags em chips e "More by Webflow" com "See profile →" sobre um grid. Confirma "Também deste autor". Nenhuma seção mostra nota ou estrelas no header (o 4º resultado, Figma, é só um hero de "Figma favorites").
+
+**Conclusão:** Confirma o header com stats, CTA primário e secundário, histograma e "Também deste autor". Ajuste concreto: repetir o CTA primário ("Conversar agora" / "Copiar skill") numa barra fixa no rodapé quando o header sair da tela, como o "Start Chat" do ChatGPT e o "Talk" do PlayAI.
+
+### D.C · Admin e transversais
+Método: para cada tela, uma busca `search_flows` e uma `search_sections` no Mobbin (web, limite 4). Descrevemos só o que aparece nas imagens retornadas. "Padrão adotado" é o que já está em `02-referencias.md`, Parte C.
+
+---
+
+#### 1. Admin · Modelos
+
+**Fluxos (search_flows):**
+- **Jira — editar campo num painel lateral** · [link](https://mobbin.com/flows/34851d6e-1220-4ca7-86e7-011169d84c32) — a lista continua visível à esquerda e o painel "Edit field" abre à direita, com tipo, nome, descrição, opções arrastáveis, "+ Add option" e "Delete field" isolado no rodapé. O cabeçalho mostra "Saving…" e depois "All changes saved", e a coluna "Quarter" aparece preenchida na tabela ao fechar. Confirma o side sheet sem modal sobre a tabela. O Jira salva automaticamente, mas mantemos o Salvar explícito porque o sheet edita preços.
+- **Retool — editar coluna de tabela** · [link](https://mobbin.com/flows/cb472fb2-72a0-45d1-90d7-b624a5aeab5e) — painel inspetor com breadcrumb "table1 › Email", seções recolhíveis (Content, Interaction, Appearance) e um dropdown de formato (Boolean, Tag, Icon, Avatar, Link). A tabela continua visível ao lado. Confirma o sheet dividido em seções com títulos e a parte "Avançado" recolhida.
+- **Remote — editar tabela** · [link](https://mobbin.com/flows/a6dc1dab-5d54-47f1-9ec2-0c12e6e2f3a7) — o drawer "Edit table" abre sobre a tabela esmaecida, com busca de colunas, grupos "Shown in table" e "Hidden", alças de arrasto e ícone de olho. Depois de fechar, aparece a barra "1 change applied to the table · Save new view · Reset to default". Confirma o menu "Colunas" com reordenação e "Restaurar padrão".
+
+**Seções (search_sections):**
+- **Dropbox — tabela "Links" com switch por linha** · [link](https://mobbin.com/sites/sections/6110747c-711d-4598-9c93-1c14fb7b0f55) — as colunas são Name, Type, Link access e Permission. O switch inline vem com o rótulo "On"/"Off" ao lado e uma pílula com o link. Confirma o switch na própria linha e mostra o estado também em texto, não só na cor.
+- **Retool — tabela de dados (seção de produto)** · [link](https://mobbin.com/sites/sections/1616c6de-5892-4125-a855-cac20aefbe30) — menu de ordenação no cabeçalho da coluna (Ascending, Descending, Remove sorting), badges de plano (Cloud, Pro, Enterprise), rodapé com agregados ("Filled 98%", "Empty 8.92%") e paginação "Showing 1–8 of 235" com "1 of 43". Confirma badges de modalidade, rodapé com totais e paginação com contagem.
+- **Antimetal — controle com switch e explicação** · [link](https://mobbin.com/sites/sections/d9d6ead2-a0b8-4806-b283-0e4d6dd06d3e) — card "Revert PRs" com switch, uma linha de descrição, slider "Fully automated" e o select "Plan". Não é uma tabela, mas serve de modelo para a seção Capacidades do sheet (switch com texto de apoio embaixo).
+
+**Conclusão:** confirma o padrão (tabela com switches inline e side sheet em seções). Ajuste concreto: colocar o rótulo "Ativo"/"Inativo" ao lado do switch, como o Dropbox faz, para o estado não depender só da cor e do esmaecimento da linha.
+
+---
+
+#### 2. Admin · Uso e custo
+
+**Fluxos (search_flows):**
+- **Exa — filtrar uso por período** · [link](https://mobbin.com/flows/484aaae3-8c1e-42c1-b16b-a2773d80c73a) — o botão "Jan 1, 2026 – Jan 8, 2026" abre um popover com presets à esquerda (Today, Last 7 days, Last 30 days, Last 3 months, Last 6 months, Month to date, Year to date), calendário de 2 meses e Cancel/Apply. Os cards de barras recebem o novo período, e o tooltip mostra "2026-01-06 · Contents 30". Confirma a barra de período exatamente como adotada.
+- **Obvious — filtrar Usage Analytics** · [link](https://mobbin.com/flows/e0c46df9-273a-4719-9ef2-e426e231ae8f) — uma linha de 5 cards de KPI (Credits used 3.994 com "+100%", Artifacts, Active users, Threads, Messages), o subtítulo "Dates and daily buckets use Pacific/Honolulu (HST)" e o popover "Select date range" com 2 meses. Num intervalo longo (Apr 1 – May 4), aparece um aviso em laranja dizendo que o detalhe por mensagem só existe para até 31 dias. Os KPIs sem dado viram "—" e o selo do gráfico muda de "Detailed data" para "Summarized data". Isso pede um ajuste: o aviso de granularidade e o fuso declarado.
+- **Uxcel — filtrar dashboard** · [link](https://mobbin.com/flows/cd7ca4f8-746e-4ebb-a816-222512454d98) — o dropdown "Last 30 days" tem Last 7 days, Last 30 days ✓, Last 90 days, Last year e All-time. O número principal mostra "This period" ao lado de "Previous period" (em cinza), cada um com o intervalo de datas embaixo, e os cards de baixo passam a dizer "Last 7 days". Confirma "Comparar com período anterior" e repetir o período em cada painel.
+
+**Seções (search_sections):**
+- **Customer.io — dashboard com gráfico de barras (mock de produto)** · [link](https://mobbin.com/sites/sections/e4293d17-d243-43ea-befe-914f2dc61a84) — barras diárias sob a pergunta "How is your workspace doing?", com o link "More analysis" no canto. Os cards acima são campanhas recentes, não KPIs. Aproveitamos só o título do painel e o link para o detalhe.
+- **Retool — dashboard de cliente (mock de produto)** · [link](https://mobbin.com/sites/sections/621f4f78-d290-49b5-8637-2f560aeaff66) — KPIs compactos no topo ("Customers 281", "Active MRR $284,432") sobre uma tabela, mais dois medidores circulares (Usage 83.33%, Records validated 40.76%). Confirma em parte a faixa compacta de números secundários.
+- Os outros dois resultados (Equals, com grade de templates, e Steep, com definição de métricas) são seções de marketing e não mostram KPIs com gráfico. A busca de seções rendeu pouco para esta tela.
+
+**Conclusão:** confirma o padrão (presets, calendário de 2 meses, comparação com o período anterior). Ajuste concreto: escrever o fuso sob o título ("Datas em horário de Brasília") e, quando o intervalo passar do limite de detalhe, mostrar um aviso inline e "—" nos KPIs que não existem nessa granularidade, como o Obvious faz, em vez de zero.
+
+---
+
+#### 3. Admin · Usuários e tetos
+
+**Fluxos (search_flows):**
+- **Krea AI — atualizar limite de uso** · [link](https://mobbin.com/flows/63799fd3-bc18-4e62-8ebd-f21f130d679e) — a tabela tem Email, Role (select), Plan Type, Usage Limit ("No limit") e ⋯, e o menu ⋯ traz "Manage Feature Access", "Set Usage Limit" e "Remove Member" em vermelho. O modal "Set Monthly Usage Limit" nomeia o usuário, avisa "This limit applies to the current month (August 2025)" e tem o campo "Compute Units Limit". Depois a célula passa a mostrar "20". Confirma o "Sem limite" em texto, a nota de vigência e o destrutivo por último no menu. O Krea usa modal, mas mantemos o drawer porque ele precisa mostrar a cadeia de herança.
+- **Cohere — atualizar teto de gasto** · [link](https://mobbin.com/flows/80d24dae-8780-47b2-a422-2cd974ec5f8b) — o estado inicial é "Unlimited" com "November usage: $0.00". O modal tem o campo "$ 50" e uma caixa cinza de consequência: ao atingir o limite, as requisições são bloqueadas, e para voltar é só editar ou remover o limite. Depois aparece "$50.00 USD" com barra de progresso, "0%", "Edit limit" e "Remove" com lixeira. Confirma a caixa de consequência e o "Remover limite próprio".
+- **OpenAI Platform — definir orçamento** · [link](https://mobbin.com/flows/75170e21-cbf3-4b64-8318-9350619f3e97) — começa em "No budget set", com o botão "Set budget". O modal avisa que o custo real pode passar do orçamento. Depois aparecem "May budget $0.52 / $5.00", a barra verde, "Resets in 18 days", "Add alert", "Edit budget" e a linha "100% usage alert" com editar e excluir. O "Resets in…" sob a barra pede um ajuste.
+
+**Seções (search_sections):**
+- **Deel — tabela de pessoas (mock de produto)** · [link](https://mobbin.com/sites/sections/4ff282c2-3121-4cae-848c-6aadfc8fc746) — cada linha tem avatar, nome e cargo em duas linhas, Location com bandeira, Team, status "ACTIVE" em verde, valor alinhado à direita com o rótulo pequeno "AWAITING PAYMENT" e ⋯. Confirma a célula de usuário em duas linhas e o número à direita com um texto secundário embaixo.
+- **Clay — tabela de equipe** · [link](https://mobbin.com/sites/sections/6942df1a-c59f-4f11-b1d5-418ce94970aa) — Photo, Name e Title, com a toolbar "Default view · Filter · Sort · Fields". Mostra a toolbar acima da tabela, mas não tem coluna de consumo.
+- Nenhuma seção retornada tem barras de uso por usuário. O OpenPhone ([link](https://mobbin.com/sites/sections/3f08dcd3-f2d1-4773-83b7-7a9ad5cc067e)) mostra uso da equipe em cards com "Last 7 days", "Export CSV" e badges ↑4% / ↓9%, o que serve mais à tela 2. A evidência das barras continua vindo dos fluxos Cohere e OpenAI acima.
+
+**Conclusão:** confirma o drawer com consumo, limite efetivo e caixa de consequência. Ajuste concreto: colocar "Reinicia em X dias" (ou "Reinicia segunda") sob cada barra, tanto no drawer quanto no tooltip da célula, como no "Resets in 18 days" da OpenAI.
+
+---
+
+#### 4. Estados: vazio, carregando e erro
+
+**Fluxos (search_flows):**
+- **Microsoft Copilot — Projetos** · [link](https://mobbin.com/flows/def6e8d6-b82b-46f6-861e-09bca725a471) — em "Your projects", o vazio é uma única linha centralizada ("No projects yet. Create one to get started."), e o CTA "Create new project" fica no header. Depois de criar, aparece a linha "Pastry Trend Analysis · today" com ⋯. Confirma o vazio discreto quando o CTA já está no header, sem repetir o botão.
+- **Klarna — Salvos** · [link](https://mobbin.com/flows/1efaceb1-08fe-4032-9210-bbfa1d95c306) — "Nothing saved" vem com ilustração, uma frase de benefício e um único botão "Find products". Na tab de coleções, o vazio é o tile "+ New collection". Em Payments, "Nothing to pay yet" usa um ícone de check, ou seja, um vazio positivo. Confirma os dois tipos: vazio de primeiro uso com CTA e vazio positivo.
+- **Tana — criar um tipo** · [link](https://mobbin.com/flows/2cb82f6d-d4bb-4626-bf79-7200c8eab22e) — "No items with this type yet" com ícone de caixa de entrada, uma frase e dois botões: "Create item" (primário) e "Convert to workflow" (secundário). Depois aparece o quadro Inbox / In Progress com "No items" em cada coluna. Confirma o vazio por painel ou coluna e o CTA secundário opcional.
+
+**Seções (search_sections):**
+- **Mailchimp — "No contacts? No problem."** · [link](https://mobbin.com/sites/sections/12c0616f-d78d-4956-b807-e94181b79df3) — ilustração à esquerda, título, uma frase, o botão primário "Create A Landing Page" e os links "Learn More" e "About Landing Pages". A estrutura (título, frase, um primário e um link) vale para nós, mas a ilustração grande é recurso de marketing.
+- **Lyssna — sem vagas abertas** · [link](https://mobbin.com/sites/sections/bc7affd2-b934-4719-8d32-39e0ec690399) — o vazio é texto puro ("We currently have no open positions…"), seguido de uma faixa com ação alternativa ("Don't see the role…?" + "Get in touch"). Reforça a regra de sempre oferecer um próximo passo.
+- **Melius — "Nothing generated here."** · [link](https://mobbin.com/sites/sections/98ff559e-c72e-4465-8c0b-e2f9282655a1) — um produto de IA com título serifado centralizado e um só botão "Return Home". É um vazio ou "não encontrado" com uma única saída.
+- Nenhuma das duas buscas trouxe carregamento (skeleton) nem erro. Para esses estados continuam valendo as referências de `search_screens` (Neon, Greptile, Revolut, Remote).
+
+**Conclusão:** confirma o padrão de vazio por painel e por filtro. Ajuste concreto: formalizar o "vazio de primeiro uso" como ícone pequeno + título + 1 frase + 1 CTA primário (secundário opcional, como no Tana), sem ilustração grande. Quando o header já tiver o CTA, o vazio fica só em texto (Copilot).
+
+---
+
+#### 5. Confirmação destrutiva
+
+**Fluxos (search_flows):**
+- **Relevance AI — excluir projeto** · [link](https://mobbin.com/flows/d85c01a9-8a04-43a7-8617-16bc1d5fad2a) — o menu ⋯ traz Make Default, Edit e Delete. O modal 'Delete "UX Intelligence Lab"' diz que a ação não pode ser desfeita e apaga o projeto com todos os recursos, e pede: "Please type **UX Intelligence Lab** to confirm". O botão "Delete Project" fica desabilitado até a digitação bater, e o rodapé mostra o Project ID. No fim aparece um modal de sucesso com "Redirecting in 3 seconds". Confirma o nível 3 (nome em negrito e botão nomeado). Para o pós-ação mantemos o toast, não um modal.
+- **Framer — excluir workspace** · [link](https://mobbin.com/flows/a550c80e-854f-4816-846a-d30ee09bfee1) — "Delete Workspace" aparece desabilitado com o motivo ("only after your license has expired"). O popover de confirmação pede o nome, explica o que acontece com outras pessoas (os membros perdem acesso, os projetos vão para Archived) e termina em "This cannot be undone". Depois aparece o vazio "No Projects" com "New Project". Confirma que a ação deve dizer o impacto sobre terceiros e explicar por que está bloqueada quando há pré-condição.
+- **TheyDo — excluir workspace** · [link](https://mobbin.com/flows/03e43d78-af76-4c80-82e7-20b3a11f9312) — o modal pede para digitar a palavra genérica "DELETE", e o botão é um "Confirm" largo em salmão. É um contraexemplo: a palavra genérica e o botão "Confirmar" não nomeiam o objeto, ao contrário do que adotamos.
+
+**Seções (search_sections):**
+- A busca não trouxe nada útil. Os quatro resultados são de marketing: um pop-up retrô promocional com ícone de alerta e "Claim Deal" (beehiiv, [link](https://mobbin.com/sites/sections/6f1d9d49-012a-4038-a72d-5518c2c71669)), um card de cadastro (ElevenLabs), um hero (T1 Energy) e um modal de demo (Deel). Nenhum é um diálogo destrutivo.
+- A única semelhança formal é o beehiiv: ícone de alerta + texto centralizado + um botão num diálogo. Não serve de referência para exclusão.
+
+**Conclusão:** confirma os três níveis, com digitar o nome no nível 3. Ajuste concreto: o texto do modal deve citar o impacto sobre outras pessoas (por exemplo, "38 usuários passam a herdar de Plano Pro"), como o Framer faz. O botão vermelho sempre nomeia a ação ("Excluir política"), nunca "Confirmar" (contraexemplo TheyDo). Quando a ação estiver bloqueada, o motivo aparece ao lado do botão desabilitado.
 
 ---
 
