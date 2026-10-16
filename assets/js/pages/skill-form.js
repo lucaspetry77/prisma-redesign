@@ -65,8 +65,14 @@
     });
     if (!ok) { P.toast("Revise os campos marcados", { danger: true, icon: "danger" }); return; }
     const btn = $("[data-save]");
-    P.run(btn, () => P.api.send(editing ? "PATCH" : "POST", editing ? `/v1/skills/${editing.id}` : "/v1/skills", { name: $("#sk-name").value }), { success: editing ? "Skill atualizada" : "Skill criada. Ligue pelo + do campo de mensagem." })
-      .then(() => { saved = snapshot(); sync(); setTimeout(() => (location.href = "skills.html"), 1100); })
+    const nm = $("#sk-name").value.trim();
+    P.run(btn, () => P.api.send(editing ? "PATCH" : "POST", editing ? `/v1/skills/${editing.id}` : "/v1/skills", { name: nm }))
+      .then(() => {
+        saved = snapshot(); sync();
+        let go = "skills.html";
+        P.toast(editing ? "Skill atualizada" : "Skill criada", { action: { label: "Usar numa conversa", onClick: () => { go = "index.html?" + new URLSearchParams({ skills: nm }); location.href = go; } } });
+        setTimeout(() => (location.href = go), 2400);
+      })
       .catch(() => {});
   });
   P.ready();
