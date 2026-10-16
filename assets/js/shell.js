@@ -205,7 +205,7 @@
     const app = $(".app");
     if (!app || app.dataset.shell === "off") return;
     const nav = app.dataset.nav || app.dataset.page;
-    const active = app.dataset.conv || "";
+    const active = app.dataset.conv || (app.dataset.page === "chat" ? P.params.get("id") || "" : "");
     const u = D.user;
     const pct = Math.min(100, (u.credits.used / u.credits.limit) * 100);
     const level = pct > 90 ? "meter--danger" : pct > 70 ? "meter--warn" : "";

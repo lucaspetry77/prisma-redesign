@@ -118,16 +118,24 @@
     if (!open) return;
     if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); return; }
     if (!open.el.contains(document.activeElement)) return;
-    const items = $$(".menu__item:not(:disabled), [data-nav-item]", open.el);
-    if (!items.length) { if (e.key === "Tab" && open.opts.trapTab !== true) close(false); return; }
+    const isMenu = open.el.getAttribute("role") === "menu";
+    if (e.key === "Tab") { if (isMenu) close(false); else trapIn(open.el, e); return; }
+    const items = $$(".menu__item:not(:disabled), [data-nav-item]:not([hidden])", open.el).filter((x) => x.offsetParent);
+    if (!items.length) return;
     const i = items.indexOf(document.activeElement);
+    const inText = /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName) && document.activeElement.type !== "checkbox";
     const go = (n) => { e.preventDefault(); items[(n + items.length) % items.length]?.focus(); };
     if (e.key === "ArrowDown") go(i + 1);
-    else if (e.key === "ArrowUp") go(i - 1);
-    else if (e.key === "Home") go(0);
-    else if (e.key === "End") go(items.length - 1);
-    else if (e.key === "Tab") close(false);
+    else if (e.key === "ArrowUp" && !(inText && i < 0)) go(i < 0 ? items.length - 1 : i - 1);
+    else if (e.key === "Home" && !inText) go(0);
+    else if (e.key === "End" && !inText) go(items.length - 1);
   }, true);
+  const trapIn = (root, e) => {
+    const f = focusables(root);
+    if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f.at(-1).focus(); }
+    else if (!e.shiftKey && document.activeElement === f.at(-1)) { e.preventDefault(); f[0].focus(); }
+  };
   document.addEventListener("pointerdown", (e) => {
     if (open && !open.el.contains(e.target) && !open.anchor.contains(e.target)) close(false);
   });

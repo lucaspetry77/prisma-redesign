@@ -24,7 +24,7 @@
 .sidebar__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 40px; padding: 0 2px 0 6px; margin-bottom: 6px; }
 
 .brand { display: inline-flex; align-items: center; gap: 8px; min-width: 0; height: 32px; padding: 0 4px; margin-left: -4px; border-radius: var(--r-sm); color: var(--ink); }
-.brand__logo { width: 62px; height: auto; flex: none; }
+.brand__logo { width: 62px; height: auto; flex: none; filter: brightness(0); } /* .cadence-header__logo img (DS claro): o logo branco vira tinta */
 .brand__product { font-family: var(--font-display); font-style: italic; font-size: 21px; line-height: 1; letter-spacing: 0; color: var(--ink); padding-top: 1px; }
 .brand__mark { --crystal-w: 22px; display: none; }
 
