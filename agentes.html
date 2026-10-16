@@ -2,110 +2,50 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Agentes · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="description" content="Assistentes com instruções, modelo, arquivos e skills salvos.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/pages.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="agentes">
-    <main class="main" id="conteudo">
+
+  <div class="app" data-page="agentes" data-nav="agentes" data-title="Agentes">
+    <main class="main" id="conteudo" tabindex="-1">
       <div class="page">
         <header class="page-head">
           <div class="page-head__text">
-            <span class="eyebrow">Agentes</span>
-            <h1 class="page-title">Assistentes prontos para conversar</h1>
-            <p class="page-sub">Cada agente guarda instruções, modelo, arquivos e skills. Você não precisa repetir tudo a cada conversa.</p>
+            <h1 class="page-title">Agentes</h1>
+            <p class="page-sub">Assistentes com instruções, modelo, arquivos e skills salvos. Você abre a conversa e não precisa explicar tudo de novo.</p>
           </div>
-          <div class="page-head__actions">
-            <a class="btn btn--primary" href="agente-novo.html"><i class="i" data-icon="plus"></i>Criar agente</a>
-          </div>
+          <div class="page-head__actions"><a class="btn btn--secondary" href="galeria.html"><i class="i " data-icon="gallery"></i>Explorar a galeria</a><a class="btn btn--primary" href="agente-novo.html"><i class="i " data-icon="plus"></i>Criar agente</a></div>
         </header>
-
-        <h2 class="section-label">Seus agentes</h2>
-        <div data-my-agents></div>
-
-        <div class="block-title" style="margin-top:40px">
-          <h2>Favoritos da galeria</h2>
-          <a class="link" href="galeria.html" style="font-size:13px">Ver a Galeria</a>
-        </div>
-        <div class="grid grid--cards" data-favs></div>
+        <div class="section-title"><h2>Seus agentes</h2></div>
+        <div data-mine></div>
+        <div class="section-title"><h2>Favoritos da galeria</h2><a class="link t-sm" href="galeria.html?vista=favoritos">Ver todos</a></div>
+        <div data-favs></div>
+        <section data-examples-section hidden>
+          <div class="section-title"><h2>Exemplos da Asimov</h2><a class="link t-sm" href="galeria.html">Ver na galeria</a></div>
+          <div data-examples></div>
+        </section>
       </div>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
-  <script>
-    (() => {
-      const P = Prisma, D = PrismaData, { $, esc } = P;
-      if (new URLSearchParams(location.search).has("vazio")) D.myAgents = [];
-      const toneVars = (t) => `--tone:var(--tone-${t});--tone-dark:var(--tone-${t}-dark)`;
-      const card = (a, mine) => `
-        <article class="tone-card g-card" style="${toneVars(a.tone)}">
-          <div class="g-card__head">
-            <span class="avatar avatar--lg avatar--square tone-${a.tone}" style="${toneVars(a.tone)}">${esc(a.initials)}</span>
-            <div class="grow">
-              <h3 class="g-card__title"><a href="${mine ? "agente-novo.html?id=" + a.id : "galeria-item.html?id=" + a.id}">${esc(a.name)}</a></h3>
-              <p class="g-card__by">${mine ? `${P.modelIcon(P.model(a.model), "")} ${esc(P.model(a.model).name)} · ${a.skills} skills` : `<span class="by" style="font-size:12px">por <strong>Asimov</strong>${P.verified()}</span>`}</p>
-            </div>
-            ${mine ? `<button type="button" class="icon-btn icon-btn--sm" style="position:relative;z-index:2" data-more="${a.id}" aria-haspopup="menu" aria-expanded="false" aria-label="Mais ações para “${esc(a.name)}”"><i class="i" data-icon="more"></i></button>` : ""}
-          </div>
-          <p class="g-card__desc">${esc(a.desc)}</p>
-          <div class="g-card__foot">
-            <span class="g-card__rating">${mine ? (a.published ? "Na galeria" : `<i class="i" data-icon="lock" style="color:var(--muted)"></i>Só você · atualizado ${esc(a.updated)}`) : esc(a.category)}</span>
-            <a class="btn btn--primary btn--sm" href="chat.html?${new URLSearchParams({ q: "Oi! Vamos começar?", agent: a.id })}">Conversar</a>
-          </div>
-        </article>`;
-      const box = $("[data-my-agents]");
-      const render = () => {
-        box.innerHTML = D.myAgents.length
-          ? `<div class="grid grid--cards">${D.myAgents.map((a) => card(a, true)).join("")}<a class="project-card--new" href="agente-novo.html"><span class="icon-chip"><i class="i" data-icon="plus"></i></span>Criar agente</a></div>`
-          : `<div class="card empty">
-              <span class="icon-chip empty__icon"><i class="i" data-icon="bot"></i></span>
-              <p class="empty__title">Você ainda não criou nenhum agente.</p>
-              <p class="empty__text">Comece de um exemplo oficial. Dá para ajustar tudo antes de salvar.</p>
-              <a class="btn btn--primary" href="agente-novo.html"><i class="i" data-icon="plus"></i>Criar agente</a>
-            </div>`;
-        P.hydrateIcons(box);
-      };
-      render();
-      const favBox = $("[data-favs]");
-      const renderFavs = () => {
-        favBox.innerHTML = D.gallery.agents.filter((a) => a.fav).map((a) => P.galleryCard(a, "agents")).join("")
-          || `<p class="hint">Favorite agentes na Galeria para eles aparecerem aqui.</p>`;
-        P.hydrateIcons(favBox);
-      };
-      renderFavs();
-      favBox.addEventListener("click", (e) => {
-        const f = e.target.closest("[data-fav]");
-        if (!f) return;
-        const a = D.gallery.agents.find((x) => x.id === f.dataset.fav);
-        a.fav = !a.fav;
-        f.setAttribute("aria-pressed", a.fav);
-        P.toast(a.fav ? "Adicionado aos favoritos" : "Tirado dos favoritos", "heart");
-      });
-      box.addEventListener("click", (e) => {
-        const b = e.target.closest("[data-more]");
-        if (!b) return;
-        const a = D.myAgents.find((x) => x.id === b.dataset.more);
-        P.menu(b, [
-          { label: "Editar", icon: "pencil", onClick: () => (location.href = "agente-novo.html?id=" + a.id) },
-          { label: "Duplicar", icon: "copy", onClick: () => { D.myAgents.push({ ...a, id: a.id + "-c", name: a.name + " (cópia)" }); render(); P.toast("Agente duplicado", "copy"); } },
-          { label: "Publicar na galeria", icon: "gallery", onClick: () => P.toast("Agente enviado para a galeria", "gallery") },
-          { sep: true },
-          { label: "Apagar", icon: "trash", danger: true, onClick: () => P.confirm({ title: `Apagar “${esc(a.name)}”?`, desc: "As conversas com ele continuam, mas ele some da sua lista e da galeria.", onConfirm: () => { D.myAgents.splice(D.myAgents.indexOf(a), 1); render(); P.toast("Agente apagado", "trash"); } }) },
-        ], { label: "Ações do agente", align: "end" });
-      });
-      P.ready();
-    })();
-  </script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/pages/agents.js"></script>
 </body>
 </html>

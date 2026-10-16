@@ -143,7 +143,9 @@
 .test__msg-user { align-self: flex-end; max-width: 85%; padding: 8px 12px; border-radius: 14px 14px 4px 14px; background: var(--surface); border: 1px solid var(--line); font-size: var(--text-sm); }
 .test__msg-ai { display: flex; gap: 10px; font-size: var(--text-sm); }
 .test__msg-ai .prose { font-size: var(--text-sm); }
-.test-fab { display: none; }
+.test-fab, .test-close, .test-scrim { display: none; }
+.builder__form > section { scroll-margin-top: 124px; }
+.builder__form > section + section { margin-top: 14px; }
 .examples { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
 .example { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); text-align: left; transition: border-color var(--d-fast), box-shadow var(--d-fast); }
 .example:hover { border-color: var(--line-strong); box-shadow: var(--shadow-sm); }
@@ -294,7 +296,8 @@
   .builder { grid-template-columns: minmax(0, 1fr); }
   .builder__test { position: fixed; top: 8px; right: 8px; bottom: 8px; z-index: var(--z-sheet); width: min(440px, calc(100vw - 16px)); height: auto; border: 0; border-radius: var(--r-2xl); box-shadow: var(--shadow-lg), 0 0 0 1px var(--glass-line); transform: translateX(calc(100% + 16px)); visibility: hidden; transition: transform var(--dur-spring-smooth) var(--spring-smooth), visibility 0s var(--dur-spring-smooth); }
   .builder.is-testing .builder__test { transform: none; visibility: visible; transition: transform var(--dur-spring-smooth) var(--spring-smooth), visibility 0s; }
-  .test-scrim { position: fixed; inset: 0; z-index: calc(var(--z-sheet) - 1); background: rgb(24 24 27 / .28); opacity: 0; pointer-events: none; transition: opacity var(--dur-standard); }
+  .test-close { display: inline-grid; }
+  .test-scrim { display: block; position: fixed; inset: 0; z-index: calc(var(--z-sheet) - 1); background: rgb(24 24 27 / .28); opacity: 0; pointer-events: none; transition: opacity var(--dur-standard); }
   .builder.is-testing .test-scrim { opacity: 1; pointer-events: auto; }
   .test-fab { position: fixed; right: 20px; bottom: 20px; z-index: var(--z-sticky); display: inline-flex; box-shadow: var(--shadow-lg); }
 }

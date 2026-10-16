@@ -573,6 +573,58 @@
   };
   const agentAvatar = (a, size = "lg") => `<span class="avatar avatar--${size} avatar--square tone-${a.tone || "teal"}" aria-hidden="true">${a.initials ? esc(a.initials) : icon("agent", "i--sm")}</span>`;
 
+
+  /* ───────────────────────── Cartão de item da galeria e favoritar ───────────────────────── */
+
+  const SKILL_ICON = { Produtividade: "check-circle", Escrita: "pencil", Automação: "workflow", Design: "wand", Estudos: "course", Reuniões: "users", Programação: "code", Dados: "chart" };
+  const chatWith = (a) => "chat.html?" + new URLSearchParams({ q: "Oi! Vamos começar?", agent: a.id });
+  /** galleryCard(item, "agents" | "skills", { mine }) — mesma anatomia para agentes e skills */
+  const galleryCard = (it, type, { mine = false } = {}) => {
+    const isAgent = type === "agents";
+    const mark = isAgent ? agentAvatar(it, "lg") : `<span class="icon-chip icon-chip--lg">${icon(SKILL_ICON[it.category] || "skill")}</span>`;
+    const href = mine ? `agente-novo.html?id=${it.id}` : `galeria-item.html?id=${it.id}`;
+    const by = mine
+      ? `${modelIcon(model(it.model))}<span>${esc(model(it.model).name)}</span><span aria-hidden="true">·</span><span>${P.plural(it.skills, "skill", "skills")}</span>`
+      : `<span class="by">por <strong>Asimov</strong>${verified()}</span>${it.category ? `<span aria-hidden="true">·</span><span>${esc(it.category)}</span>` : ""}`;
+    return `
+      <article class="card card--interactive item-card" ${isAgent ? `style="--card-tone:var(--tone-${it.tone || "teal"})"` : ""}>
+        <div class="item-card__head">
+          ${mark}
+          <div class="grow"><h3 class="item-card__title"><a class="card__link" href="${href}">${esc(it.name)}</a></h3><p class="item-card__by">${by}</p></div>
+          ${mine ? `<button type="button" class="icon-btn icon-btn--sm item-card__corner" data-more="${it.id}" aria-label="Ações de “${esc(it.name)}”">${icon("more")}</button>`
+            : `<button type="button" class="icon-btn icon-btn--sm fav item-card__corner" data-fav="${it.id}" aria-pressed="${!!it.fav}" aria-label="${it.fav ? "Tirar dos favoritos" : "Favoritar"}: ${esc(it.name)}">${icon("heart")}</button>`}
+        </div>
+        <p class="item-card__desc t-clamp-2">${esc(it.desc)}</p>
+        <div class="item-card__foot">
+          <span class="item-card__meta">${mine ? (it.published ? `<span class="badge badge--success">${icon("globe")}Na galeria</span>` : `<span>${icon("lock")}Só você · ${esc(it.updated)}</span>`) : `<span>${it.rating ? `${icon("star-fill")}${esc(it.rating)}` : "Sem avaliações ainda"}</span>`}</span>
+          ${isAgent ? `<a class="btn btn--secondary btn--sm above" href="${chatWith(it)}">${icon("chat")}Conversar</a>` : `<button type="button" class="btn btn--secondary btn--sm above" data-copy-skill="${it.id}">${icon("copy")}Copiar</button>`}
+        </div>
+      </article>`;
+  };
+  /** favToggle(btn, item, onChange) — otimista, com pulso e "Desfazer" */
+  const favToggle = (btn, it, onChange) => {
+    const set = (v, quiet) => {
+      it.fav = v;
+      const src = [...window.PrismaData.gallery.agents, ...window.PrismaData.gallery.skills].find((x) => x.id === it.id);
+      if (src) src.fav = v;
+      document.querySelectorAll(`[data-fav="${it.id}"]`).forEach((b) => {
+        b.setAttribute("aria-pressed", String(v));
+        b.setAttribute("aria-label", `${v ? "Tirar dos favoritos" : "Favoritar"}: ${it.name}`);
+        const lbl = b.querySelector("[data-fav-label]");
+        if (lbl) lbl.textContent = v ? "Favoritado" : "Favoritar";
+      });
+      onChange?.(v);
+      if (!quiet) toast(v ? `${it.name} nos favoritos` : `${it.name} saiu dos favoritos`, { icon: "heart", action: { label: "Desfazer", onClick: () => set(!v, true) } });
+    };
+    const v = !it.fav;
+    set(v);
+    if (v && !reduced) {
+      btn.classList.remove("is-pop"); void btn.offsetWidth; btn.classList.add("is-pop");
+      for (let k = 0; k < 6; k++) { const b = document.createElement("span"); b.className = "burst"; b.style.setProperty("--a", `${k * 60}deg`); btn.append(b); setTimeout(() => b.remove(), 500); }
+    }
+    P.api.send("POST", `/v1/gallery/${it.id}/favorite`, { fav: v }).catch(() => { set(!v, true); toast("Não foi possível salvar o favorito. Tente de novo.", { danger: true }); });
+  };
+
   /* Liga [data-soon] (Pós-MVP) e [data-toast] */
   document.addEventListener("click", (e) => {
     const s = e.target.closest("[data-soon]");
@@ -585,6 +637,6 @@
     toast, popover, menu, closePopover: close, place, modal, confirm, sheet, busy, run,
     selectTab, indicators, moveInd, bindFields, autoresize, validate, rules,
     skeleton, loading, empty, errorState, load, ticker, reveal,
-    crystal, crystalBadge, verified, model, modelIcon, agentAvatar, layers,
+    crystal, crystalBadge, verified, model, modelIcon, agentAvatar, layers, galleryCard, favToggle, chatWith, SKILL_ICON,
   });
 })();

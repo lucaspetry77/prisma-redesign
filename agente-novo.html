@@ -2,209 +2,142 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Criar agente · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="description" content="Crie ou edite um agente e teste antes de salvar.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/chat.css">
   <link rel="stylesheet" href="assets/css/pages.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="agentes">
-    <main class="main" id="conteudo">
-      <form class="page page--wide" data-agent-form novalidate>
-        <div class="sticky-actions">
-          <div>
-            <a class="crumb" href="agentes.html" style="margin:0 0 4px"><i class="i" data-icon="chevron-left"></i>Agentes</a>
-            <h1 class="page-title" style="font-size:28px" data-form-title>Criar agente</h1>
-          </div>
-          <div class="row">
-            <div class="segmented" role="tablist" aria-label="Modo de criação">
-              <button type="button" role="tab" class="segmented__btn" aria-selected="true">Manual</button>
-              <button type="button" role="tab" class="segmented__btn" aria-selected="false" tabindex="-1" data-soon="A criação automática">Automático <span class="badge badge--soon">Pós-MVP</span></button>
-            </div>
-            <a class="btn btn--ghost" href="agentes.html">Cancelar</a>
-            <button type="submit" class="btn btn--primary" data-save disabled>Salvar agente</button>
-          </div>
-        </div>
 
-        <div class="form-layout">
-          <div>
-            <!-- Exemplos -->
-            <section class="card form-section" aria-labelledby="ex-t">
-              <div class="form-section__head">
-                <div>
-                  <h2 class="form-section__title" id="ex-t">Comece de um exemplo oficial</h2>
-                  <p class="form-section__desc">“Usar como base” preenche o formulário com o exemplo. Nada é salvo até você salvar.</p>
-                </div>
-              </div>
+  <div class="app" data-page="agente-novo" data-nav="agentes" data-title="Agente">
+    <main class="main" id="conteudo" tabindex="-1">
+      <form data-form novalidate>
+        <div class="editor-bar">
+          <a class="icon-btn icon-btn--sm" href="agentes.html" aria-label="Voltar para Agentes" data-tip="Voltar"><i class="i " data-icon="arrow-left"></i></a>
+          <div class="editor-bar__title"><span data-av="sm"></span><h1><span class="sr-only" data-title>Criar agente</span><span data-bar-name aria-hidden="true">Novo agente</span></h1><span class="save-state" data-save-state aria-live="polite">Rascunho</span></div>
+          <div class="seg seg--sm" role="tablist" aria-label="Modo de criação" data-mode>
+            <button type="button" role="tab" class="seg__btn" aria-selected="true">Manual</button>
+            <button type="button" role="tab" class="seg__btn" aria-selected="false" tabindex="-1" data-soon="A criação automática">Automático <span class="badge badge--soon">Pós-MVP</span></button>
+          </div>
+          <a class="btn btn--ghost" href="agentes.html">Cancelar</a>
+          <button type="submit" class="btn btn--primary" data-save>Salvar agente</button>
+        </div>
+        <div class="builder">
+          <div class="builder__form">
+            <nav class="builder__index" aria-label="Seções do formulário">
+              <a href="#sec-exemplos">Exemplos</a><a href="#sec-identidade">Identidade</a><a href="#sec-instrucoes">Instruções</a><a href="#sec-modelo">Modelo e estilo</a><a href="#sec-conhecimento">Conhecimento</a><a href="#sec-inicio">Início de conversa</a><a href="#sec-compartilhar">Compartilhar</a>
+            </nav>
+
+            <section class="card form-card settings__section" id="sec-exemplos" aria-labelledby="t-ex">
+              <div class="form-card__head"><div><h2 class="form-card__title" id="t-ex">Comece de um exemplo oficial</h2><p class="form-card__desc">“Usar como base” preenche o formulário. Nada é salvo até você salvar.</p></div></div>
               <div class="examples" data-examples></div>
             </section>
 
-            <!-- Identidade -->
-            <section class="card form-section" aria-labelledby="id-t">
-              <div class="form-section__head"><div><h2 class="form-section__title" id="id-t">Identidade</h2><p class="form-section__desc">Como o agente aparece para você e, se publicar, na galeria.</p></div></div>
-              <div class="field">
-                <span class="label">Imagem</span>
-                <div class="image-pick">
-                  <span class="avatar avatar--square tone-teal" data-av-preview style="--tone:var(--tone-teal);--tone-dark:var(--tone-teal-dark)"><i class="i i--lg" data-icon="bot"></i></span>
-                  <div class="stack" style="gap:8px">
-                    <div class="row"><button type="button" class="btn btn--secondary btn--sm" data-toast="Seletor de imagem aberto" data-toast-icon="image"><i class="i" data-icon="upload"></i>Trocar imagem</button></div>
-                    <p class="hint">Sem imagem, usamos as iniciais do nome. PNG, JPG, GIF ou WebP de até 5 MB.</p>
-                  </div>
+            <section class="card form-card settings__section" id="sec-identidade" aria-labelledby="t-id">
+              <div class="form-card__head"><div><h2 class="form-card__title" id="t-id">Identidade</h2><p class="form-card__desc">Como o agente aparece para você e, se publicar, na galeria.</p></div></div>
+              <div class="photo-row">
+                <span data-av="xl"></span>
+                <div class="stack" style="--gap:8px">
+                  <div class="row"><button type="button" class="btn btn--secondary btn--sm" data-pick-image><i class="i " data-icon="upload"></i>Trocar imagem</button><button type="button" class="btn btn--ghost btn--sm" data-rm-image hidden>Remover</button><input type="file" hidden accept="image/png,image/jpeg,image/gif,image/webp" data-image></div>
+                  <p class="hint">Sem imagem, usamos as iniciais do nome. PNG, JPG, GIF ou WebP de até 5 MB.</p>
                 </div>
               </div>
-              <div class="field">
-                <div class="field__top"><label class="label" for="ag-name">Nome do agente <span class="req">*</span></label><span class="counter"></span></div>
-                <input id="ag-name" class="input" maxlength="80" placeholder="Ex.: Revisor de Propostas" required>
-              </div>
-              <div class="field">
-                <div class="field__top"><label class="label" for="ag-desc">Descrição</label><span class="counter"></span></div>
-                <input id="ag-desc" class="input" maxlength="200" placeholder="O que ele faz, em uma frase.">
-                <p class="hint">Obrigatória para publicar na galeria.</p>
-              </div>
+              <div class="field"><div class="field__top"><label class="label" for="ag-name">Nome <span class="req" aria-hidden="true">*</span></label><span class="counter"></span></div>
+                <input id="ag-name" class="input" maxlength="80" placeholder="Ex.: Revisor de Propostas" autocomplete="off" required></div>
+              <div class="field"><div class="field__top"><label class="label" for="ag-desc">Descrição</label><span class="counter"></span></div>
+                <input id="ag-desc" class="input" maxlength="200" placeholder="O que ele faz, em uma frase." autocomplete="off" aria-describedby="ag-desc-h">
+                <p class="hint" id="ag-desc-h">Obrigatória para publicar na galeria.</p></div>
             </section>
 
-            <!-- Instruções -->
-            <section class="card form-section" aria-labelledby="ins-t">
-              <div class="form-section__head">
-                <div><h2 class="form-section__title" id="ins-t">Instruções <span class="req" style="color:var(--danger-solid)">*</span></h2><p class="form-section__desc">Quem o agente é, o que faz, como responde e o que evita.</p></div>
-                <button type="button" class="btn btn--secondary btn--sm" data-soon="Melhorar instrução"><i class="i" data-icon="wand"></i>Melhorar instrução <span class="badge badge--soon">Pós-MVP</span></button>
-              </div>
-              <div class="field">
-                <div class="field__top"><label class="sr-only" for="ag-ins">Instruções</label><span></span><span class="counter"></span></div>
-                <textarea id="ag-ins" class="textarea textarea--code" maxlength="20000" rows="10" placeholder="Você é um revisor de propostas comerciais.&#10;Leia a proposta e devolva:&#10;1. O texto revisado, mais claro e direto;&#10;2. Até 3 riscos que o cliente pode apontar;&#10;3. Perguntas que o cliente provavelmente vai fazer." required></textarea>
-              </div>
+            <section class="card form-card settings__section" id="sec-instrucoes" aria-labelledby="t-ins">
+              <div class="form-card__head"><div><h2 class="form-card__title" id="t-ins">Instruções <span class="req" aria-hidden="true">*</span></h2><p class="form-card__desc">Quem o agente é, o que faz, como responde e o que evita.</p></div>
+                <button type="button" class="btn btn--secondary btn--sm" data-soon="Melhorar instrução"><i class="i " data-icon="wand"></i>Melhorar <span class="badge badge--soon">Pós-MVP</span></button></div>
+              <div class="field"><div class="field__top"><label class="sr-only" for="ag-ins">Instruções</label><span></span><span class="counter"></span></div>
+                <textarea id="ag-ins" class="textarea textarea--code" maxlength="20000" rows="10" required placeholder="Você é um revisor de propostas comerciais.&#10;Leia a proposta e devolva:&#10;1. O texto revisado, mais claro e direto;&#10;2. Até 3 riscos que o cliente pode apontar;&#10;3. Perguntas que o cliente provavelmente fará."></textarea></div>
             </section>
 
-            <!-- Modelo e estilo -->
-            <section class="card form-section" aria-labelledby="mod-t">
-              <div class="form-section__head"><div><h2 class="form-section__title" id="mod-t">Modelo e estilo</h2><p class="form-section__desc">O peso em créditos por mensagem aparece depois de salvar.</p></div></div>
-              <fieldset class="field" style="border:0;padding:0;margin:0">
-                <legend class="label" style="margin-bottom:6px">Modelo</legend>
-                <div class="option-list" data-models></div>
-              </fieldset>
-              <fieldset class="field" style="border:0;padding:0;margin:20px 0 0">
-                <legend class="label" style="margin-bottom:6px">Jeito de responder</legend>
-                <div class="choice-grid">
+            <section class="card form-card settings__section" id="sec-modelo" aria-labelledby="t-mod">
+              <div class="form-card__head"><div><h2 class="form-card__title" id="t-mod">Modelo e estilo</h2><p class="form-card__desc">O peso em créditos por mensagem aparece depois de salvar.</p></div></div>
+              <div class="field"><span class="label" id="ag-model-l">Modelo</span>
+                <button type="button" class="input row" style="height:auto;min-height:56px;gap:12px;cursor:pointer" data-model aria-describedby="ag-model-l" aria-haspopup="listbox" aria-expanded="false"></button></div>
+              <fieldset class="field"><legend class="label" style="margin-bottom:6px">Jeito de responder</legend>
+                <div class="choices">
                   <label class="choice"><input type="radio" name="tone" value="preciso"><span class="choice__title">Preciso</span><span class="choice__desc">Respostas mais diretas e consistentes.</span></label>
                   <label class="choice"><input type="radio" name="tone" value="equilibrado" checked><span class="choice__title">Equilibrado</span><span class="choice__desc">O meio-termo entre precisão e variedade.</span></label>
                   <label class="choice"><input type="radio" name="tone" value="criativo"><span class="choice__title">Criativo</span><span class="choice__desc">Respostas mais variadas, com mais ideias.</span></label>
-                </div>
-              </fieldset>
-              <div class="field mt-24">
-                <div class="field__top"><label class="label" for="ag-cat">Categorias <small>(opcional)</small></label></div>
-                <div class="category-select" data-category-select>
-                  <div class="input category-select__control">
-                    <div class="category-select__tags" data-category-tags></div>
-                    <input id="ag-cat" class="category-select__input" maxlength="40" placeholder="Selecione ou crie categorias…" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ag-category-options" aria-describedby="ag-category-hint" autocomplete="off">
-                    <span class="category-select__chevron" aria-hidden="true"><i class="i" data-icon="chevron-down"></i></span>
-                  </div>
-                  <div class="category-select__dropdown" hidden>
-                    <p class="menu__label category-select__heading">Categorias</p>
-                    <div id="ag-category-options" class="category-select__options" role="listbox" aria-label="Categorias" aria-multiselectable="true"></div>
-                  </div>
-                  <div data-category-values></div>
-                </div>
-                <p class="hint" id="ag-category-hint">Selecione mais de uma ou digite para criar uma nova.</p>
-                <span class="sr-only" role="status" aria-live="polite" data-category-status></span>
-              </div>
+                </div></fieldset>
+              <div class="field"><label class="label" for="ag-cat">Categorias <small>opcional</small></label>
+                <div class="tagbox"><span class="row row--wrap" style="gap:6px" data-cat-tags></span><input id="ag-cat" list="ag-cats-list" maxlength="40" placeholder="Escolha ou digite e tecle Enter" autocomplete="off" aria-describedby="ag-cat-h"></div>
+                <datalist id="ag-cats-list"></datalist>
+                <p class="hint" id="ag-cat-h">Escolha mais de uma ou digite para criar uma nova.</p><span class="sr-only" role="status" aria-live="polite" data-cat-status></span></div>
             </section>
 
-            <!-- Conhecimento -->
-            <section class="card form-section" aria-labelledby="kn-t">
-              <div class="form-section__head"><div><h2 class="form-section__title" id="kn-t">Conhecimento</h2><p class="form-section__desc">Arquivos e skills que o agente usa em toda conversa.</p></div></div>
-              <div class="field">
-                <div class="field__top"><span class="label">Arquivos</span><span class="counter" data-files-count>0 de 5</span></div>
-                <div class="dropzone"><button type="button" class="btn btn--secondary btn--sm" data-pick-files><i class="i" data-icon="upload"></i>Selecionar arquivos</button><span>ou arraste para cá</span><input type="file" hidden multiple data-files-input></div>
-                <div class="stack" style="gap:8px" data-files-list></div>
-                <p class="hint">Até 5 arquivos de até 30 MB. PDF, DOCX, TXT, planilha ou código.</p>
-              </div>
-              <div class="field">
-                <div class="field__top"><span class="label">Skills</span><span class="counter" data-skills-count>0 de 5</span></div>
-                <p class="hint" style="margin-bottom:6px">Até 5 skills, entre as suas e as oficiais. Para usar uma skill da comunidade, copie-a antes na Galeria.</p>
-                <p class="menu__label" style="padding-left:2px">Suas skills</p>
-                <div class="option-list" data-skills-mine></div>
-                <p class="menu__label mt-8" style="padding-left:2px">Oficiais da Asimov</p>
-                <div class="option-list" data-skills-official style="max-height:320px;overflow-y:auto"></div>
-              </div>
+            <section class="card form-card settings__section" id="sec-conhecimento" aria-labelledby="t-kn">
+              <div class="form-card__head"><div><h2 class="form-card__title" id="t-kn">Conhecimento</h2><p class="form-card__desc">Arquivos e skills que o agente usa em toda conversa.</p></div></div>
+              <div class="field"><div class="field__top"><span class="label">Arquivos</span><span class="badge" data-fcount></span></div>
+                <div class="stack" style="--gap:6px" data-files></div>
+                <div class="dropzone" data-drop><button type="button" class="btn btn--secondary btn--sm" data-pick-files><i class="i " data-icon="upload"></i>Selecionar arquivos</button><span>ou arraste para cá</span><input type="file" hidden multiple data-files-input></div>
+                <p class="hint">Até 5 arquivos de até 30 MB. PDF, DOCX, TXT, planilha ou código.</p></div>
+              <div class="field"><div class="field__top"><span class="label">Skills</span><span class="badge" data-scount></span></div>
+                <p class="hint">Até 5, entre as suas e as oficiais. Para usar uma da comunidade, copie antes na galeria.</p>
+                <div class="skill-pick scroll-soft" data-skills></div></div>
             </section>
 
-            <!-- Início de conversa -->
-            <section class="card form-section" aria-labelledby="st-t">
-              <div class="form-section__head"><div><h2 class="form-section__title" id="st-t">Início de conversa</h2><p class="form-section__desc">O que a pessoa vê ao abrir uma conversa com o agente.</p></div></div>
-              <div class="field">
-                <div class="field__top"><span class="label">Perguntas sugeridas</span><span class="counter" data-q-count>0 de 4</span></div>
-                <div class="question-list" data-questions></div>
-                <div><button type="button" class="btn btn--secondary btn--sm" data-add-q><i class="i" data-icon="plus"></i>Adicionar pergunta</button></div>
-              </div>
-              <div class="field">
-                <div class="field__top"><label class="label" for="ag-first">Primeira mensagem <small>(opcional)</small></label><span class="counter"></span></div>
-                <textarea id="ag-first" class="textarea" maxlength="1000" rows="3" placeholder="Oi! Me mande a proposta (cole o texto ou anexe o arquivo) e eu devolvo revisada."></textarea>
-                <p class="hint">A primeira coisa que o agente diz ao abrir uma conversa. Não gasta créditos.</p>
-              </div>
+            <section class="card form-card settings__section" id="sec-inicio" aria-labelledby="t-st">
+              <div class="form-card__head"><div><h2 class="form-card__title" id="t-st">Início de conversa</h2><p class="form-card__desc">O que a pessoa vê ao abrir uma conversa com o agente. Aparece no teste ao lado.</p></div></div>
+              <div class="field"><div class="field__top"><span class="label">Perguntas sugeridas</span><span class="badge" data-qcount></span></div>
+                <div class="q-list" data-questions></div>
+                <div><button type="button" class="btn btn--ghost btn--sm" data-add-q><i class="i " data-icon="plus"></i>Adicionar pergunta</button></div></div>
+              <div class="field"><div class="field__top"><label class="label" for="ag-first">Primeira mensagem <small>opcional</small></label><span class="counter"></span></div>
+                <textarea id="ag-first" class="textarea" maxlength="1000" rows="3" placeholder="Oi! Me mande a proposta (cole o texto ou anexe o arquivo) e eu devolvo revisada." aria-describedby="ag-first-h"></textarea>
+                <p class="hint" id="ag-first-h">A primeira coisa que o agente diz. Não gasta créditos.</p></div>
             </section>
 
-            <!-- Compartilhar -->
-            <section class="card form-section" aria-labelledby="sh-t">
-              <div class="form-section__head"><div><h2 class="form-section__title" id="sh-t">Compartilhar</h2><p class="form-section__desc">Nada é publicado sem você pedir.</p></div></div>
-              <label class="row row--between" style="gap:16px;cursor:pointer">
+            <section class="card form-card settings__section" id="sec-compartilhar" aria-labelledby="t-sh">
+              <div class="form-card__head"><div><h2 class="form-card__title" id="t-sh">Compartilhar</h2><p class="form-card__desc">Nada é publicado sem você pedir.</p></div></div>
+              <label class="row row--between" style="gap:16px;cursor:pointer;align-items:flex-start">
                 <span class="check__text"><span class="check__title">Publicar na galeria ao salvar</span><span class="check__desc">Outros alunos poderão conversar com ele e copiá-lo. Precisa de descrição.</span></span>
-                <span class="switch"><input type="checkbox" data-publish><span class="switch__track"></span></span>
+                <span class="switch"><input type="checkbox" data-publish aria-label="Publicar na galeria ao salvar"><span class="switch__track"></span></span>
               </label>
-              <div class="row mt-16"><button type="button" class="btn btn--secondary btn--sm" data-soon="O link de compartilhamento"><i class="i" data-icon="link"></i>Copiar link <span class="badge badge--soon">Pós-MVP</span></button></div>
+              <div class="alert alert--warning mt-4" data-publish-note hidden><i class="i " data-icon="eye"></i><span>Quem abrir o agente na galeria verá o <strong>nome</strong>, a <strong>descrição</strong> e as <strong>instruções</strong>. Não coloque dados pessoais ou de clientes.</span></div>
+              <div class="row mt-4"><button type="button" class="btn btn--secondary btn--sm" data-soon="O link de compartilhamento"><i class="i " data-icon="link"></i>Copiar link <span class="badge badge--soon">Pós-MVP</span></button></div>
             </section>
           </div>
 
-          <!-- Teste -->
-          <aside class="form-layout__aside" id="test-drawer">
-            <section class="card test-panel" aria-labelledby="test-t">
-              <div class="test-panel__head">
-                <h2 class="test-panel__title" id="test-t">Testar agente</h2>
-                <div class="row" style="gap:4px">
-                  <button type="button" class="btn btn--ghost btn--sm" data-clear-test><i class="i" data-icon="refresh"></i>Limpar teste</button>
-                  <button type="button" class="icon-btn test-panel__close" data-close-test aria-label="Fechar teste"><i class="i" data-icon="x"></i></button>
-                </div>
-              </div>
-              <div class="test-panel__body" data-test-body aria-live="polite">
-                <div class="test-panel__intro" data-test-intro>
-                  <span class="avatar avatar--xl avatar--square tone-teal" data-av-preview style="--tone:var(--tone-teal);--tone-dark:var(--tone-teal-dark)"><i class="i i--lg" data-icon="bot"></i></span>
-                  <strong data-test-name>Seu agente</strong>
-                  <p data-test-hint>Preencha nome e instruções para testar aqui.</p>
-                  <div class="row row--wrap" style="justify-content:center" data-test-questions></div>
-                </div>
-              </div>
-              <div class="test-panel__foot">
-                <div class="mini-credit">
-                  <div class="meter meter--thin"><span class="meter__fill" style="width:3.1%"></span></div>
-                  <span>31,29 de 1.000 créditos usados nesta semana · Renova em 12/10 às 00:00</span>
-                </div>
-                <div class="mini-composer">
-                  <label class="sr-only" for="test-input">Mensagem de teste</label>
-                  <input id="test-input" placeholder="Mensagem de teste" autocomplete="off" disabled>
-                  <button type="button" class="send-btn" data-test-send aria-label="Enviar teste" disabled><i class="i" data-icon="arrow-up"></i></button>
-                </div>
-                <p class="hint" style="font-size:11.5px">O teste usa a versão do formulário, mesmo antes de salvar. Usa seus créditos e não entra nas suas conversas.</p>
-              </div>
-            </section>
+          <aside class="builder__test" id="test-panel" aria-labelledby="t-test">
+            <div class="test__head"><h2 class="test__title" id="t-test">Testar agente</h2>
+              <button type="button" class="btn btn--ghost btn--sm" data-clear-test><i class="i " data-icon="refresh"></i>Recomeçar</button>
+              <button type="button" class="icon-btn icon-btn--sm test-close" data-close-test aria-label="Fechar teste"><i class="i " data-icon="x"></i></button></div>
+            <div class="test__body" data-test-body aria-live="polite"></div>
+            <div class="test__foot">
+              <div class="mini-composer"><label class="sr-only" for="test-input">Mensagem de teste</label><input id="test-input" placeholder="Mensagem de teste" autocomplete="off" disabled><button type="button" class="send-btn" data-test-send aria-label="Enviar teste" disabled><i class="i " data-icon="arrow-up"></i></button></div>
+              <p class="hint" style="font-size:11px">Usa a versão do formulário, antes de salvar. Gasta créditos e não entra nas suas conversas.</p>
+            </div>
           </aside>
+          <div class="test-scrim" data-close-test></div>
         </div>
+        <button type="button" class="btn btn--primary btn--pill test-fab" data-open-test aria-controls="test-panel" aria-expanded="false"><i class="i " data-icon="sparkles"></i>Testar agente</button>
       </form>
-
-      <!-- Em telas estreitas o teste vira uma gaveta, aberta por este botão -->
-      <div class="test-scrim" data-close-test></div>
-      <button type="button" class="test-fab" data-open-test aria-controls="test-drawer" aria-expanded="false"><i class="i" data-icon="sparkles"></i>Testar agente</button>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/composer.js"></script>
   <script src="assets/js/pages/agent-form.js"></script>
 </body>
 </html>
