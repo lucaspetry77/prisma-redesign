@@ -166,6 +166,7 @@
 .msg { display: flex; flex-direction: column; min-width: 0; animation: rise var(--dur-standard) var(--ease-out) backwards; }
 .msg--user { align-items: flex-end; gap: 6px; }
 .msg__bubble { max-width: min(78%, 560px); padding: 10px 14px; border-radius: 18px 18px 6px 18px; background: var(--sunken-soft); color: var(--ink); font-size: var(--text-md); line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.msg__bubble.is-clamped { max-height: calc(1.55em * 12); overflow: hidden; mask-image: linear-gradient(to bottom, #000 75%, transparent); -webkit-mask-image: linear-gradient(to bottom, #000 75%, transparent); }
 .msg__files { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: 78%; }
 .msg__files .file-card { padding-right: 10px; }
 .msg__under { display: flex; align-items: center; gap: 2px; opacity: 0; transition: opacity var(--dur-fast); }

@@ -18,6 +18,15 @@
     return `<span class="file-card" title="${esc(f.name)}"><span class="file-card__icon ${image ? "file-card__icon--img" : ""}">${image && f.preview ? `<img src="${esc(f.preview)}" alt="Prévia de ${esc(f.name)}">` : icon(image ? "image" : "file", "i--sm")}</span><span class="file-card__text"><span class="file-card__name">${esc(f.name)}</span><span class="file-card__meta">${esc(f.meta || [f.kind, f.size].filter(Boolean).join(" · "))}</span></span></span>`;
   };
 
+  const clampLong = (root = thread) => $$(".msg--user .msg__bubble:not([data-clamp])", root).forEach((b) => {
+    b.dataset.clamp = "";
+    if (b.scrollHeight <= parseFloat(getComputedStyle(b).lineHeight) * 12.5) return;
+    b.classList.add("is-clamped");
+    const t = document.createElement("button");
+    t.type = "button"; t.className = "btn btn--ghost btn--sm"; t.textContent = "Mostrar mais"; t.setAttribute("aria-expanded", "false");
+    t.addEventListener("click", () => { const o = b.classList.toggle("is-clamped") === false; t.textContent = o ? "Mostrar menos" : "Mostrar mais"; t.setAttribute("aria-expanded", String(o)); });
+    b.after(t);
+  });
   const userMsg = (m) => `
     <article class="msg msg--user" aria-label="Sua mensagem">
       ${m.files?.length ? `<div class="msg__files">${m.files.map(fileCard).join("")}</div>` : ""}
@@ -183,6 +192,7 @@
   const answer = async ({ text, files, model, agent }) => {
     clearRetry();
     thread.insertAdjacentHTML("beforeend", userMsg({ text, files }));
+    clampLong();
     stick = true;
     follow();
     try {
@@ -330,6 +340,7 @@
     P.load(thread, () => P.api.get(`/v1/conversations/${id || D.thread.id}`), (t) => {
       thread.innerHTML = t.messages.map(render).join("");
       P.ready(thread);
+      clampLong();
       if (!params.has("topo")) scrollTo({ top: document.documentElement.scrollHeight });
     }, { skeleton, label: "Carregando conversa" });
     P.ready();
