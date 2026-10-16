@@ -483,10 +483,10 @@
   const loading = (label = "Carregando") => `<span class="sr-only" role="status">${esc(label)}…</span>`;
 
   /** empty({ icon, title, text, actions:[{label, href|act, variant, icon}], steps:[], center, plain }) */
-  const empty = ({ icon: ic, title, text = "", actions = [], steps = [], center = false, plain = false, cls = "" }) => `
+  const empty = ({ icon: ic, title, text = "", actions = [], steps = [], center = false, plain = false, cls = "", heading = false }) => `
     <div class="empty ${center ? "empty--center" : ""} ${plain ? "empty--plain" : ""} ${cls}">
       ${ic ? `<span class="icon-chip icon-chip--lg">${icon(ic)}</span>` : ""}
-      <p class="empty__title">${esc(title)}</p>
+      ${heading ? `<h1 class="empty__title">${esc(title)}</h1>` : `<p class="empty__title">${esc(title)}</p>`}
       ${text ? `<p class="empty__text">${text}</p>` : ""}
       ${steps.length ? `<ol class="empty__steps">${steps.map((s) => `<li>${s}</li>`).join("")}</ol>` : ""}
       ${actions.length ? `<div class="empty__actions">${actions.map((a) => a.href ? `<a class="btn btn--${a.variant || "secondary"}" href="${a.href}">${a.icon ? icon(a.icon) : ""}${esc(a.label)}</a>` : `<button type="button" class="btn btn--${a.variant || "secondary"}" data-act="${a.act || ""}">${a.icon ? icon(a.icon) : ""}${esc(a.label)}</button>`).join("")}</div>` : ""}

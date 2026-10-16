@@ -16,7 +16,7 @@
   ];
 
   const notFound = () => {
-    root.innerHTML = `<div class="page page--narrow">${P.empty({ icon: "folder", title: "Projeto não encontrado", text: "Ele pode ter sido apagado ou o link está incompleto.", actions: [{ label: "Ver projetos", href: "projetos.html", variant: "primary" }], center: true })}</div>`;
+    root.innerHTML = `<div class="page page--narrow">${P.empty({ icon: "folder", title: "Projeto não encontrado", heading: true, text: "Ele pode ter sido apagado ou o link está incompleto.", actions: [{ label: "Ver projetos", href: "projetos.html", variant: "primary" }], center: true })}</div>`;
     P.hydrateIcons(root);
   };
 

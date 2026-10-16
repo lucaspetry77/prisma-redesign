@@ -253,6 +253,7 @@
     $("[data-crumbs]").innerHTML = `${project ? `<a href="projeto.html?id=${project.id}">${icon("folder")}${esc(project.name)}</a>${icon("chevron-right")}` : ""}
       <button type="button" class="chat-head__title" data-chat-title aria-haspopup="menu" aria-expanded="false" aria-label="${esc(title)}: ações da conversa"><span>${esc(title)}</span>${icon("chevron-down")}</button>`;
     document.title = `${title} · Asimov Prisma`;
+    $("[data-h1]").textContent = title;
     const tb = $(".topbar__title");
     if (tb) tb.textContent = title;
   };

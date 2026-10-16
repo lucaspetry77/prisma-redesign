@@ -277,7 +277,7 @@
     top.className = "topbar";
     top.innerHTML = `
       <button type="button" class="icon-btn" data-open-nav aria-label="Abrir navegação" aria-controls="sidebar" aria-expanded="false">${icon("menu")}</button>
-      <span class="topbar__title">${esc(app.dataset.title || document.title.split(" · ")[0])}</span>
+      <span class="topbar__title">${esc(app.dataset.screenTitle || document.title.split(" · ")[0])}</span>
       <a class="icon-btn" href="index.html" aria-label="Novo chat">${icon("new-chat")}</a>`;
     main.prepend(top);
     const skip = document.createElement("a");

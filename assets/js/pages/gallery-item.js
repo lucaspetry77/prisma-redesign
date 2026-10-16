@@ -12,7 +12,7 @@
 
   const mount = (it) => {
     if (!it) {
-      root.innerHTML = `<a class="back page-head__back" href="galeria.html">${icon("chevron-left")}Galeria</a>${P.empty({ icon: "gallery", title: "Este item não está mais na galeria", text: "Ele pode ter sido removido. Quem já tinha copiado continua com a cópia.", actions: [{ label: "Explorar a galeria", href: "galeria.html", variant: "primary" }], center: true })}`;
+      root.innerHTML = `<a class="back page-head__back" href="galeria.html">${icon("chevron-left")}Galeria</a>${P.empty({ icon: "gallery", title: "Este item não está mais na galeria", heading: true, text: "Ele pode ter sido removido. Quem já tinha copiado continua com a cópia.", actions: [{ label: "Explorar a galeria", href: "galeria.html", variant: "primary" }], center: true })}`;
       P.hydrateIcons(root);
       return;
     }

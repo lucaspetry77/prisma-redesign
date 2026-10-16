@@ -221,7 +221,7 @@
 
   /* ── Editar ── */
   if (editing) {
-    $("[data-title]").textContent = "Editar agente";
+    $("[data-form-title]").textContent = "Editar agente";
     document.title = "Editar agente · Asimov Prisma";
     name.value = editing.name;
     desc.value = editing.desc;

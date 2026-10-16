@@ -12,7 +12,7 @@
   const TEMPLATE = "## Quando usar\nDescreva em uma frase quando a IA deve seguir esta skill.\n\n## Como responder\n- Formato: lista, tabela ou parágrafo curto.\n- Tamanho: quantos itens ou frases.\n- Sempre: o que não pode faltar (ex.: o próximo passo).\n\n## Se faltar informação\nPergunte antes de supor.";
 
   if (editing) {
-    $("[data-title]").textContent = "Editar skill";
+    $("[data-form-title]").textContent = "Editar skill";
     document.title = "Editar skill · Asimov Prisma";
     $("#sk-name").value = editing.name;
     $("#sk-desc").value = editing.desc;
