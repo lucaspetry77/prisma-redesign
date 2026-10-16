@@ -27,20 +27,14 @@
             <h1 class="page-title">Projetos</h1>
             <p class="page-sub">Agrupe conversas que têm contexto e arquivos em comum. Toda conversa num projeto já começa sabendo dele.</p>
           </div>
-          <div class="page-head__actions"><button type="button" class="btn btn--primary" data-new><i class="i " data-icon="plus"></i>Novo projeto</button></div>
         </header>
-        <div class="toolbar" role="search">
-          <div class="input-icon toolbar__search"><i class="i " data-icon="search"></i><label class="sr-only" for="q">Buscar projetos</label><input id="q" class="input" type="search" placeholder="Buscar por nome ou contexto" autocomplete="off" data-search></div>
-          <label class="sr-only" for="sort">Ordenar projetos</label>
-          <select id="sort" class="select w-auto" data-sort><option value="recentes">Atividade recente</option><option value="nome">Nome (A–Z)</option><option value="conversas">Mais conversas</option></select>
-          <span class="toolbar__spacer"></span>
-          <span class="toolbar__count" data-count aria-live="polite"></span>
-          <div class="seg seg--sm" role="group" aria-label="Visualização" data-view>
-            <button type="button" class="seg__btn" data-v="cards" aria-pressed="true" aria-label="Cartões" data-tip="Cartões"><i class="i " data-icon="grid"></i></button>
-            <button type="button" class="seg__btn" data-v="list" aria-pressed="false" aria-label="Lista" data-tip="Lista"><i class="i " data-icon="list"></i></button>
-          </div>
+        <div class="lib-bar">
+          <div class="input-icon lib-search" role="search"><i class="i " data-icon="search"></i><label class="sr-only" for="q">Buscar projetos</label><input id="q" class="input" type="search" placeholder="Buscar projetos" autocomplete="off" data-search></div>
         </div>
-        <div data-projects></div>
+        <section class="lib-sec" aria-labelledby="sec-seus">
+          <div class="lib-sec__head"><h2 id="sec-seus">Seus projetos</h2><span class="lib-sec__count" data-count aria-live="polite"></span></div>
+          <div data-projects></div>
+        </section>
       </div>
     </main>
   </div>

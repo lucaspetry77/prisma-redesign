@@ -159,7 +159,7 @@
       const ok = d.querySelector("#np-ok"); const disabledEmpty = ok.disabled;
       set(w, d.querySelector("#np-name"), "Projeto QA"); const enabled = !ok.disabled;
       ok.click(); await sleep(900);
-      return { disabledEmpty, enabledWithName: enabled, created: [...d.querySelectorAll(".item-card__title")].some((t) => t.textContent.includes("Projeto QA")) };
+      return { disabledEmpty, enabledWithName: enabled, created: [...d.querySelectorAll(".lib-row__name")].some((t) => t.textContent.includes("Projeto QA")) };
     }],
     ["projeto.html?id=p2", async (d, w) => {
       d.querySelector("[data-edit-ctx]").click(); await sleep(200);

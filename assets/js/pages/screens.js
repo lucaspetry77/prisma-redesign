@@ -11,7 +11,7 @@
       ["chat.html?q=Quero%20analisar%20uma%20planilha", "conversa nova", "Conversa nova", "Resposta em streaming, com parar.", []],
     ] },
     { title: "Organizar e criar", items: [
-      ["projetos.html", "/projects", "Projetos", "Busca, ordenação, cartões ou lista, criar.", ["carregando", "vazio", "erro", "erro-salvar"]],
+      ["projetos.html", "/projects", "Projetos", "Busca e lista no padrão de Agentes e Skills, criar.", ["carregando", "vazio", "erro", "erro-salvar"]],
       ["projeto.html?id=p2", "/projects/:id", "Projeto", "Composer no topo, conversas, contexto e arquivos.", ["carregando", "erro", "erro-salvar"]],
       ["skills.html", "/skills", "Skills", "Biblioteca com busca e categorias.", ["carregando", "vazio", "erro"]],
       ["skill-nova.html", "/skills/new", "Criar skill", "Escrever e visualizar, modelo, validação.", ["erro-salvar"]],

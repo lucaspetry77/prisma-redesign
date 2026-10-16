@@ -582,4 +582,5 @@ html.reduce-motion .float-chip__ok svg { stroke-dashoffset: 0; animation: none; 
 .lib-row__act { position: relative; z-index: 1; flex: none; }
 .lib-row--new .lib-row__mark { border-style: dashed; box-shadow: none; background: transparent; }
 .lib-row--new .lib-row__name { color: var(--body); }
+.lib-row__btn { padding: 0; border: 0; background: none; font: inherit; text-align: left; cursor: pointer; } /* "Criar projeto" abre o modal, não navega */
 @media (max-width: 760px) { .lib-list { grid-template-columns: minmax(0, 1fr); } }
