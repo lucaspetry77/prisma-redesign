@@ -2,150 +2,64 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Usuários · Admin · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Usuários e tetos · Admin · Asimov Prisma</title>
+  <meta name="description" content="Gasto dos usuários contra os tetos e políticas.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/pages.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="admin">
-    <main class="main" id="conteudo">
+
+  <div class="app" data-page="admin-usuarios" data-nav="admin" data-title="Usuários e tetos">
+    <main class="main" id="conteudo" tabindex="-1">
       <div class="page page--wide">
-        <nav class="segmented admin-nav" aria-label="Admin">
-          <a class="segmented__btn" href="admin-modelos.html"><i class="i i--sm" data-icon="cpu"></i>Modelos</a>
-          <a class="segmented__btn" href="admin-uso.html"><i class="i i--sm" data-icon="chart"></i>Uso</a>
-          <a class="segmented__btn" href="admin-usuarios.html" aria-current="page"><i class="i i--sm" data-icon="users"></i>Usuários</a>
-        </nav>
-
-        <header class="page-head">
-          <div class="page-head__text">
-            <span class="eyebrow">Admin</span>
-            <h1 class="page-title">Usuários</h1>
-            <p class="page-sub">Quem usa o beta, o gasto da semana e do mês contra os tetos e de onde cada teto vem.</p>
+        <header class="page-head"><div class="page-head__text"><h1 class="page-title">Usuários e tetos</h1><p class="page-sub">Quem usa o beta, o gasto da semana e do mês contra o teto e de onde cada teto vem.</p></div></header>
+        <div class="tabs" role="tablist" aria-label="Seções" data-tabs style="margin-bottom:20px">
+          <button type="button" role="tab" class="tabs__btn" aria-selected="true" aria-controls="tab-users">Usuários</button>
+          <button type="button" role="tab" class="tabs__btn" aria-selected="false" aria-controls="tab-pol" tabindex="-1">Políticas de teto</button>
+        </div>
+        <section id="tab-users" role="tabpanel" aria-label="Usuários">
+          <div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:20px">
+            <div class="card kpi"><span class="kpi__label">NPS</span><span class="kpi__value">—</span><span class="kpi__sub">Ainda sem respostas à pesquisa</span></div>
+            <div class="card kpi"><span class="kpi__label">Usuários ativos</span><span class="kpi__value" data-active>—</span><span class="kpi__sub" data-active-sub></span></div>
           </div>
-        </header>
-
-        <section class="kpis kpis--users" aria-label="Indicadores de usuários">
-          <article class="card kpi">
-            <h2 class="kpi__label">NPS</h2>
-            <p class="kpi__value" data-user-nps>—</p>
-            <p class="kpi__sub">Ainda sem respostas à pesquisa</p>
-          </article>
-          <article class="card kpi">
-            <h2 class="kpi__label">Usuários ativos</h2>
-            <p class="kpi__value" data-active-users></p>
-            <p class="kpi__sub" data-active-users-caption></p>
-          </article>
+          <div class="toolbar" role="search">
+            <div class="input-icon toolbar__search"><i class="i " data-icon="search"></i><label class="sr-only" for="u-q">Buscar por nome ou e-mail</label><input id="u-q" class="input" type="search" placeholder="Buscar por nome ou e-mail" autocomplete="off" data-search></div>
+            <div class="chips" role="group" aria-label="Situação" data-status></div>
+            <span class="toolbar__spacer"></span><span class="toolbar__count" data-count aria-live="polite"></span>
+          </div>
+          <div class="table-wrap table-wrap--cards" data-table>
+            <table class="table">
+              <thead><tr><th class="sticky-col">Usuário</th><th>Situação · último acesso</th><th>Semana · gasto / teto</th><th>Mês · gasto / teto</th><th>Origem do teto</th><th class="shrink"><span class="sr-only">Editar</span></th></tr></thead>
+              <tbody data-users></tbody>
+            </table>
+          </div>
+          <p class="hint mt-3">Clique num usuário para ver de onde vem o teto e definir um teto próprio.</p>
         </section>
-
-        <form class="toolbar" data-search role="search">
-          <div class="input-icon">
-            <i class="i i--sm" data-icon="search"></i>
-            <label class="sr-only" for="u-q">Buscar por nome ou e-mail</label>
-            <input id="u-q" class="input" type="search" placeholder="Buscar por nome ou e-mail" autocomplete="off">
-          </div>
-          <button type="submit" class="btn btn--secondary">Buscar</button>
-        </form>
-
-        <div class="table-wrap">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="sticky-col">Usuário</th>
-                <th>Papel</th>
-                <th>Plano</th>
-                <th>Situação</th>
-                <th>Último acesso</th>
-                <th>Semana: gasto / teto</th>
-                <th class="num">Créditos</th>
-                <th>Origem do teto</th>
-                <th>Mês: gasto / teto</th>
-                <th class="num">Créditos</th>
-                <th>Origem do teto</th>
-                <th><span class="sr-only">Ações</span></th>
-              </tr>
-            </thead>
-            <tbody data-users></tbody>
-          </table>
-        </div>
-
-        <div class="block-title" style="margin-top:44px">
-          <div><h2>Políticas de teto</h2><p class="mt-8" style="max-width:640px">O teto de quem não tem teto próprio: plano, depois papel, depois a política geral e, por último, o padrão do sistema.</p></div>
-          <button type="button" class="btn btn--secondary" data-new-policy><i class="i" data-icon="plus"></i>Nova política</button>
-        </div>
-        <div class="table-wrap">
-          <table class="table"><thead><tr><th>Política</th><th class="num">Teto semanal</th><th class="num">Teto mensal</th><th>Atualizada em</th><th><span class="sr-only">Ações</span></th></tr></thead><tbody data-policies></tbody></table>
-        </div>
-        <p class="footnote">Padrão do sistema: R$ 10,00 por semana · R$ 40,00 por mês.</p>
+        <section id="tab-pol" role="tabpanel" aria-label="Políticas de teto" hidden>
+          <div class="alert" style="margin-bottom:16px"><i class="i " data-icon="info"></i><div class="alert__body"><p>O teto de quem não tem teto próprio vem, nesta ordem, do <strong>plano</strong>, do <strong>papel</strong>, da <strong>política geral</strong> e, por último, do <strong>padrão do sistema</strong>.</p></div></div>
+          <div class="row row--between" style="margin-bottom:12px"><h2 class="t-h3">Políticas</h2><button type="button" class="btn btn--secondary" data-new-policy><i class="i " data-icon="plus"></i>Nova política</button></div>
+          <div class="table-wrap table-wrap--cards"><table class="table"><thead><tr><th>Política</th><th class="num">Teto semanal</th><th class="num">Teto mensal</th><th>Atualizada em</th><th class="shrink"><span class="sr-only">Ações</span></th></tr></thead><tbody data-policies></tbody></table></div>
+          <p class="hint mt-3">Padrão do sistema: R$ 10,00 por semana · R$ 40,00 por mês.</p>
+        </section>
       </div>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
-  <script>
-    (() => {
-      const P = Prisma, D = PrismaData, { $, esc } = P;
-      const activeUsers = D.users.filter((u) => u.active).length;
-      $("[data-active-users]").textContent = P.fmt(activeUsers);
-      $("[data-active-users-caption]").textContent = `${activeUsers} de ${D.users.length} contas com acesso habilitado`;
-      const brl = (v) => "R$ " + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      const spend = (s) => {
-        const pct = Math.round((s.spent / s.cap) * 100);
-        return `<div class="inline-bar" style="min-width:190px"><span class="inline-bar__track"><span class="inline-bar__fill" style="width:${Math.max(pct, 1)}%;${pct > 90 ? "background:var(--danger-solid)" : pct > 70 ? "background:#d97706" : ""}"></span></span><span class="tnum">${brl(s.spent)} / ${brl(s.cap)} <span class="muted">(${pct}%)</span></span></div>`;
-      };
-      const render = (q = "") => {
-        const t = q.trim().toLowerCase();
-        const rows = D.users.filter((u) => !t || (u.name + u.email).toLowerCase().includes(t));
-        $("[data-users]").innerHTML = rows.length ? rows.map((u) => `
-          <tr>
-            <td class="sticky-col"><span class="cell-name"><span class="avatar avatar--neutral avatar--sm" style="width:28px;height:28px">${esc(u.name[0].toUpperCase())}</span><span><span class="strong">${esc(u.name)}</span><span class="cell-sub">${esc(u.email)}</span></span></span></td>
-            <td><span class="badge ${u.role === "ADMIN" ? "badge--accent" : ""}">${u.role === "ADMIN" ? "Admin" : "Aluno"}</span></td>
-            <td>${esc(u.plan)}</td>
-            <td><span class="status ${u.active ? "" : "status--off"}">${u.active ? "Ativo" : "Inativo"}</span></td>
-            <td class="tnum">${esc(u.last)}</td>
-            <td>${spend(u.week)}</td>
-            <td class="num">${u.week.credits}</td>
-            <td style="color:var(--muted)">${esc(u.week.source)}</td>
-            <td>${spend(u.month)}</td>
-            <td class="num">${u.month.credits}</td>
-            <td style="color:var(--muted)">${esc(u.month.source)}</td>
-            <td><button type="button" class="btn btn--secondary btn--sm" data-cap="${esc(u.email)}">Editar teto</button></td>
-          </tr>`).join("")
-          : `<tr><td colspan="12" style="text-align:center;color:var(--muted);padding:28px">Ninguém encontrado com “${esc(q)}”.</td></tr>`;
-      };
-      $("[data-policies]").innerHTML = D.policies.map((p) => `<tr><td class="strong">${esc(p.name)}</td><td class="num">${p.week}</td><td class="num">${p.month}</td><td class="tnum">${esc(p.updated)}</td><td><button type="button" class="btn btn--secondary btn--sm" data-policy="${esc(p.name)}">Editar</button></td></tr>`).join("");
-      render();
-      $("[data-search]").addEventListener("submit", (e) => { e.preventDefault(); render($("#u-q").value); });
-      $("#u-q").addEventListener("input", (e) => render(e.target.value));
-
-      const capFields = (week = "", month = "") => `
-        <div class="grid grid--2">
-          <div class="field"><label class="label" for="cap-w">Teto semanal (R$)</label><input id="cap-w" class="input" type="number" min="0" step="0.01" value="${week}" placeholder="Vazio = herda"></div>
-          <div class="field" style="margin:0"><label class="label" for="cap-m">Teto mensal (R$)</label><input id="cap-m" class="input" type="number" min="0" step="0.01" value="${month}" placeholder="Vazio = herda"></div>
-        </div>`;
-      document.addEventListener("click", (e) => {
-        const c = e.target.closest("[data-cap]");
-        if (c) {
-          const u = D.users.find((x) => x.email === c.dataset.cap);
-          P.modal({ title: `Teto de ${u.name}`, desc: `Hoje vem da <strong>${esc(u.week.source)}</strong>. Um teto próprio passa na frente de plano, papel e política geral.`, body: capFields() + `<p class="hint mt-16">Vazio volta a herdar da política geral.</p>`, buttons: [{ label: "Cancelar" }, { label: "Salvar teto", variant: "primary", onClick: () => P.toast(`Teto de ${u.name} atualizado`, "check-circle") }] });
-        }
-        if (e.target.closest("[data-new-policy]") || e.target.closest("[data-policy]")) {
-          const editing = e.target.closest("[data-policy]");
-          P.modal({ title: editing ? "Editar política geral" : "Nova política", desc: editing ? "" : "Vale para um plano ou papel. Quem tem teto próprio não é afetado.",
-            body: (editing ? "" : `<div class="grid grid--2"><div class="field"><label class="label" for="pol-scope">Aplica a</label><select id="pol-scope" class="select"><option>Papel: Aluno (USER)</option><option>Papel: Admin (ADMIN)</option><option>Plano: Mensal</option><option>Plano: Anual</option></select></div></div><div class="mt-16"></div>`) + capFields(editing ? "10.00" : "", editing ? "40.00" : ""),
-            buttons: [{ label: "Cancelar" }, { label: "Salvar", variant: "primary", onClick: () => P.toast("Política salva", "check-circle") }] });
-        }
-      });
-      P.ready();
-    })();
-  </script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/pages/admin-users.js"></script>
 </body>
 </html>
