@@ -52,6 +52,7 @@
   --glass-blur: blur(10px);              /* --claro-glass-blur */
   --nav-glass: rgb(255 255 255 / .78);   /* .cadence-header__nav (claro) */
   --scrim: rgb(24 24 27 / .45);          /* .pco-backdrop (claro) */
+  --scrim-soft: rgb(24 24 27 / .3);      /* app: véu leve atrás de folha lateral e paleta de busca */
 
   /* ── Tinta ── modo-claro.css */
   --ink: #09090b;     /* --claro-ink */
@@ -60,6 +61,7 @@
   --body: #52525b;    /* --claro-body */
   --muted: #71717a;   /* --claro-muted (4,8:1 no branco) */
   --faint: #a1a1aa;   /* --claro-faint (só decorativo, nunca texto essencial) */
+  --on-solid: #ffffff;  /* app: texto e ícone sobre CTA, tinta e semânticas sólidas */
   --muted-on-page: #66666e; /* app: --muted escurecido para AA (5,2:1) sobre --page */
 
   /* ── Linhas ── modo-claro.css */
@@ -85,6 +87,13 @@
   --danger: #be123c;   --danger-solid: #e11d48;  --danger-wash: #fff1f2;  --danger-line: #fecdd3;
   --info: #1d4ed8;     --info-wash: #eff6ff;
 
+  /* ── Toast ── .toast do pacote: fica escuro também no tema claro */
+  --toast-base: #101010; --toast-base-line: #303030; --toast-danger: #fda4af; /* rose-300, ícone de erro sobre o escuro */
+
+  /* ── Cristal do logo ── app: sombra no azul do cristal e íris iridescente (efeito do logo, não da interface) */
+  --crystal-shadow: color-mix(in srgb, var(--tone-blue) 22%, transparent);
+  --crystal-iris: linear-gradient(120deg, #22d3ee, #6366f1, #d946ef, #f97316, #facc15, #22d3ee);
+
   /* ── Tons de identidade ── themes.js (formações e trilhas). Só para avatar de agente e ícone de projeto. */
   --tone-cyan: #06b6d4;   --tone-cyan-dark: #0891b2;
   --tone-teal: #14b8a6;   --tone-teal-dark: #0d9488;
@@ -104,6 +113,7 @@
   --tracking-wide: .05em;      /* --tracking-wider */
   --tracking-label: .18em;     /* .trail-overview-v2-card__label */
   /* Escala: a do DS (text-xs → 5xl) com dois passos de app (13 e 15) para densidade de interface */
+  --text-3xs: 10px;    /* .badge (10–11px no design-system.css): iniciais de avatar pequeno */
   --text-2xs: 11px;
   --text-xs: 12px;     /* --text-xs .75rem */
   --text-sm: 13px;     /* app */
@@ -115,20 +125,24 @@
   --text-3xl: 24px;    /* app: título de página no celular */
   --text-4xl: 30px;    /* --text-3xl 1.875rem: título de página */
   --text-5xl: 36px;    /* --text-4xl 2.25rem */
-  --text-6xl: 48px;    /* --text-5xl 3rem: saudação do início */
+  --text-6xl: 48px;    /* --text-5xl 3rem: saudação do início (teto do clamp) */
+  --text-metric: 28px; /* design-system.css: .metric-value 28px */
   --leading-tight: 1.08;   /* .section-title */
   --leading-snug: 1.25;    /* .trail-overview-v2-card__title */
   --leading-normal: 1.5;   /* --text-base--line-height */
   --leading-relaxed: 1.65; /* --font-size-card--line-height */
 
   /* ── Espaçamento ── tokens.css do pacote: --space-1…24 (AGENTS.md: 4/8/12/16/24/32/48/64/96) */
-  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-6: 24px; --s-8: 32px; --s-12: 48px; --s-16: 64px; --s-24: 96px;
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 20px; --s-6: 24px; --s-8: 32px; --s-12: 48px; --s-16: 64px; --s-24: 96px;
+  --field-pad-x: 14px;   /* design-system.css: campos com padding 12px 14px */
+  --metric-pad: 18px;    /* design-system.css: .metric { padding: 18px } */
   --gutter-mobile: 20px;  /* AGENTS.md: "Mobile tem 20–24px de margem" */
 
   /* ── Raios ── AGENTS.md: "8px em controles, 16px em painéis, 24px em cards, pill em CTAs" (tokens.css:
    * --radius-sm 8, --radius-md 16, --radius-card 24, --radius-pill). Extensões de app do design-system.css:
    * métrica e tabela 12, alerta 10, botão quadrado 10, dialog 20. */
-  --r-xs: 6px;        /* app: kbd, dica, segmento interno (.segmented button 5px) */
+  --r-2xs: 4px;       /* .bar-chart (raio 4 4 0 0) e marcas pequenas */
+  --r-xs: 6px;        /* app: dica, segmento interno (.segmented button 5px) */
   --r-control: 8px;   /* --radius-sm */
   --r-square: 10px;   /* .btn--square */
   --r-alert: 10px;    /* .alert */
@@ -154,6 +168,13 @@
   --d-entry: 1000ms;  /* motion.reveal / fadeSlideIn */
   --d-spin: 3s;       /* motion.buttonSpin */
   --d-hover: 250ms;   /* .btn { transition: … .25s } */
+  --d-shimmer: 2s;    /* .skeleton (brilho 2s); também o texto "Pensando" e o brilho do cristal */
+  --d-spinner: 700ms; /* app: indicador de carregamento */
+  --d-spinner-reduced: 1.6s; /* app: o mesmo indicador com movimento reduzido */
+  --d-ticker: 900ms;  /* UI Arc · slot text: 0,9 s por dígito */
+  --d-crystal-float: 6s;   /* app: cristal do início, flutuar e sombra */
+  --d-crystal-shine: 6.5s; /* app: cristal do início, reflexo */
+  --d-crystal-iris: 14s;   /* app: cristal do início, íris */
   /* UI Arc (components/arc/lib/motion-tokens.ts): durações e molas. Sem linear(), caem nas curvas do DS. */
   --dur-instant: 120ms;
   --dur-fast: 160ms;

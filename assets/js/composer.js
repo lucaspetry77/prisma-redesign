@@ -94,7 +94,7 @@
     const el = P.popover(anchor, `${panelHead("Conversar com um agente")}
       <div class="plus-pop__search"><div class="input-icon">${icon("search")}<input class="input input--sm" type="search" placeholder="Buscar agente" aria-label="Buscar agente" data-q></div></div>
       <div class="plus-pop__body" data-list></div>
-      <div class="plus-pop__foot row row--between"><a class="link t-xs" href="galeria.html">Ver todos na galeria</a><a class="link t-xs" href="agente-novo.html">Criar agente</a></div>`,
+      <div class="plus-pop__foot row row--between"><a class="link t-xs" href="agentes.html?aba=asimov">Ver agentes da Asimov</a><a class="link t-xs" href="agente-novo.html">Criar agente</a></div>`,
       { className: "plus-pop", label: "Conversar com um agente", side: "top", initialFocus: "[data-q]" });
     if (!el) return;
     const render = () => {
@@ -104,7 +104,7 @@
       $("[data-list]", el).innerHTML = items.length ? items.map((a) => {
         const head = a.group !== g ? `<div class="menu__label">${esc((g = a.group))}</div>` : "";
         return `${head}<button type="button" class="pick-agent" data-agent="${a.id}" data-nav-item>${P.agentAvatar(a, "md")}<span class="grow" style="min-width:0"><span class="pick-agent__name">${esc(a.name)}${a.group !== "Seus agentes" ? P.verified() : ""}</span><span class="pick-agent__desc t-clamp-1">${esc(a.desc)}</span></span></button>`;
-      }).join("") : `<div class="cmdk__empty"><strong>Nenhum agente encontrado</strong>Tente outro nome ou veja a galeria.</div>`;
+      }).join("") : `<div class="cmdk__empty"><strong>Nenhum agente encontrado</strong>Tente outro nome ou veja os da Asimov em Agentes.</div>`;
       P.hydrateIcons(el);
     };
     render();
@@ -122,7 +122,7 @@
       <div class="plus-pop__search"><div class="input-icon">${icon("search")}<input class="input input--sm" type="search" placeholder="Buscar skill" aria-label="Buscar skill" data-q></div></div>
       <div class="plus-pop__body" data-list>
         <div class="menu__label">Suas skills</div>
-        ${D.mySkills.length ? D.mySkills.map(row).join("") : `<p class="hint" style="padding:4px 10px 8px">Você ainda não criou skills. <a class="link" href="skill-nova.html">Criar skill</a></p>`}
+        ${D.mySkills.length ? D.mySkills.map(row).join("") : `<p class="hint" style="padding:var(--s-1) var(--s-3) var(--s-2)">Você ainda não criou skills. <a class="link" href="skill-nova.html">Criar skill</a></p>`}
         <div class="menu__label">Oficiais da Asimov</div>
         ${D.gallery.skills.map(row).join("")}
       </div>
@@ -156,7 +156,7 @@
           : P.empty({ icon: "bookmark", title: "Nenhum prompt salvo", text: "Escreva no campo e salve aqui para reaproveitar depois, em qualquer conversa.", center: true, plain: true })}</div>
         <div id="pp-c" hidden>${P.empty({ icon: "notebook", title: "Nenhum contexto salvo", text: "Contextos são textos de apoio (sobre você, a empresa, um cliente) que entram na conversa sem você colar de novo.", center: true, plain: true })}</div>
       </div>
-      <div class="plus-pop__foot"><button type="button" class="btn btn--secondary btn--sm btn--block" data-save ${ta.value.trim() ? "" : "disabled"}>${icon("bookmark")}Salvar o texto do campo</button>${ta.value.trim() ? "" : `<p class="hint mt-2" style="text-align:center">Escreva no campo o que você quer salvar.</p>`}</div>`,
+      <div class="plus-pop__foot"><button type="button" class="btn btn--sm btn--block" data-save ${ta.value.trim() ? "" : "disabled"}>${icon("bookmark")}Salvar o texto do campo</button>${ta.value.trim() ? "" : `<p class="hint mt-2" style="text-align:center">Escreva no campo o que você quer salvar.</p>`}</div>`,
       { className: "plus-pop", label: "Prompts e contextos", side: "top" });
     if (!el) return;
     P.bindFields(el);
@@ -186,7 +186,6 @@
       <textarea id="${id}" class="composer__input" rows="1" placeholder="${esc(placeholder)}" data-autoresize data-max="260" enterkeyhint="send"></textarea>
       <div class="composer__bar">
         <button type="button" class="icon-btn composer__tool" data-act="more" aria-haspopup="menu" aria-expanded="false" aria-label="Adicionar: arquivo, agente, skills, prompts, projeto" data-tip="Adicionar">${icon("plus")}</button>
-        <button type="button" class="icon-btn composer__tool" data-act="attach" aria-label="Anexar arquivo ou imagem" data-tip="Anexar arquivo">${icon("paperclip")}</button>
         <span data-mode></span>
         <input type="file" hidden multiple data-file>
         <span class="composer__spacer"></span>
@@ -219,9 +218,9 @@
       $("[data-mode]", root).innerHTML = img ? `<span class="composer__mode">${icon("image")}Imagem<button type="button" data-act="exit-image" aria-label="Sair da criação de imagem">${icon("x", "i--xs")}</button></span>` : "";
       // Faixas: erro de envio tem prioridade; depois a incompatibilidade de imagem
       if (st.error) {
-        strip.innerHTML = `<div class="composer__strip composer__strip--danger" role="alert">${icon("danger")}<div class="grow"><strong>Não foi possível enviar.</strong> ${esc(st.error.message || "Verifique a conexão.")} Sua mensagem continua no campo.<br><button type="button" class="btn btn--secondary btn--sm" data-act="retry">${icon("refresh")}Tentar de novo</button></div></div>`;
+        strip.innerHTML = `<div class="composer__strip composer__strip--danger" role="alert">${icon("danger")}<div class="grow"><strong>Não foi possível enviar.</strong> ${esc(st.error.message || "Verifique a conexão.")} Sua mensagem continua no campo.<br><button type="button" class="btn btn--sm" data-act="retry">${icon("refresh")}Tentar de novo</button></div></div>`;
       } else if (incompatible()) {
-        strip.innerHTML = `<div class="composer__strip composer__strip--warn" role="status">${icon("alert")}<div class="grow"><strong>${esc(P.model(st.model).name)} não lê imagens.</strong> Escolha um modelo que lê imagens ou remova a imagem e descreva o conteúdo em texto.<br><button type="button" class="btn btn--secondary btn--sm" data-act="image-model">Escolher modelo com imagens${icon("arrow-right")}</button></div></div>`;
+        strip.innerHTML = `<div class="composer__strip composer__strip--warn" role="status">${icon("alert")}<div class="grow"><strong>${esc(P.model(st.model).name)} não lê imagens.</strong> Escolha um modelo que lê imagens ou remova a imagem e descreva o conteúdo em texto.<br><button type="button" class="btn btn--sm" data-act="image-model">Escolher modelo com imagens${icon("arrow-right")}</button></div></div>`;
       } else strip.innerHTML = "";
       const empty = !ta.value.trim() && !st.files.length;
       send.disabled = !st.busy && (incompatible() || st.loading > 0 || empty);
@@ -230,7 +229,6 @@
       if (wasStop !== st.busy) { send.innerHTML = icon(st.busy ? "stop" : "arrow-up"); send.classList.remove("is-swap"); void send.offsetWidth; send.classList.add("is-swap"); }
       send.setAttribute("aria-label", st.busy ? "Parar resposta" : img ? "Criar imagem" : "Enviar");
       send.dataset.tip = st.busy ? "Parar" : img ? "Criar imagem" : "Enviar";
-      send.dataset.tipKbd = st.busy ? "" : "enter";
     };
     const renderCtx = () => {
       const pills = [];
@@ -292,7 +290,6 @@
     ta.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); doSend(); } });
     root.addEventListener("submit", (e) => { e.preventDefault(); doSend(); });
     send.addEventListener("click", (e) => { e.preventDefault(); doSend(); });
-    $("[data-act='attach']", root).addEventListener("click", () => fileInput.click());
     fileInput.addEventListener("change", () => { addFiles(fileInput.files); fileInput.value = ""; });
     ["dragenter", "dragover"].forEach((t) => root.addEventListener(t, (e) => { if (e.dataTransfer?.types?.includes("Files")) { e.preventDefault(); root.classList.add("is-drop"); } }));
     ["dragleave", "drop"].forEach((t) => root.addEventListener(t, () => root.classList.remove("is-drop")));

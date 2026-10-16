@@ -96,7 +96,8 @@ Streaming: `streamReply()` em `assets/js/pages/chat.js` simula o stream; na inte
 - **Até 5 skills por conversa** (suas + oficiais). Skills oficiais já aparecem no painel de skills.
 - Menu +: enviar arquivo, prompts e contextos (prompts salvos localmente, até 30), conversar com um agente (busca, filtros Todos/Asimov/Favoritos, categoria), skills, adicionar ao projeto.
 - Durante a resposta: botão vira **Parar**; ao parar, mostra "Resposta interrompida."
-- **Refazer** só na última resposta da IA (gera nova resposta e usa créditos). Avaliar positiva/negativa (exclusivas). Copiar.
+- **Refazer** só na última resposta da IA, como ícone com dica "Refazer · usa créditos" (gera nova resposta). Avaliar positiva/negativa (exclusivas; marcada fica verde ou vermelho suaves). Copiar.
+- A resposta da IA não tem cabeçalho com o nome do modelo: a pessoa já escolheu o modelo, e a troca aparece como aviso na conversa.
 - Conversa: renomear (até 120), mover para projeto, baixar (.md), compartilhar por link, apagar (confirmação).
 - Nova conversa a partir do início leva `q, model, agent, skills, project, attachments` para `chat.html`; o título é o começo da mensagem (60 caracteres) ou "Conversa com imagem".
 

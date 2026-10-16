@@ -27,9 +27,6 @@
     let items = base.filter((x) => (!st.cat || x.category === st.cat) && (!q || P.norm(`${x.name} ${x.desc} ${x.category}`).includes(q)) && st.origin !== "comunidade");
     if (st.order === "nome") items = [...items].sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
     if (st.order === "avaliados") items = [...items].sort((a, b) => (b.rating || 0) - (a.rating || 0));
-    const filters = [st.q && ["q", `“${st.q}”`], st.cat && ["cat", st.cat], st.origin && ["origin", st.origin === "oficial" ? "Oficiais da Asimov" : "Da comunidade"]].filter(Boolean);
-    $("[data-active]").innerHTML = filters.length ? filters.map(([k, l]) => `<span class="filter-chip">${esc(l)}<button type="button" data-unset="${k}" aria-label="Remover filtro ${esc(l)}">${icon("x", "i--xs")}</button></span>`).join("") + `<button type="button" class="btn btn--ghost btn--sm" data-unset="all">Limpar filtros</button>` : "";
-    $("[data-active]").hidden = !filters.length;
     $("[data-count]").textContent = `${P.plural(items.length, ...LABEL[st.type])}`;
     if (!items.length) {
       grid.className = "";
@@ -37,14 +34,14 @@
         ? P.empty({ icon: "heart", title: `Nenhum ${LABEL[st.type][0]} favorito ainda`, text: `Toque no ${icon("heart", "i--xs")} de um ${LABEL[st.type][0]} em Explorar para guardar aqui. Seus agentes favoritos também aparecem em Agentes.`, actions: [{ label: "Explorar a galeria", act: "explore", variant: "primary" }], center: true })
         : st.origin === "comunidade" && !st.q && !st.cat
           ? P.empty({ icon: "users", title: "Ainda não há itens da comunidade", text: "Quando alunos publicarem agentes e skills, eles aparecem aqui. Por enquanto, a galeria tem os oficiais da Asimov.", actions: [{ label: "Ver oficiais", act: "official" }], center: true })
-          : P.empty({ icon: "search", title: "Nada combina com esses filtros", text: "Remova um filtro acima ou tente outra palavra.", actions: [{ label: "Limpar filtros", act: "clear" }], center: true });
+          : P.empty({ icon: "search", title: "Nada combina com esses filtros", text: "Tente outra palavra ou outra categoria.", actions: [{ label: "Limpar filtros", act: "clear" }], center: true });
     } else {
       grid.className = "grid grid--cards";
       grid.setAttribute("data-reveal-group", "");
       grid.innerHTML = items.map((x) => P.galleryCard(x, st.type)).join("");
     }
     $("[data-featured]").hidden = !items.length || st.view === "favoritos";
-    [grid, $("[data-cats]"), $("[data-active]")].forEach((b) => P.hydrateIcons(b));
+    [grid, $("[data-cats]")].forEach((b) => P.hydrateIcons(b));
     P.reveal(grid);
   };
 
@@ -61,15 +58,6 @@
   document.addEventListener("click", (e) => {
     const c = e.target.closest("[data-cat]");
     if (c) { st.cat = c.dataset.cat; render(); return; }
-    const u = e.target.closest("[data-unset]");
-    if (u) {
-      const k = u.dataset.unset;
-      if (k === "q" || k === "all") { st.q = ""; $("[data-search]").value = ""; }
-      if (k === "cat" || k === "all") st.cat = "";
-      if (k === "origin" || k === "all") { st.origin = ""; $("#g-origin").value = ""; }
-      render();
-      return;
-    }
     const a = e.target.closest("[data-act]");
     if (a?.dataset.act === "clear") { st.q = ""; st.cat = ""; st.origin = ""; $("[data-search]").value = ""; $("#g-origin").value = ""; render(); }
     if (a?.dataset.act === "official") { st.origin = "oficial"; $("#g-origin").value = "oficial"; render(); }

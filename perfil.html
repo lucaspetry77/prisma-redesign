@@ -28,7 +28,6 @@
             <a href="#perfil" aria-current="true"><i class="i " data-icon="user"></i>Perfil</a>
             <a href="#sobre"><i class="i " data-icon="notebook"></i>Sobre você</a>
             <a href="#creditos"><i class="i " data-icon="wallet"></i>Créditos</a>
-            <a href="#atalhos"><i class="i " data-icon="keyboard"></i>Atalhos</a>
             <a href="#dados"><i class="i " data-icon="download"></i>Seus dados</a>
             <a href="#conta"><i class="i " data-icon="danger"></i>Apagar conta</a>
           </nav>
@@ -37,14 +36,14 @@
               <div class="form-card__head"><div><h2 class="form-card__title" id="t-perfil">Perfil</h2><p class="form-card__desc">Nome e e-mail vêm da sua conta da Asimov Academy.</p></div></div>
               <div class="photo-row">
                 <span class="avatar avatar--xl avatar--neutral" data-photo></span>
-                <div class="stack" style="--gap:8px">
-                  <div class="row"><button type="button" class="btn btn--secondary btn--sm" data-pick-photo><i class="i " data-icon="upload"></i>Trocar foto</button><button type="button" class="btn btn--ghost btn--sm" data-rm-photo hidden>Remover</button><input type="file" accept="image/png,image/jpeg,image/gif,image/webp" hidden data-photo-input></div>
+                <div class="stack gap-2">
+                  <div class="row"><button type="button" class="btn btn--sm" data-pick-photo><i class="i " data-icon="upload"></i>Trocar foto</button><button type="button" class="btn btn--ghost btn--sm" data-rm-photo hidden>Remover</button><input type="file" accept="image/png,image/jpeg,image/gif,image/webp" hidden data-photo-input></div>
                   <p class="hint">PNG, JPG, GIF ou WebP de até 5 MB. A foto nova vale depois de salvar.</p>
                 </div>
               </div>
               <dl>
-                <div class="readonly"><dt>Nome no Hub</dt><dd class="row" style="gap:6px"><span id="pf-name"></span><i class="i i--xs t-muted" data-icon="lock"></i></dd></div>
-                <div class="readonly"><dt>E-mail</dt><dd class="row" style="gap:6px"><span id="pf-mail"></span><i class="i i--xs t-muted" data-icon="lock"></i></dd></div>
+                <div class="readonly"><dt>Nome no Hub</dt><dd class="row gap-2"><span id="pf-name"></span><i class="i i--xs t-muted" data-icon="lock"></i></dd></div>
+                <div class="readonly"><dt>E-mail</dt><dd class="row gap-2"><span id="pf-mail"></span><i class="i i--xs t-muted" data-icon="lock"></i></dd></div>
               </dl>
               <div class="field mt-4"><div class="field__top"><label class="label" for="pf-nick">Como o Prisma deve te chamar?</label><span class="counter"></span></div>
                 <input id="pf-nick" class="input" maxlength="40" placeholder="Ex.: Carlão" autocomplete="nickname" aria-describedby="pf-nick-h"><p class="hint" id="pf-nick-h">Aparece na saudação e nas conversas.</p></div>
@@ -64,14 +63,9 @@
               <div data-credits></div>
             </section>
 
-            <section class="card form-card settings__section" id="atalhos" aria-labelledby="t-kbd">
-              <div class="form-card__head"><div><h2 class="form-card__title" id="t-kbd">Atalhos de teclado</h2><p class="form-card__desc">Funcionam em qualquer tela. Tecle <kbd>?</kbd> para ver a lista completa.</p></div></div>
-              <div class="kbd-list" data-kbd></div>
-            </section>
-
             <section class="card form-card settings__section" id="dados" aria-labelledby="t-dados">
               <div class="form-card__head"><div><h2 class="form-card__title" id="t-dados">Seus dados</h2><p class="form-card__desc">Baixe uma cópia de tudo o que você guardou no Prisma: perfil, conversas, skills, agentes, projetos, salvos, memórias, avaliações e favoritos. Não gasta créditos.</p></div></div>
-              <button type="button" class="btn btn--secondary" data-export><i class="i " data-icon="download"></i>Exportar meus dados</button>
+              <button type="button" class="btn" data-export><i class="i " data-icon="download"></i>Exportar meus dados</button>
             </section>
 
             <section class="card form-card settings__section danger-card" id="conta" aria-labelledby="t-conta">

@@ -6,7 +6,6 @@
   const D = window.PrismaData;
   const { $, esc, store } = P;
   const icon = (n, c) => P.icon(n, c);
-  const TONES = ["teal", "cyan", "blue", "violet", "rose", "orange", "amber", "green"];
   const box = $("[data-projects]");
   const search = $("[data-search]");
   const sortSel = $("[data-sort]");
@@ -17,16 +16,13 @@
   const card = (p) => `
     <article class="card card--interactive item-card" style="--card-tone:var(--tone-${p.tone})">
       <div class="item-card__head">
-        <span class="icon-chip icon-chip--tone tone-${p.tone}">${icon("folder")}</span>
-        <div class="grow"><h2 class="item-card__title"><a class="card__link" href="projeto.html?id=${p.id}">${esc(p.name)}</a></h2></div>
-        <button type="button" class="icon-btn icon-btn--sm item-card__corner" data-more="${p.id}" aria-label="Ações de “${esc(p.name)}”">${icon("more")}</button>
+        <span class="icon-chip icon-chip--lg icon-chip--tone tone-${p.tone}">${icon("folder")}</span>
+        <div class="grow"><h2 class="item-card__title"><a class="card__link" href="projeto.html?id=${p.id}">${esc(p.name)}</a></h2>
+          <p class="item-card__by"><span>${P.plural(p.conversations, "conversa", "conversas")}</span><span aria-hidden="true">·</span><span>${p.files ? P.plural(p.files, "arquivo", "arquivos") : "Sem arquivos"}</span></p></div>
       </div>
-      <p class="item-card__desc t-clamp-3 ${p.context ? "" : "is-empty"}">${esc(p.context || "Sem contexto ainda. Abra o projeto para dizer o objetivo e o público.")}</p>
-      <div class="item-card__foot"><div class="item-card__meta">
-        <span>${icon("chat")}${P.plural(p.conversations, "conversa", "conversas")}</span>
-        <span>${icon("file")}${p.files ? P.plural(p.files, "arquivo", "arquivos") : "Sem arquivos"}</span>
-        <span>${icon("clock")}${esc(p.updated)}</span>
-      </div></div>
+      <p class="item-card__desc t-clamp-2 ${p.context ? "" : "is-empty"}">${esc(p.context || "Sem contexto ainda. Abra o projeto para dizer o objetivo e o público.")}</p>
+      <div class="item-card__foot"><span class="item-card__meta"><span>${icon("clock")}Atualizado ${esc(p.updated)}</span></span>
+        <button type="button" class="icon-btn icon-btn--sm item-card__act" data-more="${p.id}" aria-label="Ações de “${esc(p.name)}”">${icon("more")}</button></div>
     </article>`;
   const row = (p) => `
     <div class="list-item" style="position:relative">
@@ -68,27 +64,16 @@
     P.reveal(box);
   };
 
-  const openNew = () => P.modal({
-    title: "Novo projeto",
-    desc: "Comece pelo nome. Arquivos você adiciona dentro do projeto.",
-    body: `<div class="field"><div class="field__top"><label class="label" for="np-name">Nome <span class="req" aria-hidden="true">*</span></label><span class="counter"></span></div>
-        <input id="np-name" class="input" maxlength="80" placeholder="Ex.: Lançamento de março" autocomplete="off" required></div>
-      <div class="field"><div class="field__top"><label class="label" for="np-ctx">Contexto <small>opcional</small></label><span class="counter"></span></div>
-        <textarea id="np-ctx" class="textarea" rows="4" maxlength="2000" placeholder="Objetivo, público e tom. Ex.: Campanha para alunos que pararam de estudar há mais de 30 dias. Tom próximo, sem cara de propaganda."></textarea>
-        <p class="hint">Vale para todas as conversas do projeto, junto com o “Sobre você” do seu perfil.</p></div>`,
-    buttons: [{ label: "Cancelar" }, { label: "Criar projeto", variant: "primary", id: "np-ok", disabled: true, onClick: (m) => {
-      const name = $("#np-name", m).value.trim();
-      if (!name) return false;
-      const p = { id: "p" + Date.now(), name, tone: TONES[projects.length % TONES.length], context: $("#np-ctx", m).value.trim(), files: 0, conversations: 0, updated: "agora" };
-      return P.api.send("POST", "/v1/projects", p).then(() => {
-        projects.unshift(p);
-        D.projects.unshift(p);
-        search.value = "";
-        render();
-        P.toast(`Projeto “${name}” criado`, { icon: "folder" });
-      });
-    } }],
-    onOpen: (m) => $("#np-name", m).addEventListener("input", (e) => ($("#np-ok", m).disabled = !e.target.value.trim())),
+  // O modal de criar é o mesmo da barra lateral (P.createProject); a lista reage ao evento "prisma:project"
+  const openNew = () => P.createProject();
+  const syncData = (id, patch) => { const d = D.projects.find((x) => x.id === id); if (d) Object.assign(d, patch); return d; };
+  document.addEventListener("prisma:project", (e) => {
+    const { type, project, source } = e.detail;
+    if (source === "projetos") return;
+    if (type === "created" && !projects.some((x) => x.id === project.id)) { projects.unshift({ ...project }); search.value = ""; }
+    if (type === "renamed") { const x = projects.find((y) => y.id === project.id); if (x) x.name = project.name; }
+    if (type === "deleted") projects = projects.filter((x) => x.id !== project.id);
+    render();
   });
 
   const rename = (p) => P.modal({
@@ -97,7 +82,7 @@
     buttons: [{ label: "Cancelar" }, { label: "Salvar", variant: "primary", id: "rn-ok", onClick: (m) => {
       const v = $("#rn", m).value.trim();
       if (!v) return false;
-      return P.api.send("PATCH", `/v1/projects/${p.id}`, { name: v }).then(() => { p.name = v; render(); P.toast("Projeto renomeado", { icon: "pencil" }); });
+      return P.api.send("PATCH", `/v1/projects/${p.id}`, { name: v }).then(() => { p.name = v; render(); P.toast("Projeto renomeado", { icon: "pencil" }); P.projectEvent("renamed", syncData(p.id, { name: v }) || p, "projetos"); });
     } }],
     onOpen: (m) => { const i = $("#rn", m); i.select(); i.addEventListener("input", () => ($("#rn-ok", m).disabled = !i.value.trim())); },
   });
@@ -116,7 +101,14 @@
         { label: "Apagar projeto", icon: "trash", danger: true, onClick: () => P.confirm({
           title: `Apagar “${esc(p.name)}”?`,
           desc: "O contexto e os arquivos do projeto somem. As conversas continuam na sua lista, fora do projeto.",
-          onConfirm: () => P.api.send("DELETE", `/v1/projects/${p.id}`).then(() => { projects = projects.filter((x) => x !== p); render(); P.toast("Projeto apagado", { icon: "trash" }); }),
+          onConfirm: () => P.api.send("DELETE", `/v1/projects/${p.id}`).then(() => {
+            projects = projects.filter((x) => x !== p);
+            const i = D.projects.findIndex((x) => x.id === p.id);
+            if (i >= 0) D.projects.splice(i, 1);
+            render();
+            P.toast("Projeto apagado", { icon: "trash" });
+            P.projectEvent("deleted", p, "projetos");
+          }),
         }) },
       ], { label: "Ações do projeto", align: "end" });
     }

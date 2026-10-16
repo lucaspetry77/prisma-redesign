@@ -6,35 +6,37 @@ As rotas não mudam (ver 00-inventario.md, seção 3). O que muda é como se che
 
 ### Barra lateral do Prisma (aluno e admin)
 
+Refeita em 15/10/2026 a pedido do produto, com base em Grok, ChatGPT e Claude na web (referências em
+[02-referencias.md, Parte E](02-referencias.md)).
+
 ```
-[Asimov · Prisma]                  [recolher ⌘\]
-✎ Novo chat                        ⌘⇧O
-⌕ Buscar                           ⌘K
-───────────
-▢ Projetos
+[Asimov · Prisma]                 [⌕] [recolher]
+✎ Novo chat
 ☺ Agentes
 ϟ Skills
 ▦ Galeria
-───────────
-Recentes
-  Ontem
-    Quero criar um assistente…   ⋯
-  02/10
-    …
-───────────
-⛨ Administração                    (só ADMIN)
-🎓 Cursos da Asimov ↗
-Créditos da semana   3% usado ▁▁▁
-(A) admin · admin@asimov.academy   ⇅
+
+Projetos ⌄                     +   (título é botão: recolhe e abre; "+" à direita abre o modal de novo projeto, só com a seção aberta)
+  ▢ Black Friday 2026          ⋯   (pasta na cor do projeto; até 5)
+  Ver todos os projetos
+
+Recentes ⌄                     +   ("+" à direita abre um novo chat, só com a seção aberta)
+  Quero criar um assistente…   ⋯   (lista única, sem separar por dia; até 30)
+  Como priorizar minhas tarefas…
+  ░░ véu com desfoque ░░           (só quando há conversa escondida embaixo)
+(A) admin                          (menu da conta)
+    3% dos créditos usados
 ```
 
 Decisões, com origem:
-- **"Buscar" vira item de primeiro nível** (A.5, Langdock/ChatGPT). Abre a paleta ⌘K, que acha conversas, projetos, agentes, skills, itens da galeria e páginas. Resolve o problema 1 do inventário.
-- **Ordem por frequência:** Projetos e Agentes antes de Skills; Galeria por último (descoberta, não uso diário).
-- **Admin sai do meio da navegação** e vai para o rodapé, como "Administração" (C.4). Dentro de `/admin/*`, a barra lateral troca para a navegação do admin.
-- **Recentes com cabeçalho fixo por dia** e menu ⋯ por conversa (renomear no lugar, mover para projeto, baixar, copiar link, apagar).
-- **Créditos no rodapé**, compactos (barra + %), abrindo o detalhe (limite diário, semanal, renovação). A cor da barra muda em 70% e 90%.
-- **Recolher** vira trilho de ícones com dicas à direita (⌘\). No celular, gaveta com fundo escurecido.
+- **Duas seções que recolhem, Projetos e Recentes** (pedido do produto; "Projects ›" do ChatGPT, "Projects ⌄ / History ⌄" do Grok). Cada uma abre e fecha sozinha e o estado fica salvo neste navegador.
+- **Sem separação por dia.** As datas ficam na busca global, como no Grok e no ChatGPT. O contrato continua entregando grupos por dia; a barra junta tudo numa lista.
+- **Buscar sobe para o cabeçalho**, ao lado de recolher, como nas duas referências do pedido.
+- **Projetos sai dos itens fixos** e vira seção; "Ver todos os projetos" leva à página. No trilho recolhido, Projetos volta como ícone.
+- **Seleção em pílula neutra**, não em acento (as três referências); o texto da linha aberta fica em tinta e peso 500.
+- **Sem borda acima da conta:** a lista se dissolve num véu com desfoque, que some quando a lista chega ao fim.
+- **Rodapé só com a conta.** A segunda linha mostra o uso de créditos (âmbar acima de 70%, vermelho a partir de 90%). Créditos e limites, Administração, Cursos da Asimov, avaliação e ajuda ficam no menu da conta.
+- **Recolher** vira trilho de ícones com dicas à direita, só no desktop. Fechada, a barra perde o logo (como no Grok) e ganha um relógio abaixo de Projetos que abre a busca só com conversas. No celular, gaveta com botão de fechar, fundo escurecido e linhas de 44px.
 
 ### Barra lateral do admin
 
@@ -55,7 +57,7 @@ Uma única troca de contexto, com volta explícita (C.4). Abas de "Usuários e t
 
 | Tela | Pergunta que responde | Primeiro na tela | Depois |
 |---|---|---|---|
-| Início | "O que eu quero fazer agora?" | Saudação + composer | Sugestões; "Continuar de onde parou" e "Seus agentes" |
+| Início | "O que eu quero fazer agora?" | Saudação + composer, centralizados na vertical | Sugestões |
 | Conversa | "O que a IA respondeu?" | Fio de mensagens | Composer fixo embaixo; título e ações no topo |
 | Projetos | "Onde está aquele assunto?" | Busca e ordenação | Cartões com contexto, conversas, arquivos e data |
 | Projeto | "Vou conversar já com o contexto" | Composer do projeto + conversas | Coluna lateral: contexto e arquivos |
@@ -74,15 +76,15 @@ Uma única troca de contexto, com volta explícita (C.4). Abas de "Usuários e t
 
 | Fluxo | Antes | Depois | Como |
 |---|---|---|---|
-| Achar uma conversa antiga | Rolar a barra lateral (sem busca) | ⌘K + 2 letras + Enter | Paleta de comandos |
-| Começar a conversar com um agente | Agentes → card → "Conversar" (3), ou + → agente → buscar → escolher (4) | Início → "Seus agentes" → agente (2), ou ⌘K → nome → Enter (2) | Atalhos no início e na paleta |
+| Achar uma conversa antiga | Rolar a barra lateral (sem busca) | Buscar + 2 letras + Enter | Paleta de comandos |
+| Começar a conversar com um agente | Agentes → card → "Conversar" (3), ou + → agente → buscar → escolher (4) | Buscar → nome → Enter (2) | Ação na paleta |
 | Conversar dentro de um projeto | Projetos → projeto → rolar até o rodapé → digitar (4) | Projetos → projeto → digitar no composer do topo (3) | Composer no topo do projeto (B.2) |
 | Criar projeto | Modal com 4 campos (nome, contexto, arquivos, cor Pós-MVP) | Modal só com nome e contexto → abre o projeto (arquivos lá dentro) | Pedir o mínimo e levar ao lugar certo (B.1) |
 | Editar o modelo de IA (admin) | Rolar tabela de 18 colunas → Editar → modal cobre a lista | Clicar na linha → folha lateral com seções | Tabela compacta + drawer (C.1) |
 | Trocar o modelo padrão (admin) | Achar a coluna "Padrão" → "Tornar padrão" na linha | Seletor "Modelo padrão" acima da tabela | C.1 (Twenty, Langdock) |
 | Editar teto de um usuário | Botão na 12ª coluna → modal | Clicar na linha → folha com uso atual, teto efetivo e a cadeia de precedência | C.3 |
-| Copiar uma skill da galeria | Galeria → filtro Skills → card → Copiar (3+) | ⌘K → nome → Enter → Copiar (2 após abrir) | Paleta + detalhe |
-| Voltar ao último assunto | Barra lateral → procurar | Início → "Continuar de onde parou" | A.1 (Notion) |
+| Copiar uma skill da galeria | Galeria → filtro Skills → card → Copiar (3+) | Buscar → nome → Enter → Copiar (2 após abrir) | Paleta + detalhe |
+| Voltar ao último assunto | Barra lateral → procurar | Barra lateral → Recentes, ou Buscar → título | A.1 (Notion) |
 
 ## 4. Estados que ensinam
 
@@ -97,7 +99,7 @@ Regra: **"ainda não criou nada"** e **"nada combina com o filtro"** são estado
 | Skills | Três exemplos de regra que se repete ("responda em tópicos"…) + "Criar skill" | n/a |
 | Galeria · Favoritos | "Toque no ♥ de um agente ou skill para guardar aqui" + Explorar | n/a |
 | Galeria · Explorar | n/a | Termo buscado + um chip por filtro ativo para remover + "Limpar filtros" |
-| Recentes (barra lateral) | "Suas conversas aparecem aqui" + link para novo chat | n/a |
+| Recentes (barra lateral) | "Suas conversas aparecem aqui." (Projetos fica só com o título e o "+") | n/a |
 | Admin · Uso | "Sem uso neste período" + atalho para 30 dias | n/a |
 | Admin · Eventos | "Nenhum evento deste tipo no período" + Todos os eventos | idem |
 | Admin · Usuários | n/a | "Ninguém encontrado com “x”" + Limpar |
@@ -117,27 +119,18 @@ Para revisar os estados sem backend: `?estado=carregando`, `?estado=vazio`, `?es
 
 | Onde | O que busca | Comportamento |
 |---|---|---|
-| ⌘K (global) | Ações, conversas, projetos, agentes, skills, galeria, páginas | Sem acento e sem caixa; termo destacado; ↑↓ e Enter; vazio oferece "Novo chat com o termo" |
+| Buscar (global) | Ações, conversas, projetos, agentes, skills, galeria, páginas | Sem acento e sem caixa; termo destacado; ↑↓ e Enter; vazio oferece "Novo chat com o termo" |
 | Projetos | Nome e contexto | Filtra ao digitar; contador de resultados anunciado |
 | Galeria | Nome, descrição e categoria (**nova**) | Combina com tipo, origem, categoria e ordem; filtros ativos viram chips removíveis |
 | Admin · Usuários | Nome e e-mail | Filtra ao digitar + chips de situação com contagem |
 | Menu + → agentes / skills | Nome e descrição | Busca no próprio painel |
 
-## 7. Atalhos
+## 7. Teclado
 
-| Atalho | Ação |
-|---|---|
-| ⌘K / Ctrl K | Buscar e ir para qualquer lugar |
-| ⌘⇧O / Ctrl ⇧ O | Novo chat |
-| ⌘\ / Ctrl \ | Recolher ou abrir a barra lateral |
-| / | Focar o campo de mensagem (ou a busca da tela) |
-| Enter · ⇧Enter | Enviar · quebrar linha |
-| Esc | Fechar menu, janela, folha ou paleta (o de cima primeiro) |
-| ? | Ver todos os atalhos |
-| ↑ ↓ Home End | Navegar em menus, listas, paleta |
-| ← → | Trocar de aba ou segmento |
-
-Os atalhos aparecem nas dicas dos botões e nos itens de menu, para serem aprendidos no uso. A lista completa fica em "Atalhos de teclado", no menu da conta.
+Sem atalhos globais por enquanto (tirados em 16/10/2026, a pedido do produto): nada de combinação de teclas, lista de
+atalhos nem teclas desenhadas em dicas, menus ou na busca. Fica só o teclado que a acessibilidade exige: Enter envia e
+⇧Enter quebra linha no composer; Esc fecha menu, janela, folha ou busca; ↑ ↓ Home End navegam em menus, listas e busca;
+← → trocam de aba ou segmento.
 
 ## 8. Responsividade
 

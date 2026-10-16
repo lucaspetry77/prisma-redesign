@@ -38,6 +38,11 @@
     f.src = "../" + url + (url.includes("?") ? "&" : "?") + "latencia=10&r=" + Math.random();
   });
   const bgOf = (w, el) => {
+    // Pílula ou segmento ativos numa lista com indicador deslizante: o fundo real é o indicador, irmão por baixo
+    // (nas abas o indicador é só um sublinhado, então o fundo continua sendo o do contêiner)
+    const act = el.closest(":is(.chips, .seg).has-ind > :is([aria-pressed='true'], [aria-selected='true'], .is-on)");
+    const ind = act && [...act.parentElement.children].find((c) => /__ind$/.test(c.className));
+    if (ind) { const b = parse(w.getComputedStyle(ind).backgroundColor); if (b && b.a > 0.6) return b.rgb; }
     let a = el;
     while (a) {
       const st = w.getComputedStyle(a);
@@ -86,19 +91,24 @@
     const d = f.contentDocument, w = f.contentWindow;
     const els = [...d.querySelectorAll("a[href], button:not(:disabled), input:not(:disabled):not([type=hidden]), textarea:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex='-1'])")]
       .filter((el) => el.offsetParent !== null && !el.closest("[inert], [hidden], [aria-hidden='true']") && w.getComputedStyle(el).visibility !== "hidden");
+    // Mesmo critério de focus-check.js: transições desligadas; o anel pode estar no contêiner visual
+    const proxyOf = (el) => el.matches(".switch input") ? el.nextElementSibling : el.matches(".choice input") ? el.closest(".choice") : el.matches(".nps input") ? el.nextElementSibling : el.matches(".composer__input") ? el.closest(".composer") : el.matches(".mini-composer input") ? el.closest(".mini-composer") : el.matches(".tagbox input") ? el.closest(".tagbox") : null;
+    const snap = (t, pe) => { const s = w.getComputedStyle(t, pe); return [s.outlineStyle, s.outlineWidth, s.boxShadow, s.borderColor].join("|"); };
+    const noT = d.createElement("style");
+    noT.textContent = "*,*::before,*::after{transition:none!important}";
+    d.head.append(noT);
     const missing = [];
     for (const el of els) {
-      const before = w.getComputedStyle(el);
-      const b = { o: before.outlineStyle + before.outlineWidth, s: before.boxShadow, bc: before.borderColor };
+      const t = proxyOf(el) || el;
+      const pe = el.matches(".card__link") ? "::after" : null;
+      const before = snap(t, pe);
       el.focus({ preventScroll: true });
-      const st = w.getComputedStyle(el);
-      const visible = (st.outlineStyle !== "none" && parseFloat(st.outlineWidth) >= 2) || st.boxShadow !== b.s || st.borderColor !== b.bc;
-      // Switch e caixas: o anel fica no irmão visual
-      const proxy = el.matches(".switch input") ? el.nextElementSibling : el.matches(".choice input, .nps input") ? el.parentElement : null;
-      const proxyOk = proxy && (w.getComputedStyle(proxy).outlineStyle !== "none" || w.getComputedStyle(proxy.querySelector?.("span") || proxy).outlineStyle !== "none");
-      if (!visible && !proxyOk) missing.push((el.tagName + "." + String(el.className).split(" ")[0] + " " + (el.getAttribute("aria-label") || el.textContent || "").trim()).slice(0, 60));
+      const st = w.getComputedStyle(t, pe);
+      const visible = (st.outlineStyle !== "none" && parseFloat(st.outlineWidth) >= 2) || snap(t, pe) !== before;
+      if (!visible) missing.push((el.tagName + "." + String(el.className).split(" ")[0] + " " + (el.getAttribute("aria-label") || el.textContent || "").trim()).slice(0, 60));
       el.blur();
     }
+    noT.remove();
     return { checked: els.length, missing: [...new Set(missing)] };
   };
 
@@ -206,10 +216,14 @@
       return { invalidEmpty: invalid, rowsBefore: before, rowsAfter: d.querySelectorAll("[data-policies] tr").length };
     }],
     ["admin-uso.html", async (d, w) => {
-      set(w, d.querySelector("#u-from"), "2026-10-10"); d.querySelector("[data-apply]").click(); await sleep(150);
-      const invalid = [...d.querySelectorAll("[aria-invalid=true]")].map((e) => e.id);
-      set(w, d.querySelector("#u-from"), "2026-09-30"); d.querySelector("[data-apply]").click(); await sleep(900);
-      return { invalidRange: invalid, appliedToast: [...d.querySelectorAll(".toast__msg")].map((t) => t.textContent) };
+      // Período num gatilho só: o calendário de dois meses não deixa o fim vir antes do início
+      d.querySelector(".mrange-trg").click(); await sleep(400);
+      const months = d.querySelectorAll(".mrange__month").length;
+      d.querySelector(".mrange-trg").click(); await sleep(300);
+      d.querySelector("#u-from").value = "2026-09-01";
+      const label = d.querySelector(".mrange-trg").textContent.trim();
+      d.querySelector("[data-apply]").click(); await sleep(900);
+      return { rangeMonths: months, rangeLabel: label, appliedToast: [...d.querySelectorAll(".toast__msg")].map((t) => t.textContent) };
     }],
     ["chat.html?id=d5c5bdf1", async (d, w) => {
       const send = d.querySelector("[data-act=send]"); const disabledEmpty = send.disabled;
@@ -223,9 +237,31 @@
       d.querySelector("input[name=nps][value='9']").click(); d.querySelector("input[name=nps][value='9']").dispatchEvent(new w.Event("change", { bubbles: true }));
       return { npsDisabledWithoutScore: disabledNoScore, npsEnabledWithScore: !ok.disabled };
     }],
+    ["chat.html?id=d5c5bdf1#barra-lateral", async (d, w) => {
+      // Barra lateral: lista única (sem grupos por dia), seção que recolhe e é lembrada, véu que some no fim, criar projeto no lugar
+      const before = w.localStorage.getItem("prisma:sidebar:sections");
+      const sec = d.querySelector('[data-sec="recentes"]'), t = sec.querySelector(".sec__toggle"), body = sec.querySelector(".sec__body");
+      const rows = sec.querySelectorAll(".sb-item").length, dayGroups = d.querySelectorAll(".sidebar .recents__group, .sidebar .recents__label").length;
+      t.click(); await sleep(320);
+      const collapsed = t.getAttribute("aria-expanded") === "false" && body.inert && w.getComputedStyle(body).visibility === "hidden";
+      const remembered = JSON.parse(w.localStorage.getItem("prisma:sidebar:sections") || "{}").recentes === false;
+      t.click(); await sleep(320);
+      const reopened = t.getAttribute("aria-expanded") === "true" && !body.inert && w.getComputedStyle(body).visibility === "visible";
+      if (before === null) w.localStorage.removeItem("prisma:sidebar:sections"); else w.localStorage.setItem("prisma:sidebar:sections", before);
+      const sc = d.querySelector("[data-sb-scroll]"), side = d.querySelector(".sidebar");
+      sc.scrollTop = 0; sc.dispatchEvent(new w.Event("scroll")); await sleep(30);
+      const fadeWhenMoreBelow = +w.getComputedStyle(side).getPropertyValue("--more-below");
+      sc.scrollTop = sc.scrollHeight; sc.dispatchEvent(new w.Event("scroll")); await sleep(30);
+      const fadeAtEnd = +w.getComputedStyle(side).getPropertyValue("--more-below");
+      d.querySelector("[data-new-project]").click(); await sleep(300);
+      const modalInPlace = !!d.querySelector("#np-name") && w.location.pathname.endsWith("chat.html");
+      set(w, d.querySelector("#np-name"), "Projeto QA"); d.querySelector("#np-ok").click(); await sleep(1100);
+      const createdInSidebar = [...d.querySelectorAll("[data-sb-projects] .sb-item__title")].some((x) => x.textContent === "Projeto QA");
+      return { rows, dayGroups, collapsed, remembered, reopened, fadeWhenMoreBelow, fadeAtEnd, modalInPlace, createdInSidebar };
+    }],
     ["galeria.html", async (d, w) => {
       set(w, d.querySelector("[data-search]"), "zzzz"); await sleep(250);
-      return { noResultsTitle: d.querySelector(".empty__title")?.textContent, activeChips: d.querySelectorAll(".filter-chip").length, clearButton: !!d.querySelector("[data-unset='all']") };
+      return { noResultsTitle: d.querySelector(".empty__title")?.textContent, clearInEmptyState: !!d.querySelector(".empty [data-act='clear']"), noRepeatedChips: !d.querySelector(".filter-chip") };
     }],
   ];
 

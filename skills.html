@@ -27,21 +27,20 @@
             <h1 class="page-title">Skills</h1>
             <p class="page-sub">Instruções que a IA segue enquanto estão ligadas numa conversa. Ligue até 5 por vez no <strong>+</strong> do campo de mensagem.</p>
           </div>
-          <div class="page-head__actions">
-            <a class="btn btn--secondary" href="galeria.html?tipo=skills"><i class="i " data-icon="gallery"></i>Skills oficiais</a>
-            <a class="btn btn--primary" href="skill-nova.html"><i class="i " data-icon="plus"></i>Criar skill</a>
-          </div>
         </header>
-        <div class="toolbar" role="search">
-          <div class="input-icon toolbar__search"><i class="i " data-icon="search"></i><label class="sr-only" for="q">Buscar suas skills</label><input id="q" class="input" type="search" placeholder="Buscar suas skills" autocomplete="off" data-search></div>
+        <div class="lib-bar">
+          <div class="input-icon lib-search" role="search"><i class="i " data-icon="search"></i><label class="sr-only" for="q">Buscar skills</label><input id="q" class="input" type="search" placeholder="Buscar skills" autocomplete="off" data-search></div>
         </div>
-        <div class="chips" role="group" aria-label="Filtrar por categoria" data-cats style="margin:-6px 0 18px"></div>
-        <div data-skills></div>
-        <a class="card card--interactive list-item mt-8" href="galeria.html?tipo=skills" style="border-radius:var(--r-panel)">
-          <span class="icon-chip icon-chip--accent"><i class="i " data-icon="verified"></i></span>
-          <span class="grow"><span class="list-item__title" style="display:block">Skills oficiais da Asimov</span><span class="list-item__desc">Já aparecem no painel de skills das suas conversas. Copie uma para adaptar.</span></span>
-          <span class="list-item__meta" data-official-count></span><i class="i i--sm" data-icon="chevron-right"></i>
-        </a>
+        <section class="lib-sec" data-sec="seus" aria-labelledby="sec-seus">
+          <div class="lib-sec__head"><h2 id="sec-seus">Suas skills</h2><span class="lib-sec__count" data-count="seus"></span></div>
+          <div data-list="seus"></div>
+        </section>
+        <section class="lib-sec" id="asimov" data-sec="asimov" aria-labelledby="sec-asimov">
+          <div class="lib-sec__head"><h2 id="sec-asimov">Da Asimov</h2><span class="lib-sec__count" data-count="asimov"></span></div>
+          <div class="chips lib-chips" role="group" aria-label="Filtrar por categoria" data-cats hidden></div>
+          <div data-list="asimov"></div>
+        </section>
+        <div data-none></div>
       </div>
     </main>
   </div>
@@ -51,6 +50,6 @@
   <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
   <script src="assets/js/shell.js"></script>
-  <script src="assets/js/pages/skills.js"></script>
+  <script src="assets/js/pages/library.js"></script>
 </body>
 </html>

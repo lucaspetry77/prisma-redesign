@@ -57,7 +57,7 @@
             <section class="card side-card side-card--files" aria-labelledby="files-t">
               <div class="side-card__head">${icon("file", "i--sm")}<h2 class="side-card__title" id="files-t">Arquivos</h2><span class="badge" data-fcount></span></div>
               <div data-files></div>
-              <div class="dropzone" data-drop><button type="button" class="btn btn--secondary btn--sm" data-add>${icon("upload")}Adicionar</button><span>ou arraste para cá</span><input type="file" hidden multiple accept=".pdf,.doc,.docx,.txt,.md,.csv,.xls,.xlsx,.json,.py,.js,.html" data-input></div>
+              <div class="dropzone" data-drop><button type="button" class="btn btn--sm" data-add>${icon("upload")}Adicionar</button><span>ou arraste para cá</span><input type="file" hidden multiple accept=".pdf,.doc,.docx,.txt,.md,.csv,.xls,.xlsx,.json,.py,.js,.html" data-input></div>
               <p class="hint mt-2">Valem para todas as conversas do projeto. Até ${MAX_FILES} arquivos de texto, ${MAX_MB} MB cada.</p>
             </section>
           </aside>
@@ -67,7 +67,7 @@
     const renderCtx = () => {
       $("[data-ctx]", root).innerHTML = p.context
         ? `<p class="side-card__text is-clamped">${esc(p.context)}</p><p class="hint mt-2">${fmt(p.context.length)} / 2.000 caracteres</p>`
-        : `<p class="side-card__empty">Diga o objetivo, o público e o tom. Toda conversa do projeto já começa sabendo.</p><button type="button" class="btn btn--secondary btn--sm mt-3" data-edit-ctx>${icon("plus")}Adicionar contexto</button>`;
+        : `<p class="side-card__empty">Diga o objetivo, o público e o tom. Toda conversa do projeto já começa sabendo.</p><button type="button" class="btn btn--sm mt-3" data-edit-ctx>${icon("plus")}Adicionar contexto</button>`;
       P.hydrateIcons($("[data-ctx]", root));
     };
     const renderFiles = () => {
@@ -149,7 +149,7 @@
     P.ready(root);
   };
 
-  root.innerHTML = `<div class="page"><div class="skel skel--line" style="width:90px;margin-bottom:18px"></div><div class="row" style="gap:12px;margin-bottom:28px"><div class="skel" style="width:48px;height:48px;border-radius:14px"></div><div class="skel skel--title" style="width:260px;height:28px"></div></div><div class="project"><div><div class="skel" style="height:118px;border-radius:20px"></div><div class="rows mt-8">${P.skeleton.rows(3)}</div></div><div class="stack"><div class="card skel-card">${P.skeleton.lines(4)}</div><div class="card skel-card">${P.skeleton.lines(3)}</div></div></div></div>${P.loading("Carregando projeto")}`;
+  root.innerHTML = `<div class="page"><div class="skel skel--line" style="width:90px;margin-bottom:var(--s-5)"></div><div class="row" style="gap:var(--s-3);margin-bottom:var(--s-6)"><div class="skel" style="width:48px;height:48px;border-radius:var(--r-metric)"></div><div class="skel skel--title" style="width:260px;height:28px"></div></div><div class="project"><div><div class="skel" style="height:118px;border-radius:var(--r-dialog)"></div><div class="rows mt-8">${P.skeleton.rows(3)}</div></div><div class="stack"><div class="card skel-card">${P.skeleton.lines(4)}</div><div class="card skel-card">${P.skeleton.lines(3)}</div></div></div></div>${P.loading("Carregando projeto")}`;
   P.ready();
   P.api.get(`/v1/projects/${params.get("id") || D.projects[0]?.id}`)
     .then(mount)

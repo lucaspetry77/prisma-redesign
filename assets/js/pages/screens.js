@@ -6,7 +6,7 @@
   const STATES = [["carregando", "Carregando"], ["vazio", "Vazio"], ["erro", "Erro"], ["erro-salvar", "Erro ao salvar"]];
   const groups = [
     { title: "Conversar", items: [
-      ["index.html", "/", "Início", "Saudação, composer, atalhos, retomar e agentes.", ["carregando", "vazio", "erro"]],
+      ["index.html", "/", "Início", "Saudação, composer e atalhos, centralizados.", []],
       ["chat.html?id=d5c5bdf1", "/chat/:id", "Conversa", "Fio com raciocínio, ações, eventos de modelo e anexos.", ["carregando", "erro", "erro-salvar"]],
       ["chat.html?q=Quero%20analisar%20uma%20planilha", "conversa nova", "Conversa nova", "Resposta em streaming, com parar.", []],
     ] },
@@ -19,7 +19,7 @@
       ["agente-novo.html", "/agents/new", "Criar agente", "Índice de seções e teste ao vivo.", ["erro-salvar"]],
       ["galeria.html", "/gallery", "Galeria", "Explorar e favoritos, busca, filtros removíveis.", ["carregando", "vazio", "erro"]],
       ["galeria-item.html?id=g-s1", "/gallery/skills/:id", "Item da galeria", "Ação no topo, instruções, avaliação, moderação.", ["carregando", "erro"]],
-      ["perfil.html", "/profile", "Configurações", "Perfil, sobre você, créditos, atalhos, dados, apagar conta.", ["erro-salvar"]],
+      ["perfil.html", "/profile", "Configurações", "Perfil, sobre você, créditos, dados, apagar conta.", ["erro-salvar"]],
     ] },
     { title: "Administração", items: [
       ["admin-modelos.html", "/admin/models", "Modelos", "Padrão, tabela compacta e folha lateral.", ["carregando", "erro", "erro-salvar"]],

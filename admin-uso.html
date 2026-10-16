@@ -24,16 +24,15 @@
       <div class="page page--wide">
         <header class="page-head"><div class="page-head__text"><h1 class="page-title">Uso e custo</h1><p class="page-sub">Consumo e custo real do período, em R$, créditos e tokens.</p></div></header>
         <form class="card period" data-filters novalidate aria-label="Período">
-          <div class="field" style="margin:0"><label class="sr-only" for="u-from">De</label><input id="u-from" class="input" type="date" value="2026-09-30" aria-label="Data inicial"></div>
-          <span class="period__sep">até</span>
-          <div class="field" style="margin:0"><label class="sr-only" for="u-to">Até</label><input id="u-to" class="input" type="date" value="2026-10-06" aria-label="Data final"></div>
+          <input id="u-from" type="hidden" value="2026-09-30" aria-label="Data inicial">
+          <input id="u-to" type="hidden" value="2026-10-06" max="2026-10-06" aria-label="Data final">
           <div class="seg seg--sm" role="group" aria-label="Atalhos de período" data-range><button type="button" class="seg__btn" data-d="7" aria-pressed="true">7 dias</button><button type="button" class="seg__btn" data-d="30" aria-pressed="false">30 dias</button></div>
           <label class="sr-only" for="u-group">Agrupar por</label>
-          <select id="u-group" class="select select--sm" style="width:auto"><option>Agrupar por dia</option><option>Agrupar por usuário</option><option>Agrupar por modelo</option></select>
+          <select id="u-group" class="select select--sm w-auto"><option>Agrupar por dia</option><option>Agrupar por usuário</option><option>Agrupar por modelo</option></select>
           <span class="toolbar__spacer"></span>
           <button type="submit" class="btn btn--primary btn--sm" data-apply>Aplicar</button>
         </form>
-        <p class="hint" data-period-note style="margin:0 0 20px 4px"></p>
+        <p class="hint period-note" data-period-note></p>
         <div data-body></div>
       </div>
     </main>

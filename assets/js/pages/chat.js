@@ -39,15 +39,14 @@
       <button type="button" class="icon-btn icon-btn--sm" data-copy aria-label="Copiar resposta" data-tip="Copiar">${icon("copy")}</button>
       <button type="button" class="icon-btn icon-btn--sm" data-rate="up" aria-pressed="${m.rated === "up"}" aria-label="Boa resposta" data-tip="Boa resposta">${icon("thumb-up")}</button>
       <button type="button" class="icon-btn icon-btn--sm" data-rate="down" aria-pressed="${m.rated === "down"}" aria-label="Resposta ruim" data-tip="Resposta ruim">${icon("thumb-down")}</button>
-      ${m.last ? `<button type="button" class="btn btn--ghost btn--sm" data-retry data-tip="Gera uma nova resposta e usa créditos">${icon("refresh")}Refazer</button>` : ""}
+      ${m.last ? `<button type="button" class="icon-btn icon-btn--sm" data-retry aria-label="Refazer" data-tip="Refazer · usa créditos">${icon("refresh")}</button>` : ""}
     </div>`;
 
   const aiMsg = (m) => {
+    // Sem cabeçalho com o modelo: quem conversa já sabe qual escolheu, e a troca aparece como aviso na conversa.
     const md = P.model(m.model);
-    const avatar = md.icon === "prisma" || md.icon === "prisma-plus" ? P.crystalBadge() : P.modelIcon(md);
     return `
-    <article class="msg msg--ai ${m.last ? "is-last" : ""}" aria-label="Resposta de ${esc(md.name)}" data-model="${esc(md.key)}">
-      <div class="msg__who">${avatar}<strong>${esc(md.name)}</strong><span class="msg__time">${esc(m.time || "agora")}</span></div>
+    <article class="msg msg--ai ${m.last ? "is-last" : ""}" aria-label="Resposta da IA" data-model="${esc(md.key)}">
       <div class="msg__body">
         ${m.reasoning ? reasoning(m.reasoning) : ""}
         <div class="prose">${m.html || ""}</div>
@@ -260,7 +259,7 @@
   let title = isNew ? (q.slice(0, 60) + (q.length > 60 ? "…" : "") || "Conversa com imagem") : (conv?.title || D.thread.title);
 
   const renderHead = () => {
-    $("[data-crumbs]").innerHTML = `${project ? `<a href="projeto.html?id=${project.id}">${icon("folder")}${esc(project.name)}</a>${icon("chevron-right")}` : ""}
+    $("[data-crumbs]").innerHTML = `${project ? `<a href="projeto.html?id=${project.id}">${icon("folder")}<span class="crumbs__t">${esc(project.name)}</span></a>${icon("chevron-right")}` : ""}
       <button type="button" class="chat-head__title" data-chat-title aria-haspopup="menu" aria-expanded="false" aria-label="${esc(title)}: ações da conversa"><span>${esc(title)}</span>${icon("chevron-down")}</button>`;
     document.title = `${title} · Asimov Prisma`;
     $("[data-h1]").textContent = title;
@@ -281,7 +280,7 @@
     const done = (save) => {
       if (!input.isConnected) return;
       const v = input.value.trim();
-      if (save && v && v !== title) { title = v; P.toast("Conversa renomeada", { icon: "pencil" }); const li = $(`.conv[data-id="${id}"] .conv__link`); if (li) li.textContent = v; }
+      if (save && v && v !== title) { title = v; P.toast("Conversa renomeada", { icon: "pencil" }); const row = $(`.sb-item[data-sb-conv="${CSS.escape(id)}"]`); const t = row && $(".sb-item__title", row); if (t) { t.textContent = v; const a = $(".sb-item__link", row); if (t.scrollWidth > t.clientWidth + 1) a.title = v; else a.removeAttribute("title"); } const c = D.conversations.flatMap((g) => g.items).find((x) => x.id === id); if (c) c.title = v; }
       renderHead();
       P.hydrateIcons($("[data-crumbs]"));
       $("[data-chat-title]").focus();
@@ -323,8 +322,8 @@
   });
   comp.onModel = (k) => { thread.insertAdjacentHTML("beforeend", eventMsg({ text: "Modelo trocado para", model: k })); P.hydrateIcons(thread); follow(); };
 
-  const skeleton = `<div class="msg msg--user" aria-hidden="true"><div class="skel" style="width:46%;height:44px;border-radius:18px"></div></div>
-    <div class="msg msg--ai" aria-hidden="true"><div class="row"><div class="skel skel--circle" style="width:26px;height:26px;border-radius:8px"></div><div class="skel skel--line" style="width:120px"></div></div>${P.skeleton.lines(4)}</div>`;
+  const skeleton = `<div class="msg msg--user" aria-hidden="true"><div class="skel" style="width:46%;height:44px;border-radius:var(--r-panel)"></div></div>
+    <div class="msg msg--ai" aria-hidden="true"><div class="row"><div class="skel skel--circle" style="width:26px;height:26px;border-radius:var(--r-control)"></div><div class="skel skel--line" style="width:120px"></div></div>${P.skeleton.lines(4)}</div>`;
 
   if (isNew) {
     history.replaceState(null, "", "chat.html?id=nova");

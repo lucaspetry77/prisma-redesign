@@ -11,8 +11,8 @@
   const tbody = $("[data-rows]");
   let models = [];
   const st = { q: "", modality: "" };
-  const usd = (v) => (v == null ? "—" : "US$ " + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 4 }));
-  const tok = (v) => (v == null ? "—" : v >= 1e6 ? `${(v / 1e6).toLocaleString("pt-BR", { maximumFractionDigits: 2 })} M` : v >= 1e3 ? `${Math.round(v / 1e3)} mil` : fmt(v));
+  const usd = (v) => (v == null ? "Sem dado" : "US$ " + v.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 4 }));
+  const tok = (v) => (v == null ? "Sem dado" : v >= 1e6 ? `${(v / 1e6).toLocaleString("pt-BR", { maximumFractionDigits: 2 })} M` : v >= 1e3 ? `${Math.round(v / 1e3)} mil` : fmt(v));
   const sw = (m, k, label) => `<label class="switch" onclick="event.stopPropagation()"><input type="checkbox" data-k="${k}" data-m="${m.key}" ${m[k] ? "checked" : ""} aria-label="${label}: ${esc(m.name)}"><span class="switch__track"></span></label>`;
 
   const renderDefault = () => {
@@ -25,7 +25,7 @@
     $("[data-count]").textContent = P.plural(rows.length, "modelo", "modelos");
     tbody.innerHTML = rows.length ? rows.map((m) => `
       <tr class="is-clickable ${m.on ? "" : "is-off"}" data-edit="${m.key}" tabindex="0" aria-label="Editar ${esc(m.name)}">
-        <td class="sticky-col cell-main"><span class="cell-name">${P.modelIcon(m, "model-icon--lg")}<span><span class="strong row" style="gap:6px">${esc(m.name)}${m.isDefault ? `<span class="badge badge--accent">Padrão</span>` : ""}${m.badge ? `<span class="badge">${esc(m.badge)}</span>` : ""}</span><span class="cell-sub t-mono">${esc(m.key)} · ${m.modality === "image" ? "imagem" : "texto"}</span></span></span></td>
+        <td class="sticky-col cell-main"><span class="cell-name">${P.modelIcon(m, "model-icon--lg")}<span><span class="strong row" style="gap:var(--s-2)">${esc(m.name)}${m.isDefault ? `<span class="badge badge--accent">Padrão</span>` : ""}${m.badge ? `<span class="badge">${esc(m.badge)}</span>` : ""}</span><span class="cell-sub t-mono">${esc(m.key)} · ${m.modality === "image" ? "imagem" : "texto"}</span></span></span></td>
         <td data-label="Fornecedor" class="mono"><span class="t-clamp-1" style="display:block;max-width:190px" title="${esc(m.provider)}">${esc(m.provider)}</span></td>
         <td data-label="Entrada · US$/1M" class="num">${usd(m.priceIn)}</td>
         <td data-label="Saída · US$/1M" class="num">${usd(m.priceOut)}</td>

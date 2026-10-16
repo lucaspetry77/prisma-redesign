@@ -156,7 +156,7 @@
 
   /* ── Skills (até 5, suas e oficiais) ── */
   const skillRow = (s) => `<label class="check"><input type="checkbox" name="skills" value="${esc(s.name)}"><span class="check__text"><span class="check__title">${esc(s.name)}</span><span class="check__desc">${esc(s.desc)}</span></span></label>`;
-  $("[data-skills]").innerHTML = `<div class="menu__label">Suas skills</div>${D.mySkills.length ? D.mySkills.map(skillRow).join("") : `<p class="hint" style="padding:4px 10px 8px">Você ainda não tem skills. <a class="link" href="skill-nova.html">Criar skill</a></p>`}<div class="menu__label">Oficiais da Asimov</div>${D.gallery.skills.map(skillRow).join("")}`;
+  $("[data-skills]").innerHTML = `<div class="menu__label">Suas skills</div>${D.mySkills.length ? D.mySkills.map(skillRow).join("") : `<p class="hint" style="padding:var(--s-1) var(--s-3) var(--s-2)">Você ainda não tem skills. <a class="link" href="skill-nova.html">Criar skill</a></p>`}<div class="menu__label">Oficiais da Asimov</div>${D.gallery.skills.map(skillRow).join("")}`;
   const syncSkills = () => {
     st.skills = $$("input[name='skills']:checked", form).map((i) => i.value);
     $("[data-scount]").textContent = `${st.skills.length} de ${MAX_SKILLS}`;
@@ -179,14 +179,56 @@
   /* ── Publicar ── */
   $("[data-publish]").addEventListener("change", (e) => { $("[data-publish-note]").hidden = !e.target.checked; });
 
-  /* ── Índice que acompanha a rolagem ── */
-  const links = $$(".builder__index a");
-  links.forEach((l, i) => l.setAttribute("aria-current", String(i === 0)));
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach((en) => { if (en.isIntersecting) links.forEach((l) => l.setAttribute("aria-current", String(l.getAttribute("href") === "#" + en.target.id))); });
-  }, { rootMargin: "-25% 0px -65% 0px" });
-  $$(".builder__form > section[id]").forEach((s) => spy.observe(s));
-  links.forEach((l) => l.addEventListener("click", (e) => { e.preventDefault(); const t = $(l.getAttribute("href")); t?.scrollIntoView({ behavior: P.reduced ? "auto" : "smooth", block: "start" }); t?.querySelector("input, textarea, button")?.focus({ preventScroll: true }); }));
+  /* ── Índice que acompanha a rolagem ──
+   * O alvo do clique é calculado pela barra do índice já grudada (top do sticky + altura), não por um scroll-margin
+   * fixo; a posição da seção vem de offsetTop (ignora o translate da entrada). A aba ativa é a última seção cujo topo
+   * passou da barra; no fim da página, a última. Durante a rolagem do clique, a aba clicada fica travada. */
+  const index = $(".builder__index");
+  const links = $$("a", index);
+  const secs = links.map((l) => $(l.getAttribute("href"))).filter(Boolean);
+  const GAP = 16;
+  const barBottom = () => (parseFloat(getComputedStyle(index).top) || 0) + index.offsetHeight;
+  const pageTop = (el) => { let y = 0; for (let n = el; n; n = n.offsetParent) y += n.offsetTop; return y; };
+  const setCur = (id) => links.forEach((l) => {
+    const on = l.getAttribute("href") === "#" + id;
+    l.setAttribute("aria-current", String(on));
+    if (on && index.scrollWidth > index.clientWidth) { // no celular o índice rola de lado; sem scrollIntoView, que cortaria a rolagem da página
+      const x = l.offsetLeft - index.offsetLeft;
+      if (x < index.scrollLeft || x + l.offsetWidth > index.scrollLeft + index.clientWidth) index.scrollTo({ left: x - 24, behavior: P.reduced ? "auto" : "smooth" });
+    }
+  });
+  let lock = 0;
+  const spy = () => {
+    if (lock) return;
+    const line = scrollY + barBottom() + GAP + 1;
+    const atEnd = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;
+    const cur = atEnd ? secs.at(-1) : secs.filter((s) => pageTop(s) <= line).at(-1) || secs[0];
+    setCur(cur.id);
+  };
+  // Folga no fim para a última seção também chegar logo abaixo da barra
+  const formBox = $(".builder__form");
+  const pad = () => {
+    formBox.style.paddingBottom = "";
+    const base = parseFloat(getComputedStyle(formBox).paddingBottom) || 0;
+    formBox.style.paddingBottom = Math.max(base, innerHeight - barBottom() - GAP - secs.at(-1).offsetHeight) + "px";
+  };
+  new ResizeObserver(pad).observe(secs.at(-1));
+  addEventListener("scroll", () => requestAnimationFrame(spy), { passive: true });
+  addEventListener("resize", () => { pad(); spy(); });
+  pad(); spy();
+  links.forEach((l) => l.addEventListener("click", (e) => {
+    e.preventDefault();
+    const t = $(l.getAttribute("href"));
+    if (!t) return;
+    setCur(t.id);
+    const top = Math.max(0, pageTop(t) - barBottom() - GAP);
+    clearTimeout(lock);
+    lock = setTimeout(() => { lock = 0; }, 900); // destrava se o navegador não mandar scrollend
+    addEventListener("scrollend", () => { clearTimeout(lock); lock = 0; }, { once: true });
+    scrollTo({ top, behavior: P.reduced ? "auto" : "smooth" });
+    history.replaceState(null, "", l.getAttribute("href"));
+    t.querySelector("input:not([type=hidden]), textarea, select, button")?.focus({ preventScroll: true });
+  }));
 
   /* ── Teste ao vivo ── */
   const body = $("[data-test-body]");

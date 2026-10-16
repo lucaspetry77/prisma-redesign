@@ -26,13 +26,24 @@
 @keyframes heart-pop { 0% { transform: scale(1); } 35% { transform: scale(1.28); } 100% { transform: scale(1); } }
 @keyframes burst { 0% { opacity: 1; transform: rotate(var(--a)) translateY(0) scale(1); } 100% { opacity: 0; transform: rotate(var(--a)) translateY(-18px) scale(.3); } }
 
+/* Ícone: dois tempos, um sistema só.
+ * - Clique (motion.js · draw; teclado não anima): o ícone se desenha traço a traço, 420 ms por traço, 70 ms entre eles, até 640 ms.
+ * - Pressionar: o ícone encolhe para .88 (propriedade `scale`, que soma com qualquer `transform`). Onde o botão
+ *   inteiro já encolhe (.icon-btn, .btn, .starter, .chip) o ícone fica parado, para não pressionar duas vezes. */
+:where(.i) { transition: scale var(--dur-fast) var(--ease-soft); }  /* :where, para não tirar a transição própria de nenhum ícone */
+:is(a[href], button, [role=button], [role=menuitem]):not(.icon-btn, .btn, .starter, .chip, .send-btn, :disabled):active > .i,
+:is(a[href], button):not(:disabled):active > .icon-chip > .i { scale: .88; transition-duration: var(--d-instant); }
+/* O "+" do composer é estado, não gesto: gira 135° e vira × enquanto o menu está aberto. */
+.composer__tool[data-act="more"] .i { transition: transform var(--d-panel) var(--ease-soft), scale var(--dur-fast) var(--ease-soft); }
+.composer__tool[data-act="more"][aria-expanded="true"] .i { transform: rotate(135deg); }
+
 /* DS · fadeSlideIn (global.css): entrada de título com desfoque */
 @keyframes fadeSlideIn { 0% { opacity: 0; filter: blur(8px); transform: translateY(30px); } to { opacity: 1; filter: blur(0); transform: translateY(0); } }
 .anim-entry { animation: fadeSlideIn var(--d-entry) var(--ease-entry) backwards; animation-delay: var(--delay, 0ms); }
-.anim-rise { animation: rise var(--d-slow) var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * 40ms); }
+.anim-rise { animation: rise var(--d-slow) var(--ease-out) backwards; animation-delay: calc(var(--i, 0) * var(--stagger-word)); }
 
 /* Palavras que entram em sequência (saudação e login) */
-.words .w { display: inline-block; animation: fadeSlideIn 900ms var(--ease-entry) backwards; animation-delay: calc(var(--base, 0ms) + var(--i) * 70ms); }
+.words .w { display: inline-block; animation: fadeSlideIn var(--d-entry) var(--ease-entry) backwards; animation-delay: calc(var(--base, 0ms) + var(--i) * var(--stagger-line)); }
 
 /* Cristal */
 @keyframes crystal-in { from { opacity: 0; transform: translateY(10px) scale(.9); filter: blur(8px); } }
@@ -40,28 +51,28 @@
 @keyframes crystal-shadow { 50% { transform: scaleX(.82); opacity: .6; } }
 @keyframes crystal-shine { 0% { background-position: 120% 0; } 32%, 100% { background-position: -20% 0; } }
 @keyframes crystal-iris { to { background-position: 300% 300%; } }
-.crystal--hero .crystal__float { animation: crystal-float 6s ease-in-out infinite; }
-.crystal--hero .crystal__body { animation: crystal-in 1.1s var(--ease-out) backwards; }
-.crystal--hero .crystal__shine { animation: crystal-shine 6.5s var(--ease-in-out) 1s infinite; }
-.crystal--hero .crystal__iris { animation: crystal-iris 14s linear infinite; }
-.crystal--hero .crystal__shadow { animation: crystal-shadow 6s ease-in-out infinite; }
+.crystal--hero .crystal__float { animation: crystal-float var(--d-crystal-float) var(--ease-in-out) infinite; }
+.crystal--hero .crystal__body { animation: crystal-in var(--d-entry) var(--ease-out) backwards; }
+.crystal--hero .crystal__shine { animation: crystal-shine var(--d-crystal-shine) var(--ease-in-out) var(--d-entry) infinite; }
+.crystal--hero .crystal__iris { animation: crystal-iris var(--d-crystal-iris) linear infinite; }
+.crystal--hero .crystal__shadow { animation: crystal-shadow var(--d-crystal-float) var(--ease-in-out) infinite; }
 .crystal--still .crystal__float, .crystal--still .crystal__shadow { animation: none; }
-.is-streaming .crystal__shine { animation: crystal-shine 1.5s var(--ease-in-out) infinite; }
-.is-streaming .crystal__iris { animation: crystal-iris 3s linear infinite; }
-.crystal-badge .crystal__iris { opacity: 0; transition: opacity .3s; }
+.is-streaming .crystal__shine { animation: crystal-shine var(--d-shimmer) var(--ease-in-out) infinite; }
+.is-streaming .crystal__iris { animation: crystal-iris var(--d-spin) linear infinite; }
+.crystal-badge .crystal__iris { opacity: 0; transition: opacity var(--d-panel); }
 .is-streaming .crystal-badge .crystal__iris { opacity: .55; }
 @media (hover: hover) and (pointer: fine) {
-  .brand:hover .crystal__shine, .model-row:hover .crystal__shine { animation: crystal-shine 1.2s var(--ease-in-out) 1; }
+  .brand:hover .crystal__shine, .model-row:hover .crystal__shine { animation: crystal-shine var(--d-shimmer) var(--ease-in-out) 1; }
 }
 
 /* Revelação ao rolar: só opacidade e 8 px; em cascata pelo índice */
-[data-reveal] { opacity: 0; transform: translateY(8px); transition: opacity var(--d-slow) var(--ease-out), transform var(--d-slow) var(--ease-out); transition-delay: calc(var(--i, 0) * 45ms); }
+[data-reveal] { opacity: 0; transform: translateY(8px); transition: opacity var(--d-slow) var(--ease-out), transform var(--d-slow) var(--ease-out); transition-delay: calc(var(--i, 0) * var(--stagger-word)); }
 [data-reveal].is-in { opacity: 1; transform: none; }
 
 /* Troca de página (View Transitions, onde houver) */
 @view-transition { navigation: auto; }
-::view-transition-old(root) { animation: 120ms var(--ease-in-out) both fade-out; }
-::view-transition-new(root) { animation: 220ms var(--ease-out) both fade-in; }
+::view-transition-old(root) { animation: var(--dur-instant) var(--ease-in-out) both fade-out; }
+::view-transition-new(root) { animation: var(--dur-standard) var(--ease-out) both fade-in; }
 ::view-transition-group(sidebar) { animation: none; }
 .sidebar { view-transition-name: sidebar; }
 
@@ -72,7 +83,7 @@
   .toast { transform: none !important; }
   .words .w { animation: none; }
   .skel::after, .btn--glow::before, .crystal__shine, .crystal__iris, .crystal__float, .crystal__shadow, .crystal__body { animation: none !important; }
-  .spinner { animation-duration: 1.6s; }
+  .spinner { animation-duration: var(--d-spinner-reduced); }
   [data-reveal] { opacity: 1; transform: none; transition: none; }
   .btn:active:not(:disabled), .icon-btn:active:not(:disabled), .chip:active, .card--interactive:active, .star:active { transform: none; }
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
@@ -80,6 +91,8 @@
   .msg, .composer__strip, .ctx-pill, .file-card, .composer__mode, .chart__bar, .check input:checked::after, .send-btn.is-swap .i, .fav.is-pop .i { animation: none !important; }
   .btn:hover, .btn:active:not(:disabled), .btn--glow:hover, .send-btn:active:not(:disabled), .back:hover .i { transform: none; }
   .ticker__col, .chart__tip { transition: none; }
+  .i { scale: none !important; }
+  .composer__tool[data-act="more"] .i { transition: none; }
 }
 
 /* O mesmo ramo, ligado por ?movimento=reduzido (core.js) para verificar no navegador sem mudar a preferência do sistema. */
@@ -88,7 +101,8 @@ html.reduce-motion .pop.is-leaving, html.reduce-motion .overlay.is-leaving .dial
 html.reduce-motion .toast { transform: none !important; }
 html.reduce-motion .words .w { animation: none; }
 html.reduce-motion .skel::after, html.reduce-motion .btn--glow::before, html.reduce-motion .crystal__shine, html.reduce-motion .crystal__iris, html.reduce-motion .crystal__float, html.reduce-motion .crystal__shadow, html.reduce-motion .crystal__body { animation: none !important; }
-html.reduce-motion .spinner { animation-duration: 1.6s; }
+html.reduce-motion .spinner { animation-duration: var(--d-spinner-reduced); }
+html.reduce-motion .thinking { animation: none; -webkit-text-fill-color: var(--muted); }
 html.reduce-motion [data-reveal] { opacity: 1; transform: none; transition: none; }
 html.reduce-motion .btn:active:not(:disabled), html.reduce-motion .icon-btn:active:not(:disabled), html.reduce-motion .chip:active, html.reduce-motion .card--interactive:active, html.reduce-motion .star:active { transform: none; }
 html.reduce-motion::view-transition-old(root), html.reduce-motion::view-transition-new(root) { animation: none; }
@@ -96,3 +110,5 @@ html.reduce-motion { scroll-behavior: auto; }
 html.reduce-motion .msg, html.reduce-motion .composer__strip, html.reduce-motion .ctx-pill, html.reduce-motion .file-card, html.reduce-motion .composer__mode, html.reduce-motion .chart__bar, html.reduce-motion .check input:checked::after, html.reduce-motion .send-btn.is-swap .i, html.reduce-motion .fav.is-pop .i { animation: none !important; }
 html.reduce-motion .btn:hover, html.reduce-motion .btn:active:not(:disabled), html.reduce-motion .btn--glow:hover, html.reduce-motion .send-btn:active:not(:disabled), html.reduce-motion .back:hover .i { transform: none; }
 html.reduce-motion .ticker__col, html.reduce-motion .chart__tip { transition: none; }
+html.reduce-motion .i { scale: none !important; }
+html.reduce-motion .composer__tool[data-act="more"] .i { transition: none; }

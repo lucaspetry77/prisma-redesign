@@ -1,5 +1,5 @@
 /* Asimov Prisma · Configurações (perfil.html)
- * Seções que salvam sozinhas (salvar só com mudança), créditos, atalhos de teclado, exportar dados e
+ * Seções que salvam sozinhas (salvar só com mudança), créditos, exportar dados e
  * apagar conta digitando APAGAR. Referências: B.6 (Claude, Langdock, StackAI, Chatbase).
  * Regras: apelido 40, "sobre você" 2.000, foto PNG/JPG/GIF/WebP até 5 MB (vale depois de salvar). */
 (() => {
@@ -62,10 +62,6 @@
     <dl class="facts mt-6"><div><dt>Limite diário</dt><dd>${fmt(u.credits.dailyLimit)} créditos</dd></div><div><dt>Limite semanal</dt><dd>${fmt(u.credits.limit)} créditos</dd></div></dl>
     <p class="hint mt-4">Cada mensagem gasta créditos de acordo com o modelo e o tamanho. O Asimov Basic escolhe o modelo mais econômico que resolve o pedido.</p>`;
   P.ticker($("[data-credits] [data-tick]"));
-
-  /* Atalhos */
-  const rows = [["Buscar e ir para qualquer lugar", "mod+k"], ["Novo chat", "mod+shift+o"], ["Recolher a barra lateral", "mod+\\"], ["Focar o campo de mensagem", "/"], ["Enviar · quebrar linha", "enter"], ["Ver todos os atalhos", "?"]];
-  $("[data-kbd]").innerHTML = rows.map(([l, c]) => `<div><span>${l}</span><span class="shortcuts__keys">${c === "enter" ? `${P.keys.kbd("enter")}<span class="hint">·</span>${P.keys.kbd("shift+enter")}` : P.keys.kbd(c)}</span></div>`).join("");
 
   /* Exportar e apagar */
   $("[data-export]").addEventListener("click", (e) => P.run(e.currentTarget, () => P.api.send("POST", "/v1/me/export", {}, { delay: 1200 }), { success: "Exportação pronta. O download começou." }).catch(() => {}));

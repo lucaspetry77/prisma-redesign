@@ -18,7 +18,7 @@ Depois acesse `http://localhost:4180/telas.html`. Também funciona direto via `f
 
 | Arquivo | Rota no app | O que tem |
 |---|---|---|
-| `login.html` | `/login` | Conta da Asimov; estados `?erro=acesso` e `?erro=sessao` |
+| `login.html` | `/login` | Conta da Asimov, demonstração do chat ao lado, "Bem-vindo de volta" para quem já entrou; estados `?erro=acesso` e `?erro=sessao` |
 | `index.html` | `/` | Saudação, composer, atalhos que preenchem, "Continuar de onde parou", "Seus agentes" |
 | `chat.html?id=…` | `/chat/:id` | Fio com raciocínio, ações por resposta, eventos de modelo, título editável, rolar para o fim |
 | `chat.html?q=…` | conversa nova | Resposta em streaming com parar (`model`, `agent`, `skills`, `project`, `attachments`) |
@@ -30,7 +30,7 @@ Depois acesse `http://localhost:4180/telas.html`. Também funciona direto via `f
 | `agente-novo.html` | `/agents/new` | Índice de seções e teste ao vivo (`?id=` edita, `#testar` no celular) |
 | `galeria.html` | `/gallery` | Explorar e favoritos, busca, categorias, origem, ordem (`?tipo=skills`, `?vista=favoritos`) |
 | `galeria-item.html?id=…` | `/gallery/skills/:id` | Ação no topo, instruções, avaliação, moderação (admin) |
-| `perfil.html` | `/profile` | Perfil, sobre você, créditos, atalhos de teclado, exportar, apagar conta |
+| `perfil.html` | `/profile` | Perfil, sobre você, créditos, exportar, apagar conta |
 | `admin-modelos.html` | `/admin/models` | Modelo padrão, tabela compacta, folha lateral de edição |
 | `admin-uso.html` | `/admin/usage` | Período, KPIs, custo por dia (gráfico ou tabela), por modelo, alertas, eventos |
 | `admin-usuarios.html` | `/admin/users` | Gasto contra o teto, cadeia de precedência, políticas de teto |
@@ -47,10 +47,6 @@ visível, estouro lateral, erros de console e movimento reduzido, e roda os cen�
 visível precisa do foco real do teclado: abra a tela, aperte Tab e rode `qa/focus-check.js` no console. Os resultados mais
 recentes estão em [`docs/redesign/qa/`](docs/redesign/qa/).
 
-## Atalhos
-
-⌘K (Ctrl K) busca qualquer coisa · ⌘⇧O novo chat · ⌘\ recolhe a barra lateral · `/` foca o campo · `?` lista os atalhos.
-
 ## Estrutura
 
 ```
@@ -59,16 +55,16 @@ assets/
     tokens.css      Tokens do pacote do DS + derivação clara oficial + molas do UI Arc. Cada token diz de onde veio.
     base.css        Reset, tipografia, foco, utilitários
     components.css  Botões, campos, menus, modal, folha lateral, toast, abas, tabela, estados…
-    shell.css       Barra lateral, painel principal, topo do celular, paleta ⌘K
+    shell.css       Barra lateral, painel principal, topo do celular, busca global
     chat.css        Início, conversa, composer, seletor de modelo
     pages.css       Layouts das demais telas
     motion.css      Animações (fadeSlideIn, pco-enter e giro de 3s do DS) e movimento reduzido
   js/
     icons.js        Ícones Solar (a família do DS), embutidos
     data.js         Dados de exemplo no formato da API (/v1/...)
-    core.js         Utilitários, preferências locais, camada de API, atalhos
+    core.js         Utilitários, preferências locais, camada de API
     ui.js           Componentes: toast, menu, dica, modal, folha, estados, validação, número que rola…
-    shell.js        Barra lateral (e a do admin), paleta ⌘K, NPS, mover para projeto
+    shell.js        Barra lateral (e a do admin), busca global, NPS, mover para projeto
     composer.js     Campo de mensagem, seletor de modelo, painéis do +
     motion.js       Saudação em sequência, cristal que inclina, placeholder que se escreve
     pages/          Um script por tela

@@ -44,13 +44,13 @@
               <div class="examples" data-examples></div>
             </section>
 
-            <div class="alert alert--accent" data-based hidden style="margin-bottom:14px"><i class="i" data-icon="info"></i><div class="alert__body row row--between" style="flex-direction:row;align-items:center"><span>Baseado em <strong data-based-name></strong>. Ajuste o que quiser antes de salvar.</span><button type="button" class="btn btn--ghost btn--sm" data-clear-all>Limpar tudo</button></div></div>
+            <div class="alert alert--accent mb-4" data-based hidden><i class="i" data-icon="info"></i><div class="alert__body alert__body--row row row--between"><span>Baseado em <strong data-based-name></strong>. Ajuste o que quiser antes de salvar.</span><button type="button" class="btn btn--ghost btn--sm" data-clear-all>Limpar tudo</button></div></div>
             <section class="card form-card settings__section" id="sec-identidade" aria-labelledby="t-id">
               <div class="form-card__head"><div><h2 class="form-card__title" id="t-id">Identidade</h2><p class="form-card__desc">Como o agente aparece para você e, se publicar, na galeria.</p></div></div>
               <div class="photo-row">
                 <span data-av="xl"></span>
-                <div class="stack" style="--gap:8px">
-                  <div class="row"><button type="button" class="btn btn--secondary btn--sm" data-pick-image><i class="i " data-icon="upload"></i>Trocar imagem</button><button type="button" class="btn btn--ghost btn--sm" data-rm-image hidden>Remover</button><input type="file" hidden accept="image/png,image/jpeg,image/gif,image/webp" data-image></div>
+                <div class="stack gap-2">
+                  <div class="row"><button type="button" class="btn btn--sm" data-pick-image><i class="i " data-icon="upload"></i>Trocar imagem</button><button type="button" class="btn btn--ghost btn--sm" data-rm-image hidden>Remover</button><input type="file" hidden accept="image/png,image/jpeg,image/gif,image/webp" data-image></div>
                   <p class="hint">Sem imagem, usamos as iniciais do nome. PNG, JPG, GIF ou WebP de até 5 MB.</p>
                 </div>
               </div>
@@ -63,7 +63,7 @@
 
             <section class="card form-card settings__section" id="sec-instrucoes" aria-labelledby="t-ins">
               <div class="form-card__head"><div><h2 class="form-card__title" id="t-ins">Instruções <span class="req" aria-hidden="true">*</span></h2><p class="form-card__desc">Quem o agente é, o que faz, como responde e o que evita.</p></div>
-                <button type="button" class="btn btn--secondary btn--sm" data-soon="Melhorar instrução"><i class="i " data-icon="wand"></i>Melhorar <span class="badge badge--soon">Pós-MVP</span></button></div>
+                <button type="button" class="btn btn--sm" data-soon="Melhorar instrução"><i class="i " data-icon="wand"></i>Melhorar <span class="badge badge--soon">Pós-MVP</span></button></div>
               <div class="field"><div class="field__top"><label class="sr-only" for="ag-ins">Instruções</label><span></span><span class="counter"></span></div>
                 <textarea id="ag-ins" class="textarea textarea--code" maxlength="20000" rows="10" required placeholder="Você é um revisor de propostas comerciais.&#10;Leia a proposta e devolva:&#10;1. O texto revisado, mais claro e direto;&#10;2. Até 3 riscos que o cliente pode apontar;&#10;3. Perguntas que o cliente provavelmente fará."></textarea></div>
             </section>
@@ -71,15 +71,15 @@
             <section class="card form-card settings__section" id="sec-modelo" aria-labelledby="t-mod">
               <div class="form-card__head"><div><h2 class="form-card__title" id="t-mod">Modelo e estilo</h2><p class="form-card__desc">O peso em créditos por mensagem aparece depois de salvar.</p></div></div>
               <div class="field"><span class="label" id="ag-model-l">Modelo</span>
-                <button type="button" class="input row" style="height:auto;min-height:56px;gap:12px;cursor:pointer" data-model aria-describedby="ag-model-l" aria-haspopup="listbox" aria-expanded="false"></button></div>
-              <fieldset class="field"><legend class="label" style="margin-bottom:6px">Jeito de responder</legend>
+                <button type="button" class="input row model-trigger" data-model aria-describedby="ag-model-l" aria-haspopup="listbox" aria-expanded="false"></button></div>
+              <fieldset class="field"><legend class="label mb-2">Jeito de responder</legend>
                 <div class="choices">
                   <label class="choice"><input type="radio" name="tone" value="preciso"><span class="choice__title">Preciso</span><span class="choice__desc">Respostas mais diretas e consistentes.</span></label>
                   <label class="choice"><input type="radio" name="tone" value="equilibrado" checked><span class="choice__title">Equilibrado</span><span class="choice__desc">O meio-termo entre precisão e variedade.</span></label>
                   <label class="choice"><input type="radio" name="tone" value="criativo"><span class="choice__title">Criativo</span><span class="choice__desc">Respostas mais variadas, com mais ideias.</span></label>
                 </div></fieldset>
               <div class="field"><label class="label" for="ag-cat">Categorias <small>opcional</small></label>
-                <div class="tagbox"><span class="row row--wrap" style="gap:6px" data-cat-tags></span><input id="ag-cat" list="ag-cats-list" maxlength="40" placeholder="Escolha ou digite e tecle Enter" autocomplete="off" aria-describedby="ag-cat-h"></div>
+                <div class="tagbox"><span class="row row--wrap gap-2" data-cat-tags></span><input id="ag-cat" list="ag-cats-list" maxlength="40" placeholder="Escolha ou digite e tecle Enter" autocomplete="off" aria-describedby="ag-cat-h"></div>
                 <datalist id="ag-cats-list"></datalist>
                 <p class="hint" id="ag-cat-h">Escolha mais de uma ou digite para criar uma nova.</p><span class="sr-only" role="status" aria-live="polite" data-cat-status></span></div>
             </section>
@@ -87,8 +87,8 @@
             <section class="card form-card settings__section" id="sec-conhecimento" aria-labelledby="t-kn">
               <div class="form-card__head"><div><h2 class="form-card__title" id="t-kn">Conhecimento</h2><p class="form-card__desc">Arquivos e skills que o agente usa em toda conversa.</p></div></div>
               <div class="field"><div class="field__top"><span class="label">Arquivos</span><span class="badge" data-fcount></span></div>
-                <div class="stack" style="--gap:6px" data-files></div>
-                <div class="dropzone" data-drop><button type="button" class="btn btn--secondary btn--sm" data-pick-files><i class="i " data-icon="upload"></i>Selecionar arquivos</button><span>ou arraste para cá</span><input type="file" hidden multiple data-files-input></div>
+                <div class="stack gap-2" data-files></div>
+                <div class="dropzone" data-drop><button type="button" class="btn btn--sm" data-pick-files><i class="i " data-icon="upload"></i>Selecionar arquivos</button><span>ou arraste para cá</span><input type="file" hidden multiple data-files-input></div>
                 <p class="hint">Até 5 arquivos de até 30 MB. PDF, DOCX, TXT, planilha ou código.</p></div>
               <div class="field"><div class="field__top"><span class="label">Skills</span><span class="badge" data-scount></span></div>
                 <p class="hint">Até 5, entre as suas e as oficiais. Para usar uma da comunidade, copie antes na galeria.</p>
@@ -107,12 +107,12 @@
 
             <section class="card form-card settings__section" id="sec-compartilhar" aria-labelledby="t-sh">
               <div class="form-card__head"><div><h2 class="form-card__title" id="t-sh">Compartilhar</h2><p class="form-card__desc">Nada é publicado sem você pedir.</p></div></div>
-              <label class="row row--between" style="gap:16px;cursor:pointer;align-items:flex-start">
+              <label class="row row--between row--top gap-4 cursor-pointer">
                 <span class="check__text"><span class="check__title">Publicar na galeria ao salvar</span><span class="check__desc">Outros alunos poderão conversar com ele e copiá-lo. Precisa de descrição.</span></span>
                 <span class="switch"><input type="checkbox" data-publish aria-label="Publicar na galeria ao salvar"><span class="switch__track"></span></span>
               </label>
               <div class="alert alert--warning mt-4" data-publish-note hidden><i class="i " data-icon="eye"></i><span>Quem abrir o agente na galeria verá o <strong>nome</strong>, a <strong>descrição</strong> e as <strong>instruções</strong>. Não coloque dados pessoais ou de clientes.</span></div>
-              <div class="row mt-4"><button type="button" class="btn btn--secondary btn--sm" data-soon="O link de compartilhamento"><i class="i " data-icon="link"></i>Copiar link <span class="badge badge--soon">Pós-MVP</span></button></div>
+              <div class="row mt-4"><button type="button" class="btn btn--sm" data-soon="O link de compartilhamento"><i class="i " data-icon="link"></i>Copiar link <span class="badge badge--soon">Pós-MVP</span></button></div>
             </section>
           </div>
 
@@ -123,7 +123,7 @@
             <div class="test__body" data-test-body aria-live="polite"></div>
             <div class="test__foot">
               <div class="mini-composer"><label class="sr-only" for="test-input">Mensagem de teste</label><input id="test-input" placeholder="Mensagem de teste" autocomplete="off" disabled><button type="button" class="send-btn" data-test-send aria-label="Enviar teste" disabled><i class="i " data-icon="arrow-up"></i></button></div>
-              <p class="hint" style="font-size:11px">Usa a versão do formulário, antes de salvar. Gasta créditos e não entra nas suas conversas.</p>
+              <p class="hint t-2xs">Usa a versão do formulário, antes de salvar. Gasta créditos e não entra nas suas conversas.</p>
             </div>
           </aside>
           <div class="test-scrim" data-close-test></div>

@@ -28,7 +28,7 @@
     $("[data-count]").textContent = P.plural(rows.length, "usuário", "usuários");
     tbody.innerHTML = rows.length ? rows.map((u) => `
       <tr class="is-clickable" data-cap="${esc(u.email)}" tabindex="0" aria-label="Editar teto de ${esc(u.name)}">
-        <td class="sticky-col cell-main"><span class="cell-name"><span class="avatar avatar--neutral avatar--md">${esc(u.name[0].toUpperCase())}</span><span><span class="strong row" style="gap:6px">${esc(u.name)}<span class="badge ${u.role === "ADMIN" ? "badge--ink" : ""}">${u.role === "ADMIN" ? "Admin" : "Aluno"}</span></span><span class="cell-sub">${esc(u.email)}</span></span></span></td>
+        <td class="sticky-col cell-main"><span class="cell-name"><span class="avatar avatar--neutral avatar--md">${esc(u.name[0].toUpperCase())}</span><span><span class="strong row" style="gap:var(--s-2)">${esc(u.name)}<span class="badge ${u.role === "ADMIN" ? "badge--ink" : ""}">${u.role === "ADMIN" ? "Admin" : "Aluno"}</span></span><span class="cell-sub">${esc(u.email)}</span></span></span></td>
         <td data-label="Situação"><span class="status ${u.active ? "" : "status--off"}">${u.active ? "Ativo" : "Inativo"}</span><span class="cell-sub tnum nowrap" title="Último acesso">${esc(u.last)}</span></td>
         <td data-label="Semana">${spend(u.week)}</td>
         <td data-label="Mês">${spend(u.month)}</td>
@@ -43,7 +43,7 @@
     const general = policies.find((p) => /geral/i.test(p.name));
     const chain = [
       ["Teto próprio do usuário", null, false],
-      [`Plano${u.plan && u.plan !== "—" ? `: ${u.plan}` : ""}`, null, false],
+      [`Plano${u.plan && u.plan !== "Sem plano" ? `: ${u.plan}` : ""}`, null, false],
       [`Papel: ${u.role === "ADMIN" ? "Admin" : "Aluno"}`, null, false],
       ["Política geral", general ? `${general.week} · ${general.month}` : null, true],
       ["Padrão do sistema", `${brl(SYSTEM.week)} · ${brl(SYSTEM.month)}`, false],
@@ -55,7 +55,7 @@
       desc: esc(u.email),
       body: `
         <div class="sheet__section"><p class="sheet__section-title">Uso agora</p>
-          <div class="grid grid--2"><div><p class="hint" style="margin-bottom:6px">Semana</p>${spend(u.week)}<p class="hint mt-2">${esc(u.week.credits)} créditos</p></div><div><p class="hint" style="margin-bottom:6px">Mês</p>${spend(u.month)}<p class="hint mt-2">${esc(u.month.credits)} créditos</p></div></div>
+          <div class="grid grid--2"><div><p class="hint" style="margin-bottom:var(--s-2)">Semana</p>${spend(u.week)}<p class="hint mt-2">${esc(u.week.credits)} créditos</p></div><div><p class="hint" style="margin-bottom:var(--s-2)">Mês</p>${spend(u.month)}<p class="hint mt-2">${esc(u.month.credits)} créditos</p></div></div>
         </div>
         <div class="sheet__section"><p class="sheet__section-title">De onde vem o teto</p>
           <ol class="chain">${chain.map(([label, val], i) => `<li class="${i === winIdx ? "is-win" : ""}">${icon(i === winIdx ? "check-circle" : "dot")}<span>${i === winIdx ? `<strong>${esc(label)}</strong>` : esc(label)}</span><span>${val ? esc(val) : "sem teto"}</span></li>`).join("")}</ol>
@@ -85,7 +85,7 @@
   };
 
   const renderPolicies = () => {
-    $("[data-policies]").innerHTML = policies.map((p, i) => `<tr><td class="strong cell-main">${esc(p.name)}</td><td class="num" data-label="Semanal">${esc(p.week)}</td><td class="num" data-label="Mensal">${esc(p.month)}</td><td class="tnum" data-label="Atualizada">${esc(p.updated)}</td><td class="shrink"><button type="button" class="btn btn--secondary btn--sm" data-policy="${i}">${icon("pencil")}Editar</button></td></tr>`).join("");
+    $("[data-policies]").innerHTML = policies.map((p, i) => `<tr><td class="strong cell-main">${esc(p.name)}</td><td class="num" data-label="Semanal">${esc(p.week)}</td><td class="num" data-label="Mensal">${esc(p.month)}</td><td class="tnum" data-label="Atualizada">${esc(p.updated)}</td><td class="shrink"><button type="button" class="btn btn--sm" data-policy="${i}">${icon("pencil")}Editar</button></td></tr>`).join("");
     P.hydrateIcons($("[data-policies]"));
   };
   const policyModal = (p) => P.modal({

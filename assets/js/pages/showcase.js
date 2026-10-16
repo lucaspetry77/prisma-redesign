@@ -12,9 +12,11 @@
   ].map((x) => sw(...x)).join("");
   $("[data-tones]").innerHTML = ["cyan", "teal", "blue", "violet", "rose", "orange", "amber", "green"].map((t) => `<span class="avatar avatar--lg avatar--square tone-${t}" title="--tone-${t}">${t.slice(0, 2).toUpperCase()}</span>`).join("");
   $("[data-shadows]").innerHTML = ["--shadow-xs", "--shadow-sm", "--shadow-md", "--shadow-lg"].map((s) => `<div class="card card--pad" style="box-shadow:var(${s});text-align:center"><code>${s}</code></div>`).join("");
-  $("[data-icons]").innerHTML = ["new-chat", "search", "folder", "agent", "skill", "gallery", "chat", "paperclip", "image", "copy", "thumb-up", "refresh", "pencil", "trash", "heart", "star", "settings", "cpu", "chart", "users", "lock", "info", "danger", "check-circle", "sparkles", "keyboard", "download", "link", "wand", "notebook"].map((n) => `<span class="icon-chip" title="${n}">${icon(n)}</span>`).join("");
+  $("[data-icons]").innerHTML = ["new-chat", "search", "folder", "agent", "skill", "gallery", "chat", "paperclip", "image", "copy", "thumb-up", "refresh", "pencil", "trash", "heart", "star", "settings", "cpu", "chart", "users", "lock", "info", "danger", "check-circle", "sparkles", "download", "link", "wand", "notebook"].map((n) => `<span class="icon-chip" title="${n}">${icon(n)}</span>`).join("");
 
   document.addEventListener("click", (e) => {
+    const chip = e.target.closest(".chips .chip");
+    if (chip) { $$(".chip", chip.parentNode).forEach((x) => x.setAttribute("aria-pressed", String(x === chip))); return; }
     const a = e.target.closest("[data-demo]");
     if (!a) return;
     const k = a.dataset.demo;
@@ -25,7 +27,7 @@
     if (k === "confirm") P.confirm({ title: "Apagar esta conversa?", desc: "A conversa e as mensagens dela somem para sempre.", onConfirm: () => P.sleep(600) });
     if (k === "typed") P.confirm({ title: "Apagar sua conta?", desc: "Isso apaga tudo, na hora e sem volta.", confirm: "Apagar minha conta", typed: "APAGAR", onConfirm: () => P.sleep(600) });
     if (k === "sheet") P.sheet({ title: "Editar modelo", desc: "Folha lateral: a lista continua visível atrás.", body: `<div class="field"><label class="label" for="d-o">Ordem</label><input id="d-o" class="input" type="number" value="3"></div>`, buttons: [{ label: "Cancelar" }, { label: "Salvar", variant: "primary", onClick: () => P.sleep(700) }] });
-    if (k === "menu") P.menu(a, [{ label: "Renomear", icon: "pencil", kbd: "mod+k" }, { label: "Mover para projeto", icon: "folder" }, { label: "Publicar", icon: "gallery", soon: true }, { sep: true }, { label: "Apagar", icon: "trash", danger: true }], { label: "Exemplo" });
+    if (k === "menu") P.menu(a, [{ label: "Renomear", icon: "pencil" }, { label: "Mover para projeto", icon: "folder" }, { label: "Publicar", icon: "gallery", soon: true }, { sep: true }, { label: "Apagar", icon: "trash", danger: true }], { label: "Exemplo" });
     if (k === "model") P.modelPicker(a, "asimov", (key) => P.toast(`Modelo: ${P.model(key).name}`), { align: "start" });
     if (k === "busy") P.run(a, () => P.sleep(900), { success: "Salvo" });
     if (k === "cmdk") P.cmdk();

@@ -23,14 +23,14 @@
     <main class="main" id="conteudo" tabindex="-1">
       <div class="page page--wide">
         <header class="page-head"><div class="page-head__text"><h1 class="page-title">Usuários e tetos</h1><p class="page-sub">Quem usa o beta, o gasto da semana e do mês contra o teto e de onde cada teto vem.</p></div></header>
-        <div class="tabs" role="tablist" aria-label="Seções" data-tabs style="margin-bottom:20px">
+        <div class="tabs mb-5" role="tablist" aria-label="Seções" data-tabs>
           <button type="button" role="tab" class="tabs__btn" aria-selected="true" aria-controls="tab-users">Usuários</button>
           <button type="button" role="tab" class="tabs__btn" aria-selected="false" aria-controls="tab-pol" tabindex="-1">Políticas de teto</button>
         </div>
         <section id="tab-users" role="tabpanel" aria-label="Usuários">
-          <div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:20px">
-            <div class="card kpi"><span class="kpi__label">NPS</span><span class="kpi__value">—</span><span class="kpi__sub">Ainda sem respostas à pesquisa</span></div>
-            <div class="card kpi"><span class="kpi__label">Usuários ativos</span><span class="kpi__value" data-active>—</span><span class="kpi__sub" data-active-sub></span></div>
+          <div class="kpis kpis--fit mb-5">
+            <div class="card kpi"><span class="kpi__label">NPS</span><span class="kpi__value">Sem dados</span><span class="kpi__sub">Ainda sem respostas à pesquisa</span></div>
+            <div class="card kpi"><span class="kpi__label">Usuários ativos</span><span class="kpi__value" data-active>0</span><span class="kpi__sub" data-active-sub></span></div>
           </div>
           <div class="toolbar" role="search">
             <div class="input-icon toolbar__search"><i class="i " data-icon="search"></i><label class="sr-only" for="u-q">Buscar por nome ou e-mail</label><input id="u-q" class="input" type="search" placeholder="Buscar por nome ou e-mail" autocomplete="off" data-search></div>
@@ -46,8 +46,8 @@
           <p class="hint mt-3">Clique num usuário para ver de onde vem o teto e definir um teto próprio.</p>
         </section>
         <section id="tab-pol" role="tabpanel" aria-label="Políticas de teto" hidden>
-          <div class="alert" style="margin-bottom:16px"><i class="i " data-icon="info"></i><div class="alert__body"><p>O teto de quem não tem teto próprio vem, nesta ordem, do <strong>plano</strong>, do <strong>papel</strong>, da <strong>política geral</strong> e, por último, do <strong>padrão do sistema</strong>.</p></div></div>
-          <div class="row row--between" style="margin-bottom:12px"><h2 class="t-h3">Políticas</h2><button type="button" class="btn btn--secondary" data-new-policy><i class="i " data-icon="plus"></i>Nova política</button></div>
+          <div class="alert mb-4"><i class="i " data-icon="info"></i><div class="alert__body"><p>O teto de quem não tem teto próprio vem, nesta ordem, do <strong>plano</strong>, do <strong>papel</strong>, da <strong>política geral</strong> e, por último, do <strong>padrão do sistema</strong>.</p></div></div>
+          <div class="row row--between mb-3"><h2 class="t-h3">Políticas</h2><button type="button" class="btn" data-new-policy><i class="i " data-icon="plus"></i>Nova política</button></div>
           <div class="table-wrap table-wrap--cards"><table class="table"><thead><tr><th>Política</th><th class="num">Teto semanal</th><th class="num">Teto mensal</th><th>Atualizada em</th><th class="shrink"><span class="sr-only">Ações</span></th></tr></thead><tbody data-policies></tbody></table></div>
           <p class="hint mt-3">Padrão do sistema: R$ 10,00 por semana · R$ 40,00 por mês.</p>
         </section>

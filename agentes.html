@@ -27,16 +27,20 @@
             <h1 class="page-title">Agentes</h1>
             <p class="page-sub">Assistentes com instruções, modelo, arquivos e skills salvos. Você abre a conversa e não precisa explicar tudo de novo.</p>
           </div>
-          <div class="page-head__actions"><a class="btn btn--secondary" href="galeria.html"><i class="i " data-icon="gallery"></i>Explorar a galeria</a><a class="btn btn--primary" href="agente-novo.html"><i class="i " data-icon="plus"></i>Criar agente</a></div>
         </header>
-        <div class="section-title"><h2>Seus agentes</h2></div>
-        <div data-mine></div>
-        <div class="section-title"><h2>Favoritos da galeria</h2><a class="link t-sm" href="galeria.html?vista=favoritos">Ver todos</a></div>
-        <div data-favs></div>
-        <section data-examples-section hidden>
-          <div class="section-title"><h2>Exemplos da Asimov</h2><a class="link t-sm" href="galeria.html">Ver na galeria</a></div>
-          <div data-examples></div>
+        <div class="lib-bar">
+          <div class="input-icon lib-search" role="search"><i class="i " data-icon="search"></i><label class="sr-only" for="q">Buscar agentes</label><input id="q" class="input" type="search" placeholder="Buscar agentes" autocomplete="off" data-search></div>
+        </div>
+        <section class="lib-sec" data-sec="seus" aria-labelledby="sec-seus">
+          <div class="lib-sec__head"><h2 id="sec-seus">Seus agentes</h2><span class="lib-sec__count" data-count="seus"></span></div>
+          <div data-list="seus"></div>
         </section>
+        <section class="lib-sec" id="asimov" data-sec="asimov" aria-labelledby="sec-asimov">
+          <div class="lib-sec__head"><h2 id="sec-asimov">Da Asimov</h2><span class="lib-sec__count" data-count="asimov"></span></div>
+          <div class="chips lib-chips" role="group" aria-label="Filtrar por categoria" data-cats hidden></div>
+          <div data-list="asimov"></div>
+        </section>
+        <div data-none></div>
       </div>
     </main>
   </div>
@@ -46,6 +50,6 @@
   <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
   <script src="assets/js/shell.js"></script>
-  <script src="assets/js/pages/agents.js"></script>
+  <script src="assets/js/pages/library.js"></script>
 </body>
 </html>

@@ -27,7 +27,7 @@ A verificação final foi refeita inteira **depois da última mudança de cor e 
 | **Estouro lateral** | `scrollWidth` contra a largura, 17 telas em 375, 390 e 1280px; mais 7 telas em 768px | **0 estouros** |
 | **Erros de console** | Capturados nas 51 combinações e nos 12 cenários; antes, 20 URLs (criar e editar incluídos) | **0 erros**; todas as telas com `h1` |
 | Estados | 27 URLs com `?estado=` e `?vazio=1`, mais "não encontrado" (`projeto.html?id=nao-existe`, `galeria-item.html?id=x`) | Esqueleto, vazio de primeira vez, vazio por filtro, erro com "Tentar de novo" e 404 renderizam |
-| Teclado (fluxos) | Primeiro Tab mostra "Pular para o conteúdo"; ⌘K (evento real) → digitar "black" → Enter abre o projeto; gaveta do celular (foco entra, Esc fecha, foco volta, conteúdo atrás `inert`); menus com setas, Home, End e Esc; abas com setas | OK |
+| Teclado (fluxos) | Primeiro Tab mostra "Pular para o conteúdo"; botão Buscar → digitar "black" → Enter abre o projeto; gaveta do celular (foco entra, Esc fecha, foco volta, conteúdo atrás `inert`); menus com setas, Home, End e Esc; abas com setas | OK |
 | Erros recuperáveis | `?estado=erro-salvar`: chat (faixa no composer, texto mantido), perfil (botão volta, toast, valor mantido) | OK |
 | Subdiretório (pedido do `AGENTS.md` do DS) | App servido em `/apps/prisma/` | 7 folhas, 3 fontes e todas as imagens carregam; links relativos |
 | Referências por tela | `search_screens`, `search_flows` e `search_sections` (web) para cada tela | [02-referencias.md](02-referencias.md): 264 links do Mobbin; Partes A–C (telas) e D (fluxos e seções) |
@@ -92,7 +92,7 @@ Fase 0 em `main` (`6de25af`). O resto em `redesign/v2`, uma tela por commit; nen
 ### Decisões tomadas com autonomia (registradas para quem quiser revisar; nenhuma bloqueia nada)
 8. Tema de acento **Ciano** (um dos oito do DS) em vez do Teal padrão, por casar com o cristal do logo. Trocar = quatro variáveis.
 9. Admin como contexto próprio, com barra lateral agrupada (Visão geral, Catálogo, Pessoas) e "Voltar ao Prisma".
-10. "Atalhos" no perfil virou "Atalhos de teclado" (os links rápidos já estão na barra lateral e no menu da conta).
+10. "Atalhos" saiu do perfil. Os atalhos de teclado também saíram do app (16/10/2026, a pedido): sem ⌘K, sem lista de atalhos, sem teclas nas dicas.
 11. Custo relativo ($ a $$$) no seletor de modelo, a partir do `priceOut`.
 12. Selo de créditos no composer acima de 70% da semana; medidor âmbar em 70% e vermelho em 90%.
 13. Criar projeto pede nome e contexto; arquivos entram dentro do projeto.
@@ -115,6 +115,6 @@ Fase 0 em `main` (`6de25af`). O resto em `redesign/v2`, uma tela por commit; nen
 | [02-referencias.md](02-referencias.md) | 264 links do Mobbin por tela (telas, fluxos e seções), com o padrão adotado |
 | [03-interacoes.md](03-interacoes.md) | Componentes e movimento do UI Arc adotados, com os números |
 | [03b-ui-arc-pesquisa.md](03b-ui-arc-pesquisa.md) | Pesquisa completa no MCP do UI Arc |
-| [04-ia-fluxos.md](04-ia-fluxos.md) | Navegação, hierarquia, fluxos antes/depois, estados, busca, atalhos, responsividade |
+| [04-ia-fluxos.md](04-ia-fluxos.md) | Navegação, hierarquia, fluxos antes/depois, estados, busca, teclado, responsividade |
 | [06-verificacao-referencias.md](06-verificacao-referencias.md) | Verificação item a item contra as referências |
 | [qa/](qa/) | Relatório do QA automático e do foco com teclado real |

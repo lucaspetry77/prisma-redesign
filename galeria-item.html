@@ -19,7 +19,7 @@
 </head>
 <body>
 
-  <div class="app" data-page="galeria-item" data-nav="galeria" data-screen-title="Galeria">
+  <div class="app" data-page="galeria-item" data-nav="agentes" data-screen-title="Detalhe">
     <main class="main" id="conteudo" tabindex="-1">
       <div class="page" data-item></div>
     </main>
@@ -29,6 +29,7 @@
   <script src="assets/js/core.js"></script>
   <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
+  <script>/* Sem Galeria na barra: o item marca Agentes ou Skills, conforme o tipo */ if (/[?&]id=g-s/.test(location.search)) document.querySelector(".app").dataset.nav = "skills";</script>
   <script src="assets/js/shell.js"></script>
   <script src="assets/js/pages/gallery-item.js"></script>
 </body>

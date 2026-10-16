@@ -62,7 +62,7 @@ Esse pacote é o Asimov Design System completo, no formato que o briefing descre
 | `.btn--solid`: degradê 135° accent-dark → accent, brilho do acento | `.btn--primary` / `.btn--solid` | As pontas escurecem até o texto branco passar AA: `--cta-from` (5,6:1) e `--cta-to` (4,7:1) |
 | `.btn--ghost`, `.btn--danger`, `.btn--small` (34px), `.btn--square` (40px, raio 10) | `.btn--ghost`, `.btn--danger-outline`, `.btn--sm`, `.icon-btn--outline` | |
 | `.button-glow` (3 camadas, borda cônica 3s, scale 1.05) | `.btn--glow` (só no login) | Vidro claro e halo do acento, como no `modo-claro.css` |
-| Campos: raio 8, padding 12px 14px, label 12px/500, ajuda e erro pequenos | `.input`, `.textarea`, `.select`, `.label`, `.hint`, `.field-error` | Fundo branco, borda `--line-strong`, anel do acento no foco |
+| Campos: raio 8, padding 12px 14px, label 12px/500, ajuda e erro pequenos | `.input`, `.textarea`, `.select`, `.label`, `.hint`, `.field-error` | Fundo branco, borda `--line-strong`, anel do acento no foco. Nenhuma lista nativa do navegador: `.select` vira morph select e `<input list>` vira painel de sugestões (`.mselect-pop`, `.mselect-suggest`) |
 | `.tabs`: gap 24px, sublinhado e texto no acento | `.tabs` | Texto `--accent-ink`; sublinhado que desliza (UI Arc) |
 | `.segmented`: raio 8, interno 5 | `.seg` | Selecionado em superfície branca com sombra |
 | `.badge`: pílula, 10–11px, 500, tracking .04em | `.badge` | |
@@ -75,11 +75,11 @@ Esse pacote é o Asimov Design System completo, no formato que o briefing descre
 | `.skeleton` (brilho 2s) | `.skel` | |
 | `.toast` (embaixo no centro, raio 12, fundo accent-dark 18% sobre `#101010`, borda do acento 35%) | `.toast` | Mantido escuro, como no pacote (contrasta com o claro); empilhado como no UI Arc |
 | `dialog` (raio 20, 480px) | `.dialog` | |
-| `.dashboard-side button[aria-selected]` (acento a 10%, texto no acento) | `.nav-item[aria-current]`, `.conv.is-active` | `--accent-wash` + `--accent-ink` |
+| `.dashboard-side button[aria-selected]` (acento a 10%, texto no acento) | `.nav-item[aria-current]`, `.sb-item.is-active` | Pílula neutra: `--ink` a 8% sobre `--page`, texto em `--ink` e peso 500 (decisão da barra lateral de 15/10, ver 02 Parte E) |
 | `.eyebrow` | Não usado | Ruído em toda página (problema 12 do inventário) e contrário à regra de copy do UI Arc |
 | Aurora (WebGL) + paisagem | Paisagem de dia só no login | "Evite animação intensa atrás de formulários e tabelas" (`AGENTS.md`) |
 
-Componentes de app que nem o pacote nem a camada clara têm (menu, popover, folha lateral, paleta ⌘K, número que rola,
+Componentes de app que nem o pacote nem a camada clara têm (menu, popover, folha lateral, paleta de busca, número que rola,
 cartão de opção, migalha, zona de arquivo, estrelas) foram derivados só com estes tokens e com a interação do UI Arc.
 
 ## 5. Decisões de derivação (claro) e contraste AA
@@ -88,7 +88,7 @@ cartão de opção, migalha, zona de arquivo, estrelas) foram derivados só com 
 2. **CTA sólido** do pacote com as duas pontas escurecidas (texto branco 5,6:1 e 4,7:1).
 3. **Texto secundário sobre o zinco** (barra lateral, login) usa `--muted-on-page` (5,2:1); `--muted` dá 4,4:1 ali.
 4. **Placeholder** em `--muted` (4,8:1); o `--faint` do `modo-claro.css` dá 2,6:1.
-5. **Selecionado na barra lateral** tingido de acento (como no pacote); **selecionado em segmentos** em superfície branca (sombra, regra do claro).
+5. **Selecionado na barra lateral** em pílula neutra (`--ink` a 8% sobre o zinco), como ChatGPT, Grok e Claude; o acento do pacote ficou de fora porque nenhuma referência de chat de IA tinge a linha aberta (02, Parte E). **Selecionado em segmentos** em superfície branca (sombra, regra do claro).
 
 | Par | Razão |
 |---|---|
@@ -109,6 +109,22 @@ O contraste foi medido no navegador, texto por texto, em 9 telas (05-handoff.md)
 O pacote usa SVGs próprios de traço ("adaptações locais, não cópias do Solar"); o repositório do DS usa Solar linear. O Prisma usa
 **Solar linear** (95 ícones, vendorizados em `icons.js`, sem chamada remota), porque o conjunto do pacote tem poucos ícones e o
 mesmo estilo de traço. Licença em `assets/icons/LICENSE.md`; gerador em `scripts/vendor-icons.py`.
+
+## 6b. Auditoria de consistência (16/10/2026)
+
+O app passou a usar só tokens em espaço, raio, tamanho de fonte, duração e cor (fora a tela de login, em outra frente):
+
+- **Espaço:** todo padding, margin e gap usa `--s-*`. Valores fora da escala foram arredondados para o passo mais próximo
+  (6→8, 10→12, 14→16, 18→20, 28→24, 36→32, 40→32). Entrou `--s-5: 20px` (AGENTS.md: margem de 20 a 24px). Ficam em px só
+  traços de 1 a 3px e reservas geométricas (espaço para ícone ou botão dentro do campo, altura de cabeçalho em `scroll-margin`).
+  As duas exceções do pacote viraram token: `--field-pad-x: 14px` (campos) e `--metric-pad: 18px` (`.metric`).
+- **Raio:** `.card` agora usa `--r-card` (24px, AGENTS.md). Novo `--r-2xs: 4px` (barras do gráfico). As bolhas de mensagem usam `--r-panel` com o canto em `--r-xs`.
+- **Fonte:** novos `--text-3xs: 10px` (iniciais de avatar pequeno) e `--text-metric: 28px` (`.metric-value`). A saudação vai de `--text-4xl` a `--text-6xl`.
+- **Movimento:** novos `--d-shimmer`, `--d-spinner`, `--d-spinner-reduced`, `--d-ticker` e `--d-crystal-*`. As cascatas usam `--stagger-*`, que zera com movimento reduzido.
+- **Cor:** novos `--on-solid` (texto sobre CTA, tinta e sólidos), `--scrim-soft` (um véu leve só), `--toast-*` e `--crystal-*`.
+- **Botões:** `.btn--secondary` não existia no CSS e saiu da marcação (o contorno padrão é o `.btn`). `.btn--accent`, sem uso e sem contraste AA com texto branco, foi removido.
+- **Utilitários novos** em `base.css`: `.mb-2…5`, `.gap-2/3/4/6`, `.w-auto`, `.cursor-pointer`, `.t-2xs`. Nenhuma página tem `style=` com valor fixo.
+- **Copy:** “—” como valor vazio virou “Sem dado”, “Sem plano” e “Sem conta”.
 
 ## 7. Como usar
 

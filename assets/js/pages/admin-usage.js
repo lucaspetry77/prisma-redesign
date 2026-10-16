@@ -71,7 +71,7 @@
 
       <section class="mt-8" aria-labelledby="t-ev">
         <div class="section-title"><h2 id="t-ev">Eventos</h2><p data-ev-count></p></div>
-        <div class="chips" role="group" aria-label="Filtrar eventos por tipo" style="margin-bottom:12px" data-ev-types>
+        <div class="chips" role="group" aria-label="Filtrar eventos por tipo" style="margin-bottom:var(--s-3)" data-ev-types>
           ${[["", "Todos", U.events.length], ...types.map((t) => [t, t, U.events.filter((e) => e.type === t).length])].map(([v, l, n]) => `<button type="button" class="chip" data-ev="${esc(v)}" aria-pressed="${!v}">${esc(l)}<span class="count">${n}</span></button>`).join("")}
         </div>
         <div class="table-wrap table-wrap--cards"><table class="table"><thead><tr><th>Tipo</th><th>Quando</th><th>Usuário</th><th>Resumo</th></tr></thead><tbody data-events></tbody></table></div>
@@ -90,6 +90,7 @@
   };
 
   /* Período */
+  P.rangePicker($("#u-from"), $("#u-to"), { label: "Período" });
   const setRange = (days) => {
     const to = new Date("2026-10-06T12:00:00");
     const from = new Date(to);
@@ -102,14 +103,13 @@
   ["#u-from", "#u-to"].forEach((s) => $(s).addEventListener("input", () => { $$("[data-d]", rangeSeg).forEach((x) => x.setAttribute("aria-pressed", "false")); P.moveInd(rangeSeg); }));
   $("[data-filters]").addEventListener("submit", (e) => {
     e.preventDefault();
-    if ($("#u-from").value > $("#u-to").value) { P.validate(e.currentTarget, { "#u-to": [() => "A data final vem depois da inicial."] }); return; }
     P.run($("[data-apply]"), () => P.api.send("GET", "/v1/admin/usage", {}, { delay: 500 }), { success: "Período aplicado" }).catch(() => {});
   });
   document.addEventListener("click", (e) => { if (e.target.closest('[data-act="r30"]')) { $('[data-d="30"]').click(); } });
 
   P.ready();
   P.load(body, () => P.api.get("/v1/admin/usage"), mount, {
-    skeleton: `<div class="kpis">${Array.from({ length: 4 }, () => `<div class="card kpi"><div class="skel skel--line" style="width:40%"></div><div class="skel" style="height:30px;width:70%"></div><div class="skel skel--line" style="width:55%"></div></div>`).join("")}</div><div class="split mt-8"><div class="card" style="height:280px"><div class="skel" style="height:100%;border-radius:16px"></div></div><div class="table-wrap"><table class="table"><tbody>${P.skeleton.table(4, 5)}</tbody></table></div></div>`,
+    skeleton: `<div class="kpis">${Array.from({ length: 4 }, () => `<div class="card kpi"><div class="skel skel--line" style="width:40%"></div><div class="skel" style="height:30px;width:70%"></div><div class="skel skel--line" style="width:55%"></div></div>`).join("")}</div><div class="split mt-8"><div class="card" style="height:280px"><div class="skel" style="height:100%;border-radius:var(--r-panel)"></div></div><div class="table-wrap"><table class="table"><tbody>${P.skeleton.table(4, 5)}</tbody></table></div></div>`,
     label: "Carregando uso",
   });
 })();

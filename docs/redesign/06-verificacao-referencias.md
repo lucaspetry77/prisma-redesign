@@ -11,8 +11,8 @@ implementado, com o motivo (quase sempre: o contrato de dados não tem o campo, 
 | Início | Coluna central, saudação de uma linha com o símbolo do Prisma | Feito | `index.html`, `.home__center` (720px). Saudação em **Inter prata** e não em Instrument Serif: o `AGENTS.md` do DS diz que a serifa é legado |
 | Início | Composer em card com toolbar `[+] [pills] … [modelo] [enviar]` | Feito | `composer.js` |
 | Início | Placeholder que ensina "@ agentes · / prompts" | Fora | Não existe comando "@" nem "/" no produto. O placeholder escreve exemplos de pedido |
-| Início | Até 6 chips que preenchem ou ativam, sem enviar | Feito | 3 sugestões do produto + "Criar imagem" (ativa o modo) |
-| Início | Duas listas leves: "Continuar de onde parou" e "Seus agentes" | Feito | `home.js`; data relativa vem do grupo da conversa ("Ontem", "02/10") |
+| Início | Até 6 chips que preenchem ou ativam, sem enviar | Feito | 3 sugestões do produto; "Criar imagem" fica só no menu "+" do composer |
+| Início | Duas listas leves: "Continuar de onde parou" e "Seus agentes" | Removido | Tirado a pedido: o início fica só com saudação, composer e atalhos, centralizados na vertical; retomar fica na barra lateral e no ⌘K |
 | Início | Cota no composer só perto do limite; aviso de 1 linha no rodapé | Feito | Selo acima de 70% da semana; "A IA pode errar…" |
 | Início | Vazio com sugestões mantidas; checklist de primeiro acesso | Parcial | Vazio feito (`?estado=vazio`); checklist fora (sem dado de onboarding) |
 | Conversa | Bubble do usuário à direita (até ~75%), anexos acima; IA em prosa | Feito | `chat.css` `.msg--user`, `.msg__files` |
@@ -45,8 +45,8 @@ implementado, com o motivo (quase sempre: o contrato de dados não tem o campo, 
 | Barra lateral | ⋯ por conversa: renomear, mover, apagar | Feito | Mais "Baixar" e "Copiar link" (regras do produto) |
 | Barra lateral | Créditos no rodapé abrindo popover | Parcial | Uma barra (semana). O contrato não traz o gasto do dia, só o limite diário |
 | Barra lateral | Conta: nome, e-mail, Configurações, Ajuda, Admin (staff), Sair | Feito | "Administração" no menu da conta e no rodapé |
-| ⌘K | Modal no terço superior; ações sem consulta; grupos com consulta | Feito | Ações incluem "Criar imagem" |
-| ⌘K | Termo destacado; rodapé com teclas; sem resultado oferece chat | Feito | "Novo chat com “termo”" |
+| Busca global | Modal no terço superior; ações sem consulta; grupos com consulta | Feito | Ações sem "Criar imagem" (fica só no menu "+" do composer) |
+| Busca global | Termo destacado; rodapé com teclas; sem resultado oferece chat | Mudou | Rodapé com teclas tirado com os atalhos (16/10/2026); "Novo chat com “termo”" |
 
 ## Parte B · Organizar e criar
 

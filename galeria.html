@@ -28,7 +28,7 @@
             <p class="page-sub">Agentes e skills prontos, feitos pela Asimov e pela comunidade. Converse com um agente na hora ou copie uma skill para adaptar.</p>
           </div>
         </header>
-        <div class="tabs" role="tablist" aria-label="Visão" data-view style="margin-bottom:18px">
+        <div class="tabs mb-5" role="tablist" aria-label="Visão" data-view>
           <button type="button" role="tab" class="tabs__btn" aria-selected="true" data-v="explorar">Explorar</button>
           <button type="button" role="tab" class="tabs__btn" aria-selected="false" tabindex="-1" data-v="favoritos">Meus favoritos <span class="count" data-fav-count></span></button>
         </div>
@@ -37,17 +37,16 @@
             <button type="button" role="tab" class="seg__btn" aria-selected="true" data-t="agents"><i class="i " data-icon="agent"></i>Agentes</button>
             <button type="button" role="tab" class="seg__btn" aria-selected="false" tabindex="-1" data-t="skills"><i class="i " data-icon="skill"></i>Skills</button>
           </div>
-          <div class="row" style="flex:1 1 280px;justify-content:flex-end;gap:8px;flex-wrap:wrap">
-            <div class="input-icon" style="flex:1 1 220px;max-width:320px" role="search"><i class="i " data-icon="search"></i><label class="sr-only" for="g-q">Buscar na galeria</label><input id="g-q" class="input" type="search" placeholder="Buscar por nome ou assunto" autocomplete="off" data-search></div>
+          <div class="row gallery-bar__filters">
+            <div class="input-icon gallery-bar__search" role="search"><i class="i " data-icon="search"></i><label class="sr-only" for="g-q">Buscar na galeria</label><input id="g-q" class="input" type="search" placeholder="Buscar por nome ou assunto" autocomplete="off" data-search></div>
             <label class="sr-only" for="g-origin">Origem</label>
-            <select id="g-origin" class="select" style="width:auto"><option value="">Todas as origens</option><option value="oficial">Oficiais da Asimov</option><option value="comunidade">Da comunidade</option></select>
+            <select id="g-origin" class="select w-auto"><option value="">Todas as origens</option><option value="oficial">Oficiais da Asimov</option><option value="comunidade">Da comunidade</option></select>
             <label class="sr-only" for="g-order">Ordenar</label>
-            <select id="g-order" class="select" style="width:auto"><option value="recentes">Mais recentes</option><option value="avaliados">Melhor avaliados</option><option value="nome">Nome (A–Z)</option></select>
+            <select id="g-order" class="select w-auto"><option value="recentes">Mais recentes</option><option value="avaliados">Melhor avaliados</option><option value="nome">Nome (A–Z)</option></select>
           </div>
         </div>
         <div class="gallery-filters"><div class="chips" role="group" aria-label="Categoria" data-cats></div></div>
-        <div class="active-filters" data-active hidden></div>
-        <div class="row row--between" style="margin-bottom:12px"><p class="featured-label" data-featured><i class="i i--sm" data-icon="verified"></i>Oficiais da Asimov</p><span class="toolbar__count" data-count aria-live="polite"></span></div>
+        <div class="row row--between mb-3"><p class="featured-label" data-featured><i class="i i--sm" data-icon="verified"></i>Oficiais da Asimov</p><span class="toolbar__count" data-count aria-live="polite"></span></div>
         <div data-grid></div>
       </div>
     </main>

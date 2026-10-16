@@ -2,6 +2,7 @@
  * - words(el): palavras do título entram em sequência (fadeSlideIn do DS)
  * - cristal herói inclina na direção do ponteiro (só ponteiro fino, sem movimento reduzido)
  * - typewriter(input, frases): placeholder que se escreve sozinho enquanto o campo está vazio
+ * - iconFx: no clique, o ícone do item se desenha traço a traço (o press do clique fica em motion.css)
  */
 (() => {
   const P = window.Prisma;
@@ -70,5 +71,69 @@
     return () => { clearTimeout(timer); input.placeholder = base; };
   };
 
-  P.motion = { words, tilt, typewriter, init: (root) => tilt(root) };
+  // Ícone que se desenha no clique: cada traço é "construído" do começo ao fim, em sequência, como uma caneta.
+  // Mouse e toque; teclado não anima. O press continua no CSS.
+  // Fora do desenho: ícones com movimento próprio (chevrons, enviar, favorito) e utilitários que não são destinos:
+  // buscar e recolher no topo da barra lateral, o + de Projetos e Recentes e as ferramentas do composer.
+  const OWN = ".sec__chev, .sb-item__chev, .sb-item__folder, .sb-item__folder-open, .send-btn .i, .fav .i, [data-cmdk] .i, [data-collapse] .i, .sec__add .i, .composer .i";
+  const SHAPES = "path, circle, ellipse, rect, line, polyline, polygon";
+  const DRAW = { dur: 420, step: 70, max: 640, ease: "cubic-bezier(.65, 0, .35, 1)" };
+
+  const draw = (svg) => {
+    if (reduced || !svg || svg._drawing || svg.matches(OWN)) return;
+    const shapes = [...svg.querySelectorAll(SHAPES)];
+    if (!shapes.length) return;
+    svg._drawing = true;
+    // Contorno fraco do ícone por baixo: ele se constrói sobre o próprio desenho, sem piscar vazio.
+    const ghost = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    ghost.setAttribute("opacity", ".2");
+    ghost.innerHTML = svg.innerHTML;
+    svg.prepend(ghost);
+    const step = Math.min(DRAW.step, (DRAW.max - DRAW.dur) / Math.max(1, shapes.length - 1));
+    const runs = shapes.map((el, i) => {
+      const delay = i * step;
+      if (getComputedStyle(el).stroke === "none") {
+        // Forma preenchida (selo, ponto): não tem traço para desenhar, então aparece no tempo dela.
+        return el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: DRAW.dur * .6, delay, easing: "ease-out", fill: "backwards" });
+      }
+      let len;
+      try { len = el.getTotalLength(); } catch { return null; }
+      if (!len) return null;
+      el.style.strokeDasharray = `${len} ${len}`;
+      const run = el.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }], { duration: DRAW.dur, delay, easing: DRAW.ease, fill: "backwards" });
+      run.finished.finally(() => { el.style.strokeDasharray = ""; }).catch(() => {});
+      return run;
+    }).filter(Boolean);
+    // Aba em segundo plano congela as animações: o prazo as encerra para o ícone nunca ficar pela metade.
+    const guard = setTimeout(() => runs.forEach((r) => { try { r.finish(); } catch {} }), DRAW.max + 300);
+    Promise.allSettled(runs.map((r) => r.finished)).then(() => { clearTimeout(guard); ghost.remove(); svg._drawing = false; });
+  };
+
+  const iconOf = (el) => el?.querySelector(":scope > svg.i, :scope > .icon-chip > svg.i");
+  const TARGET = "a[href], button, [role=button], [role=menuitem]";
+  let wired = false;
+  const iconFx = () => {
+    if (wired || reduced) return;
+    wired = true;
+    document.addEventListener("click", (e) => {
+      if (!e.detail) return; // teclado: sem desenho
+      const el = e.target.closest?.(TARGET);
+      if (!el || el.disabled) return;
+      draw(iconOf(el));
+      // Link da navegação troca de página antes do desenho terminar: a página nova o desenha no item ativo.
+      if (el.matches("a.nav-item") && el.origin === location.origin) {
+        try { sessionStorage.setItem("prisma:fx-nav", el.pathname); } catch {}
+      }
+    }, true);
+  };
+
+  const replayNav = (root = document) => {
+    let path;
+    try { path = sessionStorage.getItem("prisma:fx-nav"); sessionStorage.removeItem("prisma:fx-nav"); } catch { return; }
+    // Pelo endereço, não por aria-current: "Novo chat" leva ao início, mas nunca fica marcado como página atual.
+    const a = path && [...root.querySelectorAll("a.nav-item[href]")].find((x) => x.pathname === path);
+    if (a) draw(iconOf(a));
+  };
+
+  P.motion = { words, tilt, typewriter, draw, init: (root) => { tilt(root); iconFx(); replayNav(root); } };
 })();

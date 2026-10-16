@@ -1,5 +1,5 @@
 /* Asimov Prisma · núcleo
- * Utilitários, preferências locais, camada de API e atalhos de teclado.
+ * Utilitários, preferências locais, camada de API.
  *
  * API: cada tela pede os dados a Prisma.api.get("/v1/...") e recebe uma Promise. Hoje a
  * resposta vem de data.js (window.PrismaData), no formato que a API real devolve; na
@@ -24,7 +24,6 @@
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const uid = () => Math.random().toString(36).slice(2, 9);
   const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
-  const mod = isMac ? "⌘" : "Ctrl";
   // ?movimento=reduzido força o ramo de movimento reduzido (o mesmo de prefers-reduced-motion), para QA
   const forceReduced = params.get("movimento") === "reduzido";
   if (forceReduced) document.documentElement.classList.add("reduce-motion");
@@ -85,40 +84,10 @@
     },
   };
 
-  /* ── Atalhos ──
-   * P.keys.on("mod+k", fn, { label, group, allowInInput })  ·  P.keys.list() para a ajuda */
-  const bindings = [];
   const isTyping = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
-  const matchCombo = (e, combo) => {
-    const parts = combo.toLowerCase().split("+");
-    const key = parts.pop();
-    const want = { mod: parts.includes("mod"), shift: parts.includes("shift"), alt: parts.includes("alt") };
-    const modOn = isMac ? e.metaKey : e.ctrlKey;
-    if (want.mod !== modOn || (key !== "?" && want.shift !== e.shiftKey) || want.alt !== e.altKey) return false;
-    const k = e.key.toLowerCase();
-    return k === key || (key === "\\" && e.code === "Backslash") || (key === "/" && e.code === "Slash" && !e.shiftKey) || (key === "?" && k === "?");
-  };
-  document.addEventListener("keydown", (e) => {
-    if (e.defaultPrevented || e.isComposing) return;
-    for (const b of bindings) {
-      if (!matchCombo(e, b.combo)) continue;
-      if (isTyping(document.activeElement) && !b.allowInInput) continue;
-      if (b.when && !b.when()) continue;
-      e.preventDefault();
-      b.fn(e);
-      return;
-    }
-  });
-  const comboLabel = (combo) => combo.split("+").map((p) => ({ mod: mod, shift: "⇧", alt: isMac ? "⌥" : "Alt", "\\": "\\", "/": "/", "?": "?", k: "K", o: "O", enter: "↵", escape: "Esc" }[p] || p.toUpperCase()));
-  const keys = {
-    on(combo, fn, opts = {}) { bindings.push({ combo, fn, ...opts }); },
-    list: () => bindings.filter((b) => b.label),
-    label: comboLabel,
-    kbd: (combo) => comboLabel(combo).map((k) => `<kbd>${esc(k)}</kbd>`).join(""),
-  };
 
   /* Iniciais de um nome (para avatar sem imagem) */
   const initials = (s = "") => s.trim().split(/\s+/).filter((w) => w.length > 2 || /^[A-ZÀ-Ú]/.test(w)).slice(0, 2).map((w) => w[0].toUpperCase()).join("") || s.trim().slice(0, 2).toUpperCase();
 
-  Object.assign(P, { $, $$, esc, fmt, brl, plural, norm, sleep, uid, isMac, mod, reduced, fine, html, debounce, store, api, keys, params, state, initials, isTyping });
+  Object.assign(P, { $, $$, esc, fmt, brl, plural, norm, sleep, uid, isMac, reduced, fine, html, debounce, store, api, params, state, initials, isTyping });
 })();

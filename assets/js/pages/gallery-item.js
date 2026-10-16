@@ -12,26 +12,27 @@
 
   const mount = (it) => {
     if (!it) {
-      root.innerHTML = `<a class="back page-head__back" href="galeria.html">${icon("chevron-left")}Galeria</a>${P.empty({ icon: "gallery", title: "Este item não está mais na galeria", heading: true, text: "Ele pode ter sido removido. Quem já tinha copiado continua com a cópia.", actions: [{ label: "Explorar a galeria", href: "galeria.html", variant: "primary" }], center: true })}`;
+      const back = id.startsWith("g-s") ? ["skills.html?aba=asimov", "Skills"] : ["agentes.html?aba=asimov", "Agentes"];
+      root.innerHTML = `<a class="back page-head__back" href="${back[0]}">${icon("chevron-left")}${back[1]}</a>${P.empty({ icon: "gallery", title: "Este item não está mais disponível", heading: true, text: "Ele pode ter sido removido. Quem já tinha copiado continua com a cópia.", actions: [{ label: `Ver ${back[1].toLowerCase()} da Asimov`, href: back[0], variant: "primary" }], center: true })}`;
       P.hydrateIcons(root);
       return;
     }
     const isAgent = id.startsWith("g-a");
     const type = isAgent ? "Agente" : "Skill";
     const instructions = it.instructions || `---\nname: ${it.name}\ndescription: ${it.desc}\n---\n${isAgent ? `Você é o ${it.name}, um agente oficial da Asimov Academy.\n${it.desc}\n\n` : ""}Como responder:\n\n- Comece pelo que importa, sem introdução longa.\n- Use listas curtas quando houver mais de duas ideias.\n- Se faltar informação, pergunte antes de supor.\n- Escreva em português do Brasil, com frases curtas.`;
-    document.title = `${it.name} · Galeria · Asimov Prisma`;
+    document.title = `${it.name} · ${isAgent ? "Agentes" : "Skills"} · Asimov Prisma`;
     const tb = $(".topbar__title"); if (tb) tb.textContent = it.name;
-    const mark = isAgent ? `<span class="avatar avatar--xl avatar--square tone-${it.tone}">${esc(it.initials)}</span>` : `<span class="icon-chip" style="width:64px;height:64px;border-radius:18px">${icon(P.SKILL_ICON[it.category] || "skill", "i--xl")}</span>`;
+    const mark = isAgent ? `<span class="avatar avatar--xl avatar--square tone-${it.tone}">${esc(it.initials)}</span>` : `<span class="icon-chip" style="width:64px;height:64px;border-radius:var(--r-panel)">${icon(P.SKILL_ICON[it.category] || "skill", "i--xl")}</span>`;
     root.innerHTML = `
-      <a class="back page-head__back" href="galeria.html${isAgent ? "" : "?tipo=skills"}">${icon("chevron-left")}Galeria</a>
+      <a class="back page-head__back" href="${isAgent ? "agentes" : "skills"}.html?aba=asimov">${icon("chevron-left")}${isAgent ? "Agentes" : "Skills"}</a>
       <div class="detail">
         <div>
           <div class="detail__hero">
             ${mark}
             <div class="grow">
-              <div class="row row--top" style="gap:10px"><h1 class="detail__name grow">${esc(it.name)}</h1>
-                <button type="button" class="btn btn--secondary btn--sm fav" data-fav="${it.id}" aria-pressed="${!!it.fav}" aria-label="${it.fav ? "Tirar dos favoritos" : "Favoritar"}: ${esc(it.name)}">${icon("heart")}<span data-fav-label>${it.fav ? "Favoritado" : "Favoritar"}</span></button></div>
-              <div class="detail__stats"><span class="by" style="font-size:var(--text-sm)">por <strong>Asimov</strong>${P.verified()}</span><span class="dot"></span><span>${type}</span><span class="dot"></span><span>${esc(it.category)}</span><span class="dot"></span><span>${it.rating ? `${icon("star-fill", "i--xs")} ${esc(it.rating)}` : "Sem avaliações ainda"}</span></div>
+              <div class="row row--top" style="gap:var(--s-3)"><h1 class="detail__name grow">${esc(it.name)}</h1>
+                <button type="button" class="btn btn--sm fav" data-fav="${it.id}" aria-pressed="${!!it.fav}" aria-label="${it.fav ? "Tirar dos favoritos" : "Favoritar"}: ${esc(it.name)}">${icon("heart")}<span data-fav-label>${it.fav ? "Favoritado" : "Favoritar"}</span></button></div>
+              <div class="detail__stats"><span class="by" style="font-size:var(--text-sm)"><strong>Asimov</strong>${P.verified()}</span><span class="dot"></span><span>${type}</span><span class="dot"></span><span>${esc(it.category)}</span><span class="dot"></span>${P.rating(it)}</div>
             </div>
           </div>
           <p class="detail__desc">${esc(it.desc)}</p>
@@ -44,7 +45,7 @@
           </div>
           <button type="button" class="btn btn--ghost btn--sm mt-2" data-expand aria-expanded="false">${icon("chevron-down")}<span>Ver tudo</span></button>
 
-          <div class="section-title"><h2>Avaliações</h2><p>${it.rating ? `Média ${esc(it.rating)}` : "Sem avaliações ainda"}</p></div>
+          <div class="section-title"><h2>Avaliações</h2><p>${it.rating && it.reviews ? `Média ${P.fmt(it.rating, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} de 5 · ${P.plural(it.reviews, "avaliação", "avaliações")}` : "Sem avaliações ainda"}</p></div>
           <div class="card card--pad">
             <p class="label" id="rate-l">Sua avaliação</p>
             <div class="stars mt-2" role="radiogroup" aria-labelledby="rate-l" data-stars>${[1, 2, 3, 4, 5].map((n) => `<button type="button" class="star" role="radio" aria-checked="false" aria-label="${n} ${n === 1 ? "estrela" : "estrelas"}" data-star="${n}" tabindex="${n === 1 ? 0 : -1}">${icon("star-fill")}</button>`).join("")}</div>
@@ -55,16 +56,16 @@
         <aside class="detail__aside">
           <div class="card card--pad stack">
             ${isAgent
-              ? `<a class="btn btn--primary btn--lg btn--block" href="${P.chatWith(it)}">${icon("chat")}Conversar agora</a><a class="btn btn--secondary btn--block" href="agente-novo.html">${icon("copy")}Usar como base</a>`
-              : `<button type="button" class="btn btn--primary btn--lg btn--block" data-copy-skill>${icon("copy")}Copiar skill</button><a class="btn btn--secondary btn--block" href="skill-nova.html">${icon("pencil")}Usar como base</a>`}
-            <dl class="facts" style="padding-top:14px;border-top:1px solid var(--line)">
+              ? `<a class="btn btn--primary btn--lg btn--block" href="${P.chatWith(it)}">${icon("chat")}Conversar agora</a><a class="btn btn--block" href="agente-novo.html">${icon("copy")}Usar como base</a>`
+              : `<button type="button" class="btn btn--primary btn--lg btn--block" data-copy-skill>${icon("copy")}Copiar skill</button><a class="btn btn--block" href="skill-nova.html">${icon("pencil")}Usar como base</a>`}
+            <dl class="facts" style="padding-top:var(--s-4);border-top:1px solid var(--line)">
               <div><dt>Autor</dt><dd><span class="by" style="font-size:inherit"><strong style="color:var(--ink)">Asimov</strong>${P.verified()}</span></dd></div>
               <div><dt>Tipo</dt><dd>${type}</dd></div>
               <div><dt>Categoria</dt><dd>${esc(it.category)}</dd></div>
               <div><dt>Publicado em</dt><dd>${esc(it.date)}</dd></div>
             </dl>
           </div>
-          ${isAdmin ? `<div class="card card--pad stack" style="--gap:10px"><p class="label">Moderação</p><p class="hint">Só administradores veem esta área.</p><button type="button" class="btn btn--danger-outline btn--sm" data-remove>${icon("trash")}Remover da galeria</button></div>` : ""}
+          ${isAdmin ? `<div class="card card--pad stack" style="--gap:var(--s-3)"><p class="label">Moderação</p><p class="hint">Só administradores veem esta área.</p><button type="button" class="btn btn--danger-outline btn--sm" data-remove>${icon("trash")}Remover da galeria</button></div>` : ""}
         </aside>
       </div>`;
 
@@ -107,12 +108,12 @@
     });
     $("[data-remove]", root)?.addEventListener("click", () => P.confirm({
       title: "Remover da galeria?", desc: `“${esc(it.name)}” deixa de aparecer para todos. Quem já copiou continua com a cópia.`, confirm: "Remover",
-      onConfirm: () => P.api.send("DELETE", `/v1/gallery/${it.id}`).then(() => { location.href = "galeria.html" + (isAgent ? "" : "?tipo=skills"); }),
+      onConfirm: () => P.api.send("DELETE", `/v1/gallery/${it.id}`).then(() => { location.href = (isAgent ? "agentes" : "skills") + ".html?aba=asimov"; }),
     }));
     P.ready(root);
   };
 
-  root.innerHTML = `<div class="skel skel--line" style="width:80px;margin-bottom:20px"></div><div class="detail"><div><div class="row" style="gap:18px"><div class="skel" style="width:64px;height:64px;border-radius:18px"></div><div class="grow stack"><div class="skel skel--title" style="width:50%;height:30px"></div><div class="skel skel--line" style="width:40%"></div></div></div><div class="stack mt-6">${P.skeleton.lines(3)}</div></div><div class="card skel-card">${P.skeleton.lines(4)}</div></div>${P.loading("Carregando item")}`;
+  root.innerHTML = `<div class="skel skel--line" style="width:80px;margin-bottom:var(--s-5)"></div><div class="detail"><div><div class="row" style="gap:var(--s-5)"><div class="skel" style="width:64px;height:64px;border-radius:var(--r-panel)"></div><div class="grow stack"><div class="skel skel--title" style="width:50%;height:30px"></div><div class="skel skel--line" style="width:40%"></div></div></div><div class="stack mt-6">${P.skeleton.lines(3)}</div></div><div class="card skel-card">${P.skeleton.lines(4)}</div></div>${P.loading("Carregando item")}`;
   P.ready();
   P.api.get(`/v1/gallery/${id}`).then(mount).catch((err) => {
     root.innerHTML = P.errorState(err?.message);

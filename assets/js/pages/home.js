@@ -1,5 +1,5 @@
 /* Asimov Prisma · início (index.html)
- * Saudação + composer + atalhos que preenchem (não enviam) + "Continuar de onde parou" e "Seus agentes".
+ * Saudação + composer + atalhos que preenchem (não enviam), centralizados na vertical.
  * Referências: A.1 (Claude, Langdock, Notion AI, Apollo). Enviar abre chat.html com q, model, agent, skills,
  * project e attachments (contrato preservado). */
 (() => {
@@ -32,47 +32,29 @@
     },
   });
 
-  // Atalhos: as três sugestões do produto + criar imagem + usar um agente. Preenchem, não enviam.
+  // Atalhos: as três sugestões do produto, uma por linha. Preenchem, não enviam; o X dispensa e fica lembrado neste navegador.
   const ICON = { assistant: "agent", database: "database", workflow: "workflow" };
-  const starters = [
-    ...D.suggestions.map((s, i) => ({ label: s.title, icon: ICON[s.icon] || s.icon, run: () => comp.setText(s.prompt), key: "s" + i })),
-    { label: "Criar imagem", icon: "image", run: () => { comp.setImage(comp.state.mode !== "image"); }, key: "img", toggle: true },
-  ];
+  const hidden = new Set(P.store.get("home:starters-hidden", []));
+  const starters = D.suggestions.map((s, i) => ({ label: s.title, icon: ICON[s.icon] || s.icon, run: () => comp.setText(s.prompt), key: "s" + i }));
   const box = $("[data-starters]");
-  box.innerHTML = starters.map((s) => `<button type="button" class="starter" data-k="${s.key}" ${s.toggle ? 'aria-pressed="false"' : ""}>${icon(s.icon)}${esc(s.label)}</button>`).join("");
+  box.innerHTML = starters.filter((s) => !hidden.has(s.key)).map((s) => `<div class="starter" data-k="${s.key}"><button type="button" class="starter__go">${icon(s.icon)}<span class="t-clamp-1">${esc(s.label)}</span></button><button type="button" class="icon-btn icon-btn--xs starter__x" aria-label="Dispensar sugestão: ${esc(s.label)}">${icon("x")}</button></div>`).join("");
   box.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-k]");
-    if (!b) return;
-    starters.find((s) => s.key === b.dataset.k).run();
-    if (b.dataset.k === "img") b.setAttribute("aria-pressed", String(comp.state.mode === "image"));
+    const row = e.target.closest("[data-k]");
+    if (!row) return;
+    if (e.target.closest(".starter__x")) {
+      hidden.add(row.dataset.k);
+      P.store.set("home:starters-hidden", [...hidden]);
+      const next = row.nextElementSibling || row.previousElementSibling;
+      row.classList.add("is-leaving");
+      setTimeout(() => { row.remove(); (next?.querySelector(".starter__go") || comp.input).focus({ preventScroll: true }); }, P.reduced ? 0 : 140);
+      return;
+    }
+    starters.find((s) => s.key === row.dataset.k).run();
   });
-  comp.onModel = () => $('[data-k="img"]', box)?.setAttribute("aria-pressed", String(comp.state.mode === "image"));
-
-  // Listas leves: retomar e começar com um agente
-  const lists = $("[data-lists]");
-  P.load(lists, async () => {
-    const [convs, mine, gallery] = await Promise.all([P.api.get("/v1/conversations"), P.api.get("/v1/agents"), P.api.get("/v1/gallery")]);
-    return { convs, agents: [...mine, ...gallery.agents.filter((a) => a.fav)] };
-  }, ({ convs, agents }) => {
-    const recent = convs.flatMap((g) => g.items.map((c) => ({ ...c, when: g.group }))).slice(0, 4);
-    const agentLink = (a) => "chat.html?" + new URLSearchParams({ q: "Oi! Vamos começar?", agent: a.id });
-    lists.innerHTML = `
-      <section aria-labelledby="hl-r">
-        <div class="home-list__head"><h2 class="home-list__title" id="hl-r">Continuar de onde parou</h2><button type="button" class="home-list__more" data-all>Buscar</button></div>
-        ${recent.length ? `<ul role="list">${recent.map((c) => `<li><a class="home-item" href="chat.html?id=${c.id}">${icon("chat")}<span class="home-item__title">${esc(c.title)}</span><span class="home-item__meta">${esc(c.when)}</span></a></li>`).join("")}</ul>`
-          : `<p class="hint" style="padding:6px 8px">Nenhuma conversa ainda. A primeira começa no campo acima.</p>`}
-      </section>
-      <section aria-labelledby="hl-a">
-        <div class="home-list__head"><h2 class="home-list__title" id="hl-a">Seus agentes</h2><a class="home-list__more" href="agentes.html">Ver todos</a></div>
-        ${agents.length ? `<ul role="list">${agents.slice(0, 4).map((a) => `<li><a class="home-item" href="${agentLink(a)}">${P.agentAvatar(a, "xs")}<span class="home-item__title">${esc(a.name)}</span><span class="home-item__meta">${a.id.startsWith("g-") ? "Favorito" : "Seu"}</span></a></li>`).join("")}</ul>`
-          : `<a class="home-item" href="galeria.html">${icon("gallery")}<span class="home-item__title">Explorar agentes prontos na galeria</span></a>`}
-      </section>`;
-    $("[data-all]", lists)?.addEventListener("click", () => P.cmdk());
-  }, { skeleton: `<div>${P.skeleton.rows(3)}</div><div>${P.skeleton.rows(3)}</div>`, label: "Carregando recentes" });
 
   const pre = P.params.get("texto");
   if (pre) comp.setText(pre);
-  if (P.params.get("modo") === "imagem") { comp.setImage(true); $('[data-k="img"]', box)?.setAttribute("aria-pressed", "true"); }
+  if (P.params.get("modo") === "imagem") comp.setImage(true);
   P.ready();
   P.motion?.words(greet, 120);
   comp.input.focus({ preventScroll: true });
