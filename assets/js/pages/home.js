@@ -72,6 +72,7 @@
 
   const pre = P.params.get("texto");
   if (pre) comp.setText(pre);
+  if (P.params.get("modo") === "imagem") { comp.setImage(true); $('[data-k="img"]', box)?.setAttribute("aria-pressed", "true"); }
   P.ready();
   P.motion?.words(greet, 120);
   comp.input.focus({ preventScroll: true });

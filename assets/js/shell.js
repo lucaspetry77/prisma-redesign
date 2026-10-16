@@ -84,6 +84,7 @@
   ];
   const ACTIONS = [
     { title: "Novo chat", href: "index.html", icon: "new-chat", kbd: "mod+shift+o" },
+    { title: "Criar imagem", href: "index.html?modo=imagem", icon: "image" },
     { title: "Novo projeto", href: "projetos.html?novo=1", icon: "folder-plus" },
     { title: "Criar agente", href: "agente-novo.html", icon: "agent" },
     { title: "Criar skill", href: "skill-nova.html", icon: "skill" },
@@ -202,19 +203,19 @@
     : `<p class="recents__empty">Suas conversas aparecem aqui. Comece pelo <a class="link" href="index.html">novo chat</a>.</p>`;
 
   const ADMIN = [
-    { id: "admin-modelos", label: "Modelos", icon: "cpu", href: "admin-modelos.html" },
-    { id: "admin-uso", label: "Uso e custo", icon: "chart", href: "admin-uso.html" },
-    { id: "admin-usuarios", label: "Usuários e tetos", icon: "users", href: "admin-usuarios.html" },
+    { group: "Visão geral", items: [{ id: "admin-uso", label: "Uso e custo", icon: "chart", href: "admin-uso.html" }] },
+    { group: "Catálogo", items: [{ id: "admin-modelos", label: "Modelos", icon: "cpu", href: "admin-modelos.html" }] },
+    { group: "Pessoas", items: [{ id: "admin-usuarios", label: "Usuários e tetos", icon: "users", href: "admin-usuarios.html" }] },
   ];
   const adminNav = (page) => `
         <ul class="nav" role="list" data-hl>
           <li><a class="nav-item" href="index.html">${icon("arrow-left")}<span class="nav-item__label">Voltar ao Prisma</span></a></li>
         </ul>
-        <nav class="sidebar__group" aria-labelledby="admin-t">
-          <div class="sidebar__label" id="admin-t">Administração</div>
-          <ul class="nav" role="list" data-hl>${ADMIN.map((n) => `
+        <nav aria-label="Administração">${ADMIN.map((g, gi) => `
+          <div class="sidebar__group sidebar__label" id="adm-g${gi}">${g.group}</div>
+          <ul class="nav" role="list" data-hl aria-labelledby="adm-g${gi}">${g.items.map((n) => `
             <li><a class="nav-item" href="${n.href}" ${n.id === page ? 'aria-current="page"' : ""}>${icon(n.icon)}<span class="nav-item__label">${n.label}</span></a></li>`).join("")}
-          </ul>
+          </ul>`).join("")}
         </nav>
         <div class="recents" aria-hidden="true"></div>`;
 
@@ -355,6 +356,7 @@
     $("[data-account]", aside).addEventListener("click", (e) => P.menu(e.currentTarget, [
       { heading: u.email },
       { label: "Configurações", icon: "settings", onClick: () => (location.href = "perfil.html") },
+      ...(u.role === "ADMIN" ? [{ label: "Administração", icon: "shield", onClick: () => (location.href = "admin-modelos.html") }] : []),
       { label: "Atalhos de teclado", icon: "keyboard", kbd: "?", onClick: shortcutsHelp },
       { label: "Avaliar a plataforma", icon: "star", onClick: platformReview },
       { label: "Ajuda", icon: "help", onClick: () => window.open("https://link.asimov.academy/transferencia-CS", "_blank", "noopener") },
