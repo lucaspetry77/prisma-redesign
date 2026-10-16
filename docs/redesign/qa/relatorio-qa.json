@@ -1,0 +1,41 @@
+{
+  "data": "2026-10-15",
+  "metodo": "http://localhost:4180/qa/?auto, rodado depois da última mudança de cor (.choice__desc) e da última mudança de movimento (spinner parado fora do carregamento). Cada tela num iframe em 375, 390 e 1280px. Contraste: todo texto visível contra o fundo real (inclui degradê e placeholder; desabilitado é isento pelo WCAG 1.4.3). Estouro: scrollWidth maior que a largura. Erros de console capturados no iframe. Movimento reduzido: ?movimento=reduzido, getAnimations() procurando transform ou blur rodando, antes e depois de abrir um modal e um toast. 12 cenários de formulário inválido e válido. O foco visível é medido à parte, com foco real do teclado: foco-teclado.json.",
+  "larguras": [375, 390, 1280],
+  "totais": { "telas": 17, "combinacoes": 51, "textosMedidos": 3619, "abaixoDe4_5": 0, "estouroLateral": 0, "errosDeConsole": 0, "animandoComMovimentoReduzido": 0, "formulariosQuePassam": "12 de 12" },
+  "legenda": "Listas por largura na ordem de 'larguras'.",
+  "telas": {
+    "index.html": {"textosMedidos":[25,25,64],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "chat.html?id=d5c5bdf1": {"textosMedidos":[72,72,112],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "projetos.html": {"textosMedidos":[23,23,62],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "projeto.html?id=p2": {"textosMedidos":[14,14,71],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "skills.html": {"textosMedidos":[28,28,67],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "skill-nova.html": {"textosMedidos":[37,37,78],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "agentes.html": {"textosMedidos":[46,46,85],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "agente-novo.html": {"textosMedidos":[118,118,166],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "galeria.html": {"textosMedidos":[86,86,125],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "galeria-item.html?id=g-a1": {"textosMedidos":[35,35,74],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "perfil.html": {"textosMedidos":[60,60,104],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "admin-modelos.html": {"textosMedidos":[74,74,98],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "admin-uso.html": {"textosMedidos":[77,77,99],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "admin-usuarios.html": {"textosMedidos":[44,44,63],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "login.html": {"textosMedidos":[7,7,7],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "telas.html": {"textosMedidos":[97,97,136],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}},
+    "componentes.html": {"textosMedidos":[161,161,200],"abaixoDe4_5":[0,0,0],"estouroLateral":[0,0,0],"errosDeConsole":0,"reduzido":{"ramoLigado":true,"animandoNaPagina":0,"animandoComModalEToast":0,"modal":"fade-in 0.16s","toast":"fade-in none","molas":"0ms"}}
+  },
+  "indicadorDeCarregamento": "Com movimento reduzido, nas 17 telas: parado quando escondido no botão; com o botão em carregamento (.is-loading), gira em 1,6 s (playState running, duração 1600). Exceção deliberada: é a informação de progresso (WCAG 2.3.3).",
+  "formularios": {
+    "skill-nova.html": {"enviarVazio_invalidos":["sk-name","sk-desc","sk-ins"],"depoisDePreencher_invalidos":0,"concluido":true},
+    "agente-novo.html": {"enviarVazio_invalidos":["ag-name","ag-ins"],"publicarSemDescricao_barrado":["ag-desc"],"depoisDePreencher_invalidos":0,"concluido":true},
+    "projetos.html": {"criarDesabilitadoSemNome":true,"habilitaComNome":true,"criado":true},
+    "projeto.html?id=p2": {"salvarContextoDesabilitadoSemMudanca":true,"habilitaComMudanca":true,"salvo":true},
+    "perfil.html": {"salvarDesabilitadoSemMudanca":true,"habilitaComMudanca":true,"salvo":true,"apagarContaDesabilitado":true,"APAG_continuaDesabilitado":true,"APAGAR_habilita":true},
+    "admin-modelos.html": {"criarVazio_invalidos":["m-name","m-key","m-prov"],"valoresInvalidos":["m-key","m-in","m-prefs"],"linhasAntes":10,"linhasDepois":12},
+    "admin-usuarios.html": {"tetoNegativo_invalido":["cap-w"],"semanaMaiorQueMes_invalido":["cap-w"],"origemDepoisDeSalvar":["Teto próprio","Política geral"]},
+    "admin-usuarios.html#politicas": {"criarVazio_invalidos":["pol-w","pol-m"],"linhasAntes":1,"linhasDepois":2},
+    "admin-uso.html": {"periodoInvertido_invalido":["u-to"],"periodoValido":"toast Período aplicado"},
+    "chat.html?id=d5c5bdf1": {"enviarDesabilitadoVazio":true,"habilitaComTexto":true},
+    "index.html": {"npsDesabilitadoSemNota":true,"npsHabilitaComNota":true},
+    "galeria.html": {"filtroSemResultado":"Nada combina com esses filtros","chipsAtivos":1,"botaoLimpar":true}
+  }
+}

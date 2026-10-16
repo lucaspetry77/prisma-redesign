@@ -1,0 +1,265 @@
+{
+ "metodo": "Tab real pela ferramenta do navegador (dá foco do sistema à página) e, em seguida, foco programático em cada elemento focável com transições desligadas; conta como visível o anel de 2px ou mudança de sombra/borda no elemento ou no seu contêiner visual (switch, cartão de opção, NPS, composer, mini-composer, tagbox, ::after de link de cartão). Data: 15/10/2026, em 375, 390 e 1280px. Modo: ?movimento=reduzido.",
+ "resultado": {
+  "index.html@375": {
+   "n": 19,
+   "missing": [],
+   "hasFocus": true
+  },
+  "index.html@390": {
+   "n": 19,
+   "missing": [],
+   "hasFocus": true
+  },
+  "index.html@1280": {
+   "n": 59,
+   "missing": [],
+   "hasFocus": true
+  },
+  "chat.html?id=d5c5bdf1@375": {
+   "n": 28,
+   "missing": [],
+   "hasFocus": true
+  },
+  "chat.html?id=d5c5bdf1@390": {
+   "n": 28,
+   "missing": [],
+   "hasFocus": true
+  },
+  "chat.html?id=d5c5bdf1@1280": {
+   "n": 70,
+   "missing": [],
+   "hasFocus": true
+  },
+  "projetos.html@375": {
+   "n": 15,
+   "missing": [],
+   "hasFocus": true
+  },
+  "projetos.html@390": {
+   "n": 15,
+   "missing": [],
+   "hasFocus": true
+  },
+  "projetos.html@1280": {
+   "n": 55,
+   "missing": [],
+   "hasFocus": true
+  },
+  "projeto.html?id=p2@375": {
+   "n": 12,
+   "missing": [],
+   "hasFocus": true
+  },
+  "projeto.html?id=p2@390": {
+   "n": 12,
+   "missing": [],
+   "hasFocus": true
+  },
+  "projeto.html?id=p2@1280": {
+   "n": 57,
+   "missing": [],
+   "hasFocus": true
+  },
+  "skills.html@375": {
+   "n": 15,
+   "missing": [],
+   "hasFocus": true
+  },
+  "skills.html@390": {
+   "n": 15,
+   "missing": [],
+   "hasFocus": true
+  },
+  "skills.html@1280": {
+   "n": 55,
+   "missing": [],
+   "hasFocus": true
+  },
+  "skill-nova.html@375": {
+   "n": 12,
+   "missing": [],
+   "hasFocus": true
+  },
+  "skill-nova.html@390": {
+   "n": 12,
+   "missing": [],
+   "hasFocus": true
+  },
+  "skill-nova.html@1280": {
+   "n": 53,
+   "missing": [],
+   "hasFocus": true
+  },
+  "agentes.html@375": {
+   "n": 23,
+   "missing": [],
+   "hasFocus": true
+  },
+  "agentes.html@390": {
+   "n": 23,
+   "missing": [],
+   "hasFocus": true
+  },
+  "agentes.html@1280": {
+   "n": 63,
+   "missing": [],
+   "hasFocus": true
+  },
+  "agente-novo.html@375": {
+   "n": 50,
+   "missing": [],
+   "hasFocus": true
+  },
+  "agente-novo.html@390": {
+   "n": 50,
+   "missing": [],
+   "hasFocus": true
+  },
+  "agente-novo.html@1280": {
+   "n": 93,
+   "missing": [],
+   "hasFocus": true
+  },
+  "galeria.html@375": {
+   "n": 43,
+   "missing": [],
+   "hasFocus": true
+  },
+  "galeria.html@390": {
+   "n": 43,
+   "missing": [],
+   "hasFocus": true
+  },
+  "galeria.html@1280": {
+   "n": 83,
+   "missing": [],
+   "hasFocus": true
+  },
+  "galeria-item.html?id=g-a1@375": {
+   "n": 15,
+   "missing": [],
+   "hasFocus": true
+  },
+  "galeria-item.html?id=g-a1@390": {
+   "n": 15,
+   "missing": [],
+   "hasFocus": true
+  },
+  "galeria-item.html?id=g-a1@1280": {
+   "n": 55,
+   "missing": [],
+   "hasFocus": true
+  },
+  "perfil.html@375": {
+   "n": 15,
+   "missing": [],
+   "hasFocus": true
+  },
+  "perfil.html@390": {
+   "n": 15,
+   "missing": [],
+   "hasFocus": true
+  },
+  "perfil.html@1280": {
+   "n": 55,
+   "missing": [],
+   "hasFocus": true
+  },
+  "admin-modelos.html@375": {
+   "n": 49,
+   "missing": [],
+   "hasFocus": true
+  },
+  "admin-modelos.html@390": {
+   "n": 49,
+   "missing": [],
+   "hasFocus": true
+  },
+  "admin-modelos.html@1280": {
+   "n": 56,
+   "missing": [],
+   "hasFocus": true
+  },
+  "admin-uso.html@375": {
+   "n": 21,
+   "missing": [],
+   "hasFocus": true
+  },
+  "admin-uso.html@390": {
+   "n": 21,
+   "missing": [],
+   "hasFocus": true
+  },
+  "admin-uso.html@1280": {
+   "n": 28,
+   "missing": [],
+   "hasFocus": true
+  },
+  "admin-usuarios.html@375": {
+   "n": 12,
+   "missing": [],
+   "hasFocus": true
+  },
+  "admin-usuarios.html@390": {
+   "n": 12,
+   "missing": [],
+   "hasFocus": true
+  },
+  "admin-usuarios.html@1280": {
+   "n": 19,
+   "missing": [],
+   "hasFocus": true
+  },
+  "login.html@375": {
+   "n": 3,
+   "missing": [],
+   "hasFocus": true
+  },
+  "login.html@390": {
+   "n": 3,
+   "missing": [],
+   "hasFocus": true
+  },
+  "login.html@1280": {
+   "n": 3,
+   "missing": [],
+   "hasFocus": true
+  },
+  "telas.html@375": {
+   "n": 57,
+   "missing": [],
+   "hasFocus": true
+  },
+  "telas.html@390": {
+   "n": 57,
+   "missing": [],
+   "hasFocus": true
+  },
+  "telas.html@1280": {
+   "n": 97,
+   "missing": [],
+   "hasFocus": true
+  },
+  "componentes.html@375": {
+   "n": 50,
+   "missing": [],
+   "hasFocus": true
+  },
+  "componentes.html@390": {
+   "n": 50,
+   "missing": [],
+   "hasFocus": true
+  },
+  "componentes.html@1280": {
+   "n": 90,
+   "missing": [],
+   "hasFocus": true
+  }
+ },
+ "total": {
+  "combinacoes": 51,
+  "focaveis": 1869,
+  "semAnel": 0
+ }
+}

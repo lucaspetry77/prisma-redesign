@@ -40,6 +40,13 @@ Depois acesse `http://localhost:4180/telas.html`. Também funciona direto via `f
 Em qualquer tela: `?estado=carregando`, `?estado=vazio`, `?estado=erro` ou `?estado=erro-salvar` mostram o estado, e
 `?movimento=reduzido` liga o mesmo ramo de `prefers-reduced-motion` para revisar sem mudar a preferência do sistema.
 
+## QA
+
+Com o servidor no ar, `http://localhost:4180/qa/?auto` abre cada tela em 375, 390 e 1280px e mede contraste AA de todo texto
+visível, estouro lateral, erros de console e movimento reduzido, e roda os cenários de formulário inválido e válido. O foco
+visível precisa do foco real do teclado: abra a tela, aperte Tab e rode `qa/focus-check.js` no console. Os resultados mais
+recentes estão em [`docs/redesign/qa/`](docs/redesign/qa/).
+
 ## Atalhos
 
 ⌘K (Ctrl K) busca qualquer coisa · ⌘⇧O novo chat · ⌘\ recolhe a barra lateral · `/` foca o campo · `?` lista os atalhos.
@@ -66,7 +73,8 @@ assets/
     motion.js       Saudação em sequência, cristal que inclina, placeholder que se escreve
     pages/          Um script por tela
   fonts/ img/ icons/
-docs/redesign/      Inventário, design system, referências (Mobbin), interações (UI Arc), fluxos e handoff
+docs/redesign/      Inventário, design system, referências (Mobbin), interações (UI Arc), fluxos, handoff e evidências do QA (qa/)
+qa/                 Verificação automática: contraste, estouro, movimento reduzido e formulários; foco com teclado real
 scripts/            Gerador dos ícones (não roda no app)
 ```
 

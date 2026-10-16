@@ -125,4 +125,21 @@ implementado, com o motivo (quase sempre: o contrato de dados não tem o campo, 
 | Transversais | Esqueleto no formato real; erro no menor escopo com "Tentar de novo" | Feito | |
 | Transversais | Confirmação destrutiva em três níveis | Feito | Desfazer, confirmação, digitar APAGAR |
 
-**Resumo:** 106 itens: 84 feitos, 11 parciais (com a diferença dita na linha) e 11 fora, todos por falta de dado ou de recurso no contrato atual. Nenhum ficou de fora por esforço.
+## Parte D · Fluxos e seções
+
+Os ajustes sugeridos pela segunda rodada (`search_flows` e `search_sections`, [02-referencias.md, Parte D](02-referencias.md)).
+
+| Tela | Item | Status | Nota |
+|---|---|---|---|
+| Barra lateral | "Ver todas as conversas" no fim dos Recentes | Feito | Abre a paleta só com conversas, sem limite, campo "Buscar em conversas…" |
+| Composer | Progresso do anexo; enviar bloqueado até terminar | Feito | Cartão "Preparando anexo…" com indicador; enviar desabilitado enquanto carrega |
+| Login | Faixa de erro dentro do cartão | Feito | `?erro=acesso` e `?erro=sessao` |
+| Agentes | Barra fixa com salvar ao ter mudanças | Feito | Barra no topo com estado de salvamento |
+| Skills | Botão "Usar" no cartão | Parcial | "Usar numa conversa" no menu do cartão e no toast de criação, não como botão solto (o cartão inteiro já abre a skill) |
+| Skills | Barra de formatação no Escrever | Fora (decisão) | Instruções de IA são texto corrido; Markdown funciona e "Visualizar" mostra o resultado. Barra acrescenta ruído sem ganho |
+| Início | Chips de continuação depois da primeira resposta | Fora | Depende de sugestões vindas da API |
+| Conversa | Versão anterior ao refazer ("‹ 2 de 2 ›") | Fora | O contrato não guarda versões de resposta |
+| Projetos | Projeto de exemplo no modal de criar | Fora | Não há projeto de exemplo nos dados |
+| Projeto | Estado "Processando" do arquivo | Fora | Depende do status de processamento da API |
+
+**Resumo:** 116 itens: 88 feitos, 12 parciais (com a diferença dita na linha) e 16 fora: 15 por falta de dado ou de recurso no contrato atual e 1 por decisão de produto registrada acima. Nenhum ficou de fora por esforço.

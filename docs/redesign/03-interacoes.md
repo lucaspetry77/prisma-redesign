@@ -15,7 +15,7 @@ O Arc é React. O Prisma é HTML, CSS e JS puros, sem build. Por isso o Prisma p
 3. **Interrompível:** estado muda por `transition`, não por timeline. Reabrir um menu no meio do fechamento volta de onde está.
 4. **Sair é mais rápido que entrar:** popover entra em 240 ms e sai em 140 ms; modal entra na mola `smooth` e sai em 180 ms.
 5. **Um efeito pesado por página, no máximo:** o cristal animado no início, a paisagem no login. Nada de fundo animado nas outras telas.
-6. **Movimento reduzido:** sem deslocamento, escala, laço ou desfoque. Ficam fades de 120 a 160 ms; números e barras pulam direto para o valor final. `?movimento=reduzido` liga o mesmo ramo para verificar sem mudar a preferência do sistema (resultado em 05-handoff.md).
+6. **Movimento reduzido:** sem deslocamento, escala, laço ou desfoque. Ficam fades de 120 a 160 ms; números e barras pulam direto para o valor final. Única exceção: o indicador de carregamento continua girando, mais devagar (1,6 s), e só enquanto algo carrega, porque é a informação de progresso (o WCAG 2.3.3 isenta movimento essencial); escondido dentro do botão, ele fica parado. `?movimento=reduzido` liga o mesmo ramo para verificar sem mudar a preferência do sistema (resultado em 05-handoff.md).
 
 ## 2. Tokens de movimento
 
