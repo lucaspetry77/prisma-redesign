@@ -2,40 +2,44 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chat · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Novo chat · Asimov Prisma</title>
+  <meta name="description" content="Converse com a IA da Asimov: crie, analise e automatize.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/chat.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="chat-home">
-    <main class="main" id="conteudo">
-      <section class="chat" aria-label="Chat">
 
-        <div class="welcome">
-          <div class="welcome__mark" data-crystal="orb"></div>
-          <h1 class="welcome__title" data-greet>O que vamos criar hoje?</h1>
-
-          <div class="composer-dock composer-dock--home" style="margin-top:28px;padding:0">
-            <form class="composer" aria-label="Nova mensagem"></form>
-            <p class="sr-only" id="composer-hint">Enter envia; Shift + Enter quebra a linha.</p>
-          </div>
-
-          <ul class="suggestions" role="list" aria-label="Sugestões"></ul>
+  <div class="app" data-page="chat-home" data-nav="chat-home" data-title="Novo chat">
+    <main class="main" id="conteudo" tabindex="-1">
+      <div class="home">
+        <div class="home__center">
+          <span class="home__mark" data-mark aria-hidden="true"></span>
+          <h1 class="home__title" data-greet>O que vamos criar hoje?</h1>
+          <form class="composer" data-composer></form>
+          <div class="starters" data-starters aria-label="Atalhos para começar" role="group"></div>
         </div>
-      </section>
+        <div class="home__lists" data-lists></div>
+        <p class="home__legal">A IA pode errar. Confira informações importantes antes de usar.</p>
+      </div>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
-  <script src="assets/js/pages/chat.js"></script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/composer.js"></script>
+  <script src="assets/js/pages/home.js"></script>
 </body>
 </html>
