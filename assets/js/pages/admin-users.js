@@ -21,9 +21,10 @@
 
   const render = () => {
     const q = P.norm(st.q);
-    const counts = { "": users.length, ativos: users.filter((u) => u.active).length, inativos: users.filter((u) => !u.active).length };
-    $("[data-status]").innerHTML = [["", "Todos"], ["ativos", "Ativos"], ["inativos", "Inativos"]].map(([v, l]) => `<button type="button" class="chip" data-st="${v}" aria-pressed="${v === st.status}">${l}<span class="count">${counts[v]}</span></button>`).join("");
-    const rows = users.filter((u) => (!st.status || (st.status === "ativos") === u.active) && (!q || P.norm(u.name + " " + u.email).includes(q)));
+    const near = (u) => u.week.spent / u.week.cap >= 0.8 || u.month.spent / u.month.cap >= 0.8;
+    const counts = { "": users.length, ativos: users.filter((u) => u.active).length, inativos: users.filter((u) => !u.active).length, perto: users.filter(near).length };
+    $("[data-status]").innerHTML = [["", "Todos"], ["ativos", "Ativos"], ["inativos", "Inativos"], ["perto", "Perto do teto (≥ 80%)"]].map(([v, l]) => `<button type="button" class="chip" data-st="${v}" aria-pressed="${v === st.status}">${l}<span class="count">${counts[v]}</span></button>`).join("");
+    const rows = users.filter((u) => (!st.status || (st.status === "perto" ? near(u) : (st.status === "ativos") === u.active)) && (!q || P.norm(u.name + " " + u.email).includes(q)));
     $("[data-count]").textContent = P.plural(rows.length, "usuário", "usuários");
     tbody.innerHTML = rows.length ? rows.map((u) => `
       <tr class="is-clickable" data-cap="${esc(u.email)}" tabindex="0" aria-label="Editar teto de ${esc(u.name)}">
