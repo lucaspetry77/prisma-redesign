@@ -53,6 +53,9 @@
 .btn.is-loading, .btn.is-done { pointer-events: none; }
 .btn.is-loading .btn__label, .btn.is-done .btn__label { opacity: 0; transform: scale(.9); }
 .btn.is-loading .btn__state--loading, .btn.is-done .btn__state--done { opacity: 1; transform: none; }
+/* O indicador escondido não gira: só roda enquanto o botão está carregando */
+.btn__state--loading .spinner { animation-play-state: paused; }
+.btn.is-loading .btn__state--loading .spinner { animation-play-state: running; }
 .btn__state--done .i path { stroke-dasharray: 24; stroke-dashoffset: 24; }
 .btn.is-done .btn__state--done .i path { animation: draw var(--d-slow) var(--ease-out) forwards; }
 
