@@ -2,42 +2,50 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chat · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Conversa · Asimov Prisma</title>
+  <meta name="description" content="Conversa no Asimov Prisma.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/chat.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="chat" data-conv="d5c5bdf1">
-    <main class="main" id="conteudo">
-      <section class="chat" aria-labelledby="chat-title">
-        <header class="chat-head">
-          <h1 class="chat-head__title" id="chat-title" data-title>Conversa</h1>
-          <div class="chat-head__actions">
-            <button type="button" class="icon-btn" data-toast="Link copiado" data-toast-icon="link" aria-label="Compartilhar por link"><i class="i" data-icon="link"></i></button>
-            <button type="button" class="icon-btn" data-chat-more aria-haspopup="menu" aria-expanded="false" aria-label="Mais ações da conversa"><i class="i" data-icon="more"></i></button>
-          </div>
+
+  <div class="app" data-page="chat" data-nav="chat" data-title="Conversa">
+    <main class="main" id="conteudo" tabindex="-1">
+      <div class="chat">
+        <header class="chat-head" data-head>
+          <div class="chat-head__crumbs crumbs" data-crumbs></div>
+          <button type="button" class="icon-btn icon-btn--sm" data-copy-link aria-label="Copiar link da conversa" data-tip="Copiar link"><i class="i" data-icon="link"></i></button>
+          <button type="button" class="icon-btn icon-btn--sm" data-more aria-label="Mais ações da conversa" data-tip="Mais ações"><i class="i" data-icon="more"></i></button>
         </header>
-
-        <div class="thread" aria-live="polite"></div>
-
-        <div class="composer-dock">
-          <form class="composer" aria-label="Nova mensagem"></form>
-          <p class="composer-hint" id="composer-hint">O Asimov Prisma pode errar. Confira informações importantes.</p>
+        <section class="thread" data-thread aria-label="Mensagens"></section>
+        <div class="dock">
+          <button type="button" class="scroll-down" data-down aria-label="Ir para a última mensagem" tabindex="-1"><i class="i" data-icon="arrow-down"></i></button>
+          <div class="dock__inner">
+            <form class="composer" data-composer></form>
+            <p class="dock__hint">A IA pode errar. Confira informações importantes.</p>
+          </div>
+          <p class="sr-only" role="status" aria-live="polite" data-live></p>
         </div>
-      </section>
+      </div>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/composer.js"></script>
   <script src="assets/js/pages/chat.js"></script>
 </body>
 </html>
