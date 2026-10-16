@@ -1,7 +1,7 @@
 /* Asimov Prisma: ícones.
  * Família Solar (linear, traço 1.5), a mesma do Asimov Design System (assets/icons/solar),
  * vendorizada da API do Iconify em 15/10/2026. Licença CC BY 4.0, 480 Design (ver assets/icons/LICENSE.md).
- * "sidebar", "stop" e "crystal-plus" são desenhos próprios no mesmo traço.
+ * "sidebar", "stop" e "crystal-plus" são desenhos próprios no mesmo traço. Para atualizar: scripts/vendor-icons.py.
  * HTML: <i class="i" data-icon="folder"></i>  ·  JS: Prisma.icon("folder", "i--sm") */
 (() => {
   const BODY = {

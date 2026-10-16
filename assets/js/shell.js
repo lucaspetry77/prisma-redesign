@@ -309,7 +309,9 @@
     const setDrawer = (o) => {
       app.classList.toggle("nav-open", o);
       openBtn.setAttribute("aria-expanded", String(o));
+      main.inert = o; // o conteúdo atrás da gaveta não recebe foco nem leitura
       if (o) $(".nav-item", aside).focus(); else openBtn.focus({ preventScroll: true });
+      if (!o) setTimeout(() => (main.inert = false), 0);
     };
     openBtn.addEventListener("click", () => setDrawer(true));
     scrim.addEventListener("click", () => setDrawer(false));
