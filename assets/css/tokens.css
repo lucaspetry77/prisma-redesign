@@ -138,6 +138,16 @@
   --d-slow: 350ms;    /* .faq-item / .faq-body */
   --d-card: 400ms;    /* .trail-overview-v2-card transform */
   --d-entry: 1000ms;  /* fadeSlideIn */
+  /* UI Arc (components/arc/lib/motion-tokens.ts): durações e molas. Sem linear(), caem nas curvas do DS. */
+  --dur-instant: 120ms;
+  --dur-fast: 160ms;
+  --dur-exit: 180ms;
+  --dur-standard: 240ms;
+  --dur-considered: 480ms;
+  --spring-smooth: var(--ease-drawer); --dur-spring-smooth: 480ms;  /* painéis, gavetas, altura, medidores (sem passar do alvo) */
+  --spring-snappy: var(--ease-out);    --dur-spring-snappy: 260ms;  /* soltar o clique, indicadores pequenos */
+  --spring-morph: var(--ease-out);     --dur-spring-morph: 480ms;   /* destaque compartilhado (abas, segmentos, nav) */
+  --stagger-item: 35ms; --stagger-line: 80ms; --stagger-word: 40ms;
 
   /* ── Camadas ── app */
   --z-sticky: 10;
@@ -160,4 +170,20 @@
   --control-h: 36px;
   --control-h-sm: 30px;
   --control-h-lg: 44px;
+}
+
+/* Molas do UI Arc em CSS puro (curvas linear() calculadas do visualDuration do Motion; ver 03-interacoes.md).
+ * Ficam em @supports: uma custom property inválida não cairia no valor anterior. */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring-smooth: linear(0, .049, .157, .285, .411, .526, .624, .706, .772, .825, .867, .899, .924, .943, .957, .968, .976, .982, .987, .99, .993, .995, .996, .997, 1);
+    --dur-spring-smooth: 650ms;
+    --spring-snappy: linear(0, .043, .142, .265, .393, .513, .619, .709, .783, .842, .888, .923, .949, .967, .98, .989, .995, .999, 1.001, 1.002, 1.003, 1.003, 1.003, 1.002, 1);
+    --dur-spring-snappy: 380ms;
+    --spring-morph: linear(0, .047, .155, .289, .426, .553, .664, .755, .828, .885, .926, .956, .977, .991, 1, 1.005, 1.007, 1.008, 1.007, 1.007, 1.006, 1.005, 1.004, 1.003, 1);
+    --dur-spring-morph: 650ms;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-spring-smooth: 0ms; --dur-spring-snappy: 0ms; --dur-spring-morph: 0ms; --stagger-item: 0ms; --stagger-line: 0ms; --stagger-word: 0ms; --d-card: 0ms; }
 }

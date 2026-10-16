@@ -36,7 +36,7 @@
       setTimeout(() => { t.remove(); restack(); }, 200);
       restack();
     };
-    const arm = () => { timer = setTimeout(leave, opts.duration || (opts.action ? 6000 : 3200)); };
+    const arm = () => { timer = setTimeout(leave, opts.duration || (opts.danger || opts.action ? 8000 : 5000)); }; // Arc · toast: 5 s, 8 s para erro e ação
     t.addEventListener("pointerenter", () => clearTimeout(timer));
     t.addEventListener("pointerleave", arm);
     t.querySelector(".toast__action")?.addEventListener("click", () => { opts.action.onClick?.(); leave(); });
@@ -137,8 +137,8 @@
   }, true);
 
   /* ───────────────────────── Dica (tooltip) ─────────────────────────
-   * Qualquer elemento com data-tip="Texto" (e data-tip-kbd="mod+k"). Aparece após 500 ms;
-   * entre dicas vizinhas, na hora (como no macOS). Também no foco por teclado. */
+   * Qualquer elemento com data-tip="Texto" (e data-tip-kbd="mod+k"). Aparece após 250 ms;
+   * entre dicas vizinhas, na hora. Também no foco por teclado. */
   let tipEl = null, tipTimer = 0, tipWarm = 0;
   const showTip = (target) => {
     hideTip();
@@ -164,7 +164,7 @@
     const t = tipTarget(e);
     if (!t || !P.fine) return;
     clearTimeout(tipTimer);
-    tipTimer = setTimeout(() => t.matches(":hover") && showTip(t), performance.now() - tipWarm < 600 ? 0 : 500);
+    tipTimer = setTimeout(() => t.matches(":hover") && showTip(t), performance.now() - tipWarm < 300 ? 0 : 250); // Arc · tooltip: 250 ms, na hora se outra abriu há < 300 ms
   });
   document.addEventListener("pointerout", (e) => { if (tipTarget(e)) { if (tipEl) tipWarm = performance.now(); hideTip(); } });
   document.addEventListener("focusin", (e) => { const t = tipTarget(e); if (t && t.matches(":focus-visible")) showTip(t); });
