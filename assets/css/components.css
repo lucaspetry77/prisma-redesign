@@ -105,6 +105,7 @@
 
 .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .field + .field { margin-top: var(--s-5); }
+.grid > .field + .field, .row > .field + .field, .choices .field + .field { margin-top: 0; }
 .field__top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .label { font-size: var(--text-sm); font-weight: 500; color: var(--ink); }
 .label small, .label .opt { font-weight: 400; color: var(--muted); }
@@ -476,7 +477,7 @@
 .table th .sort-ind { display: inline-block; margin-left: 4px; opacity: .35; transition: transform var(--d-base) var(--ease-out), opacity var(--d-fast); }
 .table th[aria-sort="ascending"] .sort-ind, .table th[aria-sort="descending"] .sort-ind { opacity: 1; }
 .table th[aria-sort="descending"] .sort-ind { transform: rotate(180deg); }
-.table .cell-name { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.table .cell-name { display: flex; align-items: center; gap: 10px; min-width: 0; white-space: nowrap; }
 .table .cell-sub { display: block; font-size: var(--text-xs); color: var(--muted); }
 .table-empty td { height: auto; padding: 36px 16px; text-align: center; color: var(--muted); }
 

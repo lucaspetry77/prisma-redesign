@@ -201,6 +201,23 @@
     </section>`).join("")
     : `<p class="recents__empty">Suas conversas aparecem aqui. Comece pelo <a class="link" href="index.html">novo chat</a>.</p>`;
 
+  const ADMIN = [
+    { id: "admin-modelos", label: "Modelos", icon: "cpu", href: "admin-modelos.html" },
+    { id: "admin-uso", label: "Uso e custo", icon: "chart", href: "admin-uso.html" },
+    { id: "admin-usuarios", label: "Usuários e tetos", icon: "users", href: "admin-usuarios.html" },
+  ];
+  const adminNav = (page) => `
+        <ul class="nav" role="list" data-hl>
+          <li><a class="nav-item" href="index.html">${icon("arrow-left")}<span class="nav-item__label">Voltar ao Prisma</span></a></li>
+        </ul>
+        <nav class="sidebar__group" aria-labelledby="admin-t">
+          <div class="sidebar__label" id="admin-t">Administração</div>
+          <ul class="nav" role="list" data-hl>${ADMIN.map((n) => `
+            <li><a class="nav-item" href="${n.href}" ${n.id === page ? 'aria-current="page"' : ""}>${icon(n.icon)}<span class="nav-item__label">${n.label}</span></a></li>`).join("")}
+          </ul>
+        </nav>
+        <div class="recents" aria-hidden="true"></div>`;
+
   const shell = () => {
     const app = $(".app");
     if (!app || app.dataset.shell === "off") return;
@@ -221,24 +238,25 @@
             <img class="brand__logo" src="assets/img/asimov-logo.svg" alt="" width="62" height="19">
             <span class="brand__product">Prisma</span>
             <span class="brand__mark">${P.crystal({ small: true })}</span>
-          </a>
+          </a>${nav === "admin" ? `<span class="badge badge--ink" style="margin-right:auto">Admin</span>` : ""}
           <button type="button" class="icon-btn icon-btn--sm" data-collapse aria-controls="sidebar" aria-expanded="true" aria-label="Recolher barra lateral" data-tip="Recolher barra" data-tip-kbd="mod+\\">${icon("sidebar")}</button>
         </div>
+        ${nav === "admin" ? adminNav(app.dataset.page) : `
         <ul class="nav" role="list" data-hl>
-          <li><a class="nav-item nav-item--primary" href="index.html" ${nav === "chat-home" ? 'aria-current="page"' : ""} data-tip-side="right">${icon("new-chat")}<span class="nav-item__label">Novo chat</span><span class="nav-item__kbd">${keys.kbd("mod+shift+o")}</span></a></li>
-          <li><button type="button" class="nav-item" data-cmdk data-tip-side="right">${icon("search")}<span class="nav-item__label">Buscar</span><span class="nav-item__kbd">${keys.kbd("mod+k")}</span></button></li>
+          <li><a class="nav-item nav-item--primary" href="index.html" ${nav === "chat-home" ? 'aria-current="page"' : ""}>${icon("new-chat")}<span class="nav-item__label">Novo chat</span><span class="nav-item__kbd">${keys.kbd("mod+shift+o")}</span></a></li>
+          <li><button type="button" class="nav-item" data-cmdk>${icon("search")}<span class="nav-item__label">Buscar</span><span class="nav-item__kbd">${keys.kbd("mod+k")}</span></button></li>
         </ul>
         <nav class="sidebar__group" aria-label="Seções">
           <ul class="nav" role="list" data-hl>${NAV.map((n) => `
-            <li><a class="nav-item" href="${n.href}" ${n.id === nav ? 'aria-current="page"' : ""} data-tip-side="right">${icon(n.icon)}<span class="nav-item__label">${n.label}</span></a></li>`).join("")}
+            <li><a class="nav-item" href="${n.href}" ${n.id === nav ? 'aria-current="page"' : ""}>${icon(n.icon)}<span class="nav-item__label">${n.label}</span></a></li>`).join("")}
           </ul>
         </nav>
         <div class="sidebar__group sidebar__label" id="recents-t">Recentes</div>
-        <nav class="recents scroll-soft" aria-labelledby="recents-t" data-recents>${recentsHtml(D.conversations, active)}</nav>
+        <nav class="recents scroll-soft" aria-labelledby="recents-t" data-recents>${recentsHtml(D.conversations, active)}</nav>`}
         <div class="sidebar__spacer"></div>
         <div class="sidebar__foot">
           <ul class="nav" role="list" data-hl>
-            ${u.role === "ADMIN" ? `<li><a class="nav-item" href="admin-modelos.html" ${nav === "admin" ? 'aria-current="page"' : ""} data-tip-side="right">${icon("shield")}<span class="nav-item__label">Administração</span></a></li>` : ""}
+            ${u.role === "ADMIN" && nav !== "admin" ? `<li><a class="nav-item" href="admin-modelos.html">${icon("shield")}<span class="nav-item__label">Administração</span></a></li>` : ""}
             <li><a class="nav-item" href="https://hub.asimov.academy" target="_blank" rel="noopener" data-tip-side="right">${icon("course")}<span class="nav-item__label">Cursos da Asimov</span>${icon("external", "nav-item__ext")}<span class="sr-only">(abre em nova aba)</span></a></li>
           </ul>
           <button type="button" class="credits" data-credits aria-haspopup="dialog" aria-expanded="false" aria-label="Créditos: ${Math.round(pct)}% da semana usados. Ver limites">
@@ -280,7 +298,7 @@
       collapseBtn.setAttribute("aria-label", on ? "Abrir barra lateral" : "Recolher barra lateral");
       collapseBtn.dataset.tip = on ? "Abrir barra" : "Recolher barra";
       collapseBtn.dataset.tipSide = on ? "right" : "bottom";
-      $$(".nav-item", aside).forEach((a) => { if (on) a.dataset.tip = a.dataset.tipLabel; else delete a.dataset.tip; });
+      $$(".nav-item", aside).forEach((a) => { if (on) { a.dataset.tip = a.dataset.tipLabel; a.dataset.tipSide = "right"; } else delete a.dataset.tip; });
       if (save) store.set("rail", on);
     };
     setRail(store.get("rail", false), false);
@@ -316,7 +334,7 @@
       list.addEventListener("pointerleave", () => list.classList.remove("is-hovering"));
     });
 
-    $("[data-cmdk]", aside).addEventListener("click", () => cmdk());
+    $("[data-cmdk]", aside)?.addEventListener("click", () => cmdk());
 
     // Créditos
     $("[data-credits]", aside).addEventListener("click", (e) => {
@@ -343,7 +361,7 @@
     ], { side: "top", label: "Conta" }));
 
     // Ações de cada conversa
-    $("[data-recents]", aside).addEventListener("click", (e) => {
+    $("[data-recents]", aside)?.addEventListener("click", (e) => {
       const b = e.target.closest(".conv__more");
       if (!b) return;
       const li = b.closest(".conv");

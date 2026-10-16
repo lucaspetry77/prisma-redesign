@@ -35,6 +35,10 @@
     set(k, v) { try { localStorage.setItem("prisma:" + k, JSON.stringify(v)); } catch {} },
   };
 
+  // Preferências do perfil salvas neste navegador (apelido) valem em todo o app
+  const savedProfile = store.get("profile", null);
+  if (savedProfile?.nickname && D?.user) D.user.nickname = savedProfile.nickname;
+
   /* ── API ── */
   const state = params.get("estado") || "";
   const forceEmpty = state === "vazio";

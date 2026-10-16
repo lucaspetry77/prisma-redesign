@@ -532,7 +532,7 @@
     el.classList.add("ticker");
     el.innerHTML = [...text].map((ch, i) => /\d/.test(ch)
       ? `<span class="ticker__d" aria-hidden="true"><span class="ticker__col" style="--i:${i}">${"0123456789".split("").map((d) => `<span>${d}</span>`).join("")}</span></span>`
-      : `<span aria-hidden="true">${esc(ch)}</span>`).join("");
+      : `<span aria-hidden="true">${ch === " " ? "&nbsp;" : esc(ch)}</span>`).join("");
     const cols = $$(".ticker__col", el);
     const digits = text.replace(/\D/g, "");
     requestAnimationFrame(() => requestAnimationFrame(() => cols.forEach((c, i) => (c.style.transform = `translateY(-${+digits[i] * 10}%)`))));
