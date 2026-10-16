@@ -1,9 +1,11 @@
-/* Asimov Prisma — tokens do tema claro.
+/* Asimov Prisma · tokens (tema claro)
  *
- * Os valores vêm do Asimov Design System, modo claro (assets/modo-claro.css):
- * base zinc, superfícies brancas, profundidade por sombra suave e o acento do
- * tema (Ciano Asimov) escurecido para texto, com contraste AA sobre branco.
- * Trocar o tema = trocar as quatro variáveis --accent* (ver assets/themes.js do DS).
+ * Fonte de verdade: Asimov Design System (github.com/asimov-academy/asimov-design-system).
+ * - Fundações (tipografia, escala de espaçamento, raios, curvas): assets/overview/_astro/global.*.css
+ * - Modo claro (superfícies, tinta, linhas, sombras, vidro, acento escurecido): assets/modo-claro.css
+ * - Temas de acento: assets/themes.js (aqui, "cyan_asimov")
+ * Cada token abaixo diz de onde veio. O que é derivado para o app (não existe no DS) está marcado com "app:".
+ * A explicação de cada decisão está em docs/redesign/01-design-system.md.
  */
 
 @font-face { font-family: Inter; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/inter-400.woff2") format("woff2"); }
@@ -15,88 +17,147 @@
 :root {
   color-scheme: light;
 
-  /* Tema: Ciano Asimov (assets/themes.js do DS). Casa com o azul do logo de cristal.
-   * Para voltar ao Teal Asimov: #14b8a6 / #0d9488 / #2dd4bf / #5eead4. */
+  /* ── Acento ── themes.js · cyan_asimov (casa com o azul do cristal do Prisma).
+   * Trocar de tema = trocar estas quatro. As derivadas seguem a receita do modo-claro.css. */
   --accent: #06b6d4;
   --accent-dark: #0891b2;
   --accent-light: #22d3ee;
   --accent-glow: #67e8f9;
-  --accent-ink: color-mix(in srgb, var(--accent-dark) 78%, #000);
-  --accent-wash: color-mix(in srgb, var(--accent) 9%, #fff);
-  --accent-line: color-mix(in srgb, var(--accent) 32%, #fff);
-  --accent-ring: color-mix(in srgb, var(--accent) 18%, transparent);
+  --accent-ink: color-mix(in srgb, var(--accent-dark) 78%, #000);   /* modo-claro: --claro-accent-ink (texto, AA) */
+  --accent-wash: color-mix(in srgb, var(--accent) 9%, #fff);        /* modo-claro: --claro-accent-wash */
+  --accent-line: color-mix(in srgb, var(--accent) 32%, #fff);       /* modo-claro: --claro-accent-line */
+  --accent-ring: color-mix(in srgb, var(--accent) 28%, transparent);/* app: anel de foco */
+  --accent-halo: color-mix(in srgb, var(--accent) 32%, transparent);/* modo-claro: halo do .button-glow */
+  --selection: color-mix(in srgb, var(--accent) 22%, transparent);  /* modo-claro: ::selection */
 
-  /* Superfícies */
-  --page: #fcfcfd;
-  --page-rgb: 252 252 253;
-  --surface: #ffffff;
-  --surface-2: #fafafa;
-  --sunken: #f1f1f3;
-  --glass: rgb(255 255 255 / .7);
-  --glass-hover: rgb(255 255 255 / .85);
-  --glass-line: rgb(9 9 11 / .08);
-  --glass-blur: blur(10px);
+  /* ── Superfícies ── modo-claro.css */
+  --page: #f4f4f5;              /* --claro-page */
+  --surface: #ffffff;           /* --claro-surface */
+  --surface-2: #fafafa;         /* --claro-surface-2 */
+  --sunken: #ececee;            /* --claro-sunken */
+  --sunken-soft: #f4f4f5;       /* app: fundo de campo e trilho dentro da superfície branca */
+  --glass: rgb(255 255 255 / .7);        /* --claro-glass */
+  --glass-hover: rgb(255 255 255 / .85); /* --claro-glass-hover */
+  --glass-strong: rgb(255 255 255 / .82);/* .button-glow__inner (claro) */
+  --glass-line: rgb(9 9 11 / .08);       /* --claro-glass-line */
+  --glass-blur: blur(10px);              /* --claro-glass-blur */
+  --nav-glass: rgb(255 255 255 / .78);   /* .cadence-header__nav (claro) */
+  --scrim: rgb(24 24 27 / .45);          /* .pco-backdrop (claro) */
 
-  /* Texto */
-  --ink: #09090b;
-  --body: #52525b;
-  --muted: #71717a;
-  --faint: #a1a1aa;
+  /* ── Tinta ── modo-claro.css */
+  --ink: #09090b;     /* --claro-ink */
+  --ink-2: #18181b;   /* .text-gradient-silver via */
+  --ink-3: #3f3f46;   /* .text-gradient-silver to / --color-neutral-200 remapeado */
+  --body: #52525b;    /* --claro-body */
+  --muted: #71717a;   /* --claro-muted (4,8:1 no branco) */
+  --faint: #a1a1aa;   /* --claro-faint (só decorativo, nunca texto essencial) */
 
-  /* Linhas */
-  --line: #e4e4e7;
-  --line-strong: #d4d4d8;
-  --hover: rgb(9 9 11 / .04);
+  /* ── Linhas ── modo-claro.css */
+  --line: #e4e4e7;          /* --claro-line */
+  --line-strong: #d4d4d8;   /* --claro-line-strong */
+  --line-soft: rgb(9 9 11 / .06); /* .cadence-header__nav border-bottom */
+  --hover: rgb(9 9 11 / .04);     /* .cadence-header__dropdown-menu a:hover */
+  --press: rgb(9 9 11 / .07);     /* app: estado pressionado */
 
-  /* Semânticas */
-  --success: #16a34a;
-  --success-wash: #f0fdf4;
-  --warning: #b45309;
-  --warning-wash: #fffbeb;
-  --danger: #be123c;
-  --danger-solid: #e11d48;
-  --danger-wash: #fff1f2;
-  --danger-line: #fecdd3;
-  --info: #2563eb;
+  /* ── Sombras ── modo-claro.css: no claro, a profundidade vem da sombra, não do brilho */
+  --shadow-xs: 0 1px 2px rgb(9 9 11 / .03);                                     /* .trail-card */
+  --shadow-sm: 0 1px 2px rgb(9 9 11 / .04), 0 1px 3px rgb(9 9 11 / .06);        /* --claro-shadow-sm */
+  --shadow-md: 0 1px 2px rgb(9 9 11 / .04), 0 12px 32px -14px rgb(9 9 11 / .16);/* --claro-shadow-md */
+  --shadow-lg: 0 2px 4px rgb(9 9 11 / .04), 0 24px 56px -24px rgb(9 9 11 / .24);/* --claro-shadow-lg */
+  --inset-hi: inset 0 1px rgb(255 255 255 / .7);                                 /* vidro claro: borda de luz no topo */
+  --glow-accent: 0 0 25px var(--accent-halo), 0 8px 40px color-mix(in srgb, var(--accent) 18%, transparent), 0 4px 12px -4px rgb(9 9 11 / .12); /* .button-glow (claro) */
+  --glow-cta: 0 8px 22px -8px color-mix(in srgb, var(--accent) 70%, transparent), inset 0 1px rgb(255 255 255 / .25); /* .index4-pricing-card__cta--primary (claro) */
 
-  /* Tons dos cards (formações e trilhas do DS) */
-  --tone-cyan: #06b6d4;     --tone-cyan-dark: #0891b2;
-  --tone-orange: #f97316;   --tone-orange-dark: #ea580c;
-  --tone-blue: #2563eb;     --tone-blue-dark: #1d4ed8;
-  --tone-rose: #f43f5e;     --tone-rose-dark: #e11d48;
-  --tone-teal: #14b8a6;     --tone-teal-dark: #0d9488;
-  --tone-violet: #a855f7;   --tone-violet-dark: #9333ea;
-  --tone-green: #22c55e;    --tone-green-dark: #16a34a;
-  --tone-amber: #eab308;    --tone-amber-dark: #ca8a04;
+  /* ── Semânticas ── app: o DS não define estados de sistema; tons do Tailwind (mesma base do DS),
+   * escurecidos para texto AA no branco, como o DS faz com o acento. */
+  --success: #15803d;  --success-solid: #16a34a; --success-wash: #f0fdf4; --success-line: #bbf7d0;
+  --warning: #a16207;  --warning-solid: #eab308; --warning-wash: #fefce8; --warning-line: #fde68a;
+  --danger: #be123c;   --danger-solid: #e11d48;  --danger-wash: #fff1f2;  --danger-line: #fecdd3;
+  --info: #1d4ed8;     --info-wash: #eff6ff;
 
-  /* Sombras: no claro, profundidade vem da sombra, não do brilho */
-  --shadow-sm: 0 1px 2px rgb(9 9 11 / .04), 0 1px 3px rgb(9 9 11 / .06);
-  --shadow-md: 0 1px 2px rgb(9 9 11 / .04), 0 12px 32px -14px rgb(9 9 11 / .16);
-  --shadow-lg: 0 2px 4px rgb(9 9 11 / .04), 0 24px 56px -24px rgb(9 9 11 / .24);
-  --inset-hi: inset 0 1px rgb(255 255 255 / .7);
+  /* ── Tons de identidade ── themes.js (formações e trilhas). Só para avatar de agente e ícone de projeto. */
+  --tone-cyan: #06b6d4;   --tone-cyan-dark: #0891b2;
+  --tone-teal: #14b8a6;   --tone-teal-dark: #0d9488;
+  --tone-blue: #2563eb;   --tone-blue-dark: #1d4ed8;
+  --tone-violet: #a855f7; --tone-violet-dark: #9333ea;
+  --tone-rose: #f43f5e;   --tone-rose-dark: #e11d48;
+  --tone-orange: #f97316; --tone-orange-dark: #ea580c;
+  --tone-amber: #eab308;  --tone-amber-dark: #ca8a04;
+  --tone-green: #22c55e;  --tone-green-dark: #16a34a;
 
-  /* Forma */
+  /* ── Tipografia ── global.css: Inter + Instrument Serif; títulos em 500 com tracking-tight */
+  --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;  /* --font-display */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; /* --font-mono */
+  --tracking-tight: -.025em;   /* --tracking-tight */
+  --tracking-tighter: -.05em;  /* --tracking-tighter */
+  --tracking-wide: .05em;      /* --tracking-wider */
+  --tracking-label: .18em;     /* .trail-overview-v2-card__label */
+  /* Escala: a do DS (text-xs → 5xl) com dois passos de app (13 e 15) para densidade de interface */
+  --text-2xs: 11px;
+  --text-xs: 12px;     /* --text-xs .75rem */
+  --text-sm: 13px;     /* app */
+  --text-base: 14px;   /* --text-sm .875rem: corpo de interface */
+  --text-md: 15px;     /* app: prosa do chat e campos grandes */
+  --text-lg: 16px;     /* --text-base / --font-size-card */
+  --text-xl: 18px;     /* --text-lg / --font-size-copy */
+  --text-2xl: 20px;    /* --text-xl */
+  --text-3xl: 24px;    /* app: título de página no celular */
+  --text-4xl: 30px;    /* --text-3xl 1.875rem: título de página */
+  --text-5xl: 36px;    /* --text-4xl 2.25rem */
+  --text-6xl: 48px;    /* --text-5xl 3rem: saudação do início */
+  --leading-tight: 1.08;   /* .section-title */
+  --leading-snug: 1.25;    /* .trail-overview-v2-card__title */
+  --leading-normal: 1.5;   /* --text-base--line-height */
+  --leading-relaxed: 1.65; /* --font-size-card--line-height */
+
+  /* ── Espaçamento ── global.css: --spacing .25rem (escala de 4px) */
+  --s-0: 2px;  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px; --s-5: 20px;
+  --s-6: 24px; --s-7: 28px; --s-8: 32px; --s-10: 40px; --s-12: 48px; --s-16: 64px; --s-20: 80px;
+
+  /* ── Raios ── global.css (--radius-lg .5rem, -xl .75rem, -2xl 1rem) + cards do DS (faq 1.25rem, compacto 1.375rem) */
   --r-xs: 6px;
-  --r-sm: 8px;
-  --r-md: 12px;
-  --r-lg: 16px;
-  --r-xl: 20px;
+  --r-sm: 8px;      /* --radius-lg */
+  --r-md: 10px;     /* app: controles (campo, botão) */
+  --r-lg: 12px;     /* --radius-xl */
+  --r-xl: 16px;     /* --radius-2xl: cards */
+  --r-2xl: 20px;    /* .faq-item: painéis e modais */
+  --r-3xl: 22px;    /* .trail-overview-v2-card--compact */
   --r-full: 999px;
 
-  /* Tipo */
-  --font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
-  --font-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas, monospace;
+  /* ── Movimento ── global.css + components.css do DS */
+  --ease-out: cubic-bezier(.23, 1, .32, 1);       /* .trail-overview-v2-card, --faq-ease */
+  --ease-entry: cubic-bezier(.2, .8, .2, 1);      /* --animate-fade-slide-in */
+  --ease-in-out: cubic-bezier(.4, 0, .2, 1);      /* --ease-in-out / --default-transition-timing-function */
+  --ease-drawer: cubic-bezier(.32, .72, 0, 1);    /* app: gavetas e folhas (curva de sheet do iOS) */
+  --ease-spring: cubic-bezier(.34, 1.36, .64, 1); /* app: confirmação com leve passagem */
+  --d-instant: 100ms;
+  --d-fast: 150ms;    /* --default-transition-duration .15s */
+  --d-base: 200ms;
+  --d-panel: 250ms;
+  --d-slow: 350ms;    /* .faq-item / .faq-body */
+  --d-card: 400ms;    /* .trail-overview-v2-card transform */
+  --d-entry: 1000ms;  /* fadeSlideIn */
 
-  /* Movimento */
-  --ease-out: cubic-bezier(.23, 1, .32, 1);
-  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
-  --ease-drawer: cubic-bezier(.32, .72, 0, 1);
-  --ease-spring: cubic-bezier(.34, 1.36, .64, 1);
+  /* ── Camadas ── app */
+  --z-sticky: 10;
+  --z-sidebar: 30;
+  --z-overlay: 40;
+  --z-sheet: 50;
+  --z-modal: 60;
+  --z-popover: 70;
+  --z-toast: 80;
+  --z-tooltip: 90;
 
-  /* Layout */
-  --sidebar-w: 300px;
-  --sidebar-w-collapsed: 68px;
-  --content-w: 1080px;
-  --chat-w: 760px;
+  /* ── Layout ── app */
+  --sidebar-w: 264px;
+  --sidebar-w-rail: 60px;
+  --frame-gap: 8px;            /* margem do painel principal sobre a página */
+  --content-w: 1120px;
+  --content-w-narrow: 760px;
+  --chat-w: 768px;
+  --topbar-h: 52px;
+  --control-h: 36px;
+  --control-h-sm: 30px;
+  --control-h-lg: 44px;
 }
