@@ -1,7 +1,9 @@
 # Asimov Prisma: front no tema claro
 
 Redesenho completo do front do [Asimov Prisma](https://staging.prisma.asimov.academy), a plataforma de chat de IA da Asimov,
-no **tema claro do [Asimov Design System](https://github.com/asimov-academy/asimov-design-system)**. São só as telas: HTML,
+no **tema claro do Asimov Design System**: tokens, regras e componentes do pacote oficial (`AGENTS.md`, `tokens.json`,
+`assets/css/tokens.css`, `components.html`, `starter.html`) e a derivação clara oficial (`modo-claro.css` do
+[repositório do DS](https://github.com/asimov-academy/asimov-design-system)). Inter é a única fonte. São só as telas: HTML,
 CSS e JavaScript puros, sem build, sem dependências e sem CDN. Os dados são de exemplo e vêm do staging em 06/10/2026.
 
 ## Como abrir
@@ -35,7 +37,8 @@ Depois acesse `http://localhost:4180/telas.html`. Também funciona direto via `f
 | `telas.html` | (protótipo) | Índice das telas com atalhos para os estados |
 | `componentes.html` | (protótipo) | Vitrine viva do design system |
 
-Em qualquer tela: `?estado=carregando`, `?estado=vazio`, `?estado=erro` ou `?estado=erro-salvar` mostram o estado.
+Em qualquer tela: `?estado=carregando`, `?estado=vazio`, `?estado=erro` ou `?estado=erro-salvar` mostram o estado, e
+`?movimento=reduzido` liga o mesmo ramo de `prefers-reduced-motion` para revisar sem mudar a preferência do sistema.
 
 ## Atalhos
 
@@ -46,13 +49,13 @@ Em qualquer tela: `?estado=carregando`, `?estado=vazio`, `?estado=erro` ou `?est
 ```
 assets/
   css/
-    tokens.css      Tokens do Asimov DS (modo claro oficial) + molas do UI Arc. Cada token diz de onde veio.
+    tokens.css      Tokens do pacote do DS + derivação clara oficial + molas do UI Arc. Cada token diz de onde veio.
     base.css        Reset, tipografia, foco, utilitários
     components.css  Botões, campos, menus, modal, folha lateral, toast, abas, tabela, estados…
     shell.css       Barra lateral, painel principal, topo do celular, paleta ⌘K
     chat.css        Início, conversa, composer, seletor de modelo
     pages.css       Layouts das demais telas
-    motion.css      Animações (fadeSlideIn e pco-enter do DS) e movimento reduzido
+    motion.css      Animações (fadeSlideIn, pco-enter e giro de 3s do DS) e movimento reduzido
   js/
     icons.js        Ícones Solar (a família do DS), embutidos
     data.js         Dados de exemplo no formato da API (/v1/...)

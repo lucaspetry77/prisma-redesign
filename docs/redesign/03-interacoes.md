@@ -11,11 +11,11 @@ O Arc é React. O Prisma é HTML, CSS e JS puros, sem build. Por isso o Prisma p
 ## 1. Regras de movimento (valem para tudo)
 
 1. **Só `transform` e `opacity`** se movem, com uma exceção: largura e altura quando o tamanho é a própria informação (medidor, barra de gasto).
-2. **Feedback na hora:** pressionar encolhe em 100 ms (0,97 nos botões, 0,92 nos de ícone, 0,96 nas pílulas). Gatilhos que abrem popover respondem com cor, não com escala.
+2. **Feedback na hora:** pressionar encolhe em 100 ms (0,97 nos botões, 0,92 nos de ícone, 0,96 nas pílulas); no hover, o botão sobe 1px em 250 ms (`.btn:hover` do pacote do DS). Gatilhos que abrem popover respondem com cor, não com escala.
 3. **Interrompível:** estado muda por `transition`, não por timeline. Reabrir um menu no meio do fechamento volta de onde está.
 4. **Sair é mais rápido que entrar:** popover entra em 240 ms e sai em 140 ms; modal entra na mola `smooth` e sai em 180 ms.
 5. **Um efeito pesado por página, no máximo:** o cristal animado no início, a paisagem no login. Nada de fundo animado nas outras telas.
-6. **Movimento reduzido:** sem deslocamento, escala, laço ou desfoque. Ficam fades de 120 a 160 ms; números e barras pulam direto para o valor final.
+6. **Movimento reduzido:** sem deslocamento, escala, laço ou desfoque. Ficam fades de 120 a 160 ms; números e barras pulam direto para o valor final. `?movimento=reduzido` liga o mesmo ramo para verificar sem mudar a preferência do sistema (resultado em 05-handoff.md).
 
 ## 2. Tokens de movimento
 
@@ -39,7 +39,7 @@ Sem suporte a `linear()`, as molas caem nas curvas do DS (`--ease-drawer` e `--e
 | **Morph select** | Seletor de modelo no composer e no criador de agente | Popover que abre a partir do gatilho e, no composer, **para cima** (o gatilho fica embaixo). Destaque segue o ponteiro; teclado completo (↑↓, Home/End, PageUp/PageDown de 8, type-ahead, Esc devolve o foco). Busca só acima de 8 modelos. Grupos "Automático" e "Outros modelos" (o grupo lembra se estava aberto). Selo de custo relativo (1 a 3 $) calculado do `priceOut` real |
 | **Segmented control** + **Tabs** | Agentes/Skills na galeria, Explorar/Favoritos, atalhos de período no admin, abas do admin de usuários | Indicador único que desliza em `--spring-morph`. O ativo é **superfície branca com sombra** (regra do DS claro), não cor. Setas, Home e End trocam de aba |
 | **Destaque de navegação** (padrão do Arc) | Barra lateral | Destaque que segue o ponteiro entre itens (`--spring-morph`). O item atual fica fixo como cartão branco elevado |
-| **Toast stack** | Todas as confirmações | Pilha no canto inferior direito; os de trás sobem 14px e encolhem 5% cada; 3 visíveis. 5 s padrão, 8 s para erro e para toast com ação ("Desfazer"). Pausa ao passar o ponteiro. Ícone de sucesso desenha o check |
+| **Toast stack** | Todas as confirmações | Posição e aparência do `.toast` do pacote do DS (embaixo no centro, escuro com borda do acento); empilhamento do Arc: os de trás sobem 14px e encolhem 5% cada; 3 visíveis. 5 s padrão, 8 s para erro e para toast com ação ("Desfazer"). Pausa ao passar o ponteiro. Ícone de sucesso desenha o check |
 | **Action button** (pendente → sucesso no botão) | Salvar perfil, skill, agente, projeto, modelo, teto; enviar NPS | O rótulo some por opacidade e o indicador entra no lugar, **sem mudar a largura**. Sucesso desenha o check e volta em 1,4 s. Erro devolve o botão e mostra toast vermelho com a causa |
 | **Dialog** | Confirmações, criar projeto, renomear, NPS, atalhos | Sobe 8px a partir da escala 0,96 na mola `smooth`; fundo `rgb(24 24 27 / .45)` (o do DS claro) com desfoque de 4px; foco preso; Esc fecha; o foco volta ao gatilho |
 | **Drawer** | Editar modelo e criar modelo (admin), editar teto de usuário, editar contexto do projeto no celular | Folha lateral de 520px que entra na mola `smooth` e sai em 250 ms. A lista continua visível atrás: edita-se sem perder o lugar |

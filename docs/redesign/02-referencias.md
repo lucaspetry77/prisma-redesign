@@ -28,7 +28,7 @@ Asimov Design System (01-design-system.md). 159 links de telas, todos copiados d
 
 ## Onde o Prisma diverge das referências (e por quê)
 
-- **Saudação:** as referências usam saudação por horário ("Boa tarde"). Mantive "O que vamos criar hoje, *nome*?", que já é a voz do Prisma, com o nome em Instrument Serif.
+- **Saudação e títulos em serifa:** as referências (e os padrões abaixo) citam Instrument Serif. O `AGENTS.md` do DS diz que ela é legado e não faz parte da identidade, então títulos e saudação ficaram em **Inter prata** (`text-gradient-silver`). A saudação mantém a voz do Prisma ("O que vamos criar hoje, nome?") em vez de "Boa tarde".
 - **Admin como contexto separado (C.4):** adotado só em parte. Em `/admin/*` a barra lateral troca para a navegação do admin, com "Voltar ao Prisma" no topo, mas continua sendo o mesmo shell, com a mesma conta e os mesmos atalhos.
 - **Custo relativo no seletor de modelo (A.3.2):** adotado como 1 a 3 cifrões calculados do preço de saída real (`priceOut`). Modelos sem preço (roteador Asimov) não mostram selo.
 - **Duração do raciocínio ("Pensou por 42s"):** o contrato atual não traz a duração. O rótulo fica "Raciocínio" e passa a mostrar a duração quando a API enviar `reasoningMs`.

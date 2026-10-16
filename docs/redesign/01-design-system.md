@@ -1,121 +1,116 @@
 # 01 · Design system do Prisma (tema claro)
 
-Fonte de verdade: [asimov-academy/asimov-design-system](https://github.com/asimov-academy/asimov-design-system), branch `main`
-(lida em 15/10/2026). Implementação: `assets/css/tokens.css`, `base.css`, `components.css`, `shell.css`, `motion.css`,
-`assets/js/icons.js`, `ui.js`. Vitrine viva de componentes: `componentes.html`.
+Implementação: `assets/css/tokens.css`, `base.css`, `components.css`, `shell.css`, `motion.css`, `assets/js/icons.js`, `ui.js`.
+Vitrine viva: `componentes.html`.
 
-## 1. O que existe no repositório do DS (e o que não existe)
+## 1. Fonte de verdade: onde estão os arquivos do briefing
 
-O briefing citava `AGENTS.md`, `tokens.json`, `assets/css/tokens.css`, `components.html` e `starter.html`. Conferi `main` e as
-outras 9 branches do repositório, e os outros repositórios de design system da organização. **Só o `AGENTS.md` existe.** O
-`tokens.json` não existe, e nem `starter.html` nem `components.html` existem com esses nomes. Os equivalentes reais:
+O briefing aponta `github.com/asimov-academy/asimov-design-system` e pede `AGENTS.md`, `tokens.json`, `assets/css/tokens.css`,
+`components.html` e `starter.html`. Busca feita em 15/10/2026:
 
-| Pedido no briefing | Equivalente real no DS | Como usei |
+| Onde procurei | Resultado |
+|---|---|
+| `asimov-design-system`, branch `main` e as outras 9 branches (`git ls-remote` + árvore de cada uma) | Só `AGENTS.md` (sobre emails). Tem `assets/modo-claro.css`, `themes.js`, `components/index.html`, `overview/index.html` e ícones Solar |
+| Site publicado `asimov-design-system.vercel.app` (`/tokens.json`, `/starter.html`, `/components.html`, `/assets/css/tokens.css`) | 404 em todos |
+| Busca de código na organização (`gh search code --owner asimov-academy --filename …`) | **Encontrados** em `asimov-academy/asimov-mkt-dashboard`, pasta `design/asimov-academy-ds/`: `AGENTS.md`, `README.md`, `tokens.json`, `assets/css/tokens.css`, `assets/css/design-system.css`, `components.html`, `starter.html` (commit "DS oficial da Asimov no lugar do snapshot da LP", 19/09/2026) |
+
+Esse pacote é o Asimov Design System completo, no formato que o briefing descreve, e o `README` dele manda ler exatamente
+`AGENTS.md`, `tokens.json` e `assets/css/tokens.css` e partir de `starter.html`. **Ele é a fonte principal.** Só tem tema escuro
+(`color-scheme: dark`). Por isso, como pede o briefing, o claro é derivado, e a derivação usada é a **oficial**:
+`assets/modo-claro.css` do repositório `asimov-design-system` (mesma marca, mesmos componentes, camada clara documentada).
+
+| Peça | Vem de |
+|---|---|
+| Fonte, escala de espaço, raios, curvas, botões, campos, abas, tabela, métrica, medidor, alerta, toast, dialog, tema de acento | Pacote: `AGENTS.md`, `tokens.json`, `tokens.css`, `design-system.css` |
+| Superfícies, tinta, linhas, sombras, vidro claro, acento escurecido para texto, título prata no claro | `asimov-design-system/assets/modo-claro.css` |
+| Ícones (família Solar linear) | `asimov-design-system/assets/icons/solar` (o pacote usa traços próprios no mesmo estilo; ver §6) |
+| Movimento de interação (molas, toast empilhado, indicadores) | UI Arc (ver 03-interacoes.md), sobre as curvas do pacote |
+
+## 2. Regras do `AGENTS.md` do pacote e como o Prisma cumpre
+
+| Regra | No Prisma |
+|---|---|
+| "Inter é a fonte de títulos e interface. Pesos 400, 500, 600 e 700." "Instrument Serif é legado e não deve ser apresentada como parte da identidade." | Só Inter. A serifa foi removida da marca, da saudação, do login e os arquivos saíram do repositório |
+| H1 peso 500, tracking negativo; `text-gradient-silver` vertical, nunca horizontal | Títulos de página, saudação e login em prata vertical (versão clara do `modo-claro.css`: tinta → `#18181b` → `#3f3f46`); `h1–h3 { letter-spacing: -.035em }` |
+| Accent sinaliza interação; mude os quatro tons juntos e o RGB | `--accent`, `--accent-dark`, `--accent-light`, `--accent-glow` + `--accent-rgb-space` |
+| Escala 4/8/12/16/24/32/48/64/96; mobile 20–24px de margem | `--s-1…--s-24`; `--gutter-mobile: 20px` |
+| Raios: 8 controles, 16 painéis, 24 cards, pill em CTAs | `--r-control 8`, `--r-panel 16`, `--r-card 24`, `--r-pill`; extensões de app do `design-system.css`: métrica/tabela/toast 12, alerta 10, botão quadrado 10, dialog 20 |
+| Vidro = fill translúcido + blur + borda fina + highlight superior | `.card`, topo do celular e cabeçalhos fixos (no claro: branco translúcido + `rgb(9 9 11/.08)` + `inset 0 1px` branco) |
+| Textos sóbrios, diretos e descritivos | Toda a copy (verbo nos botões, sem superlativo) |
+| No máximo um fundo animado por página; nada intenso atrás de formulários e tabelas | Só o cristal no início e a paisagem estática no login |
+| Labels, erros ligados ao campo, `aria-invalid`, tabs com setas, Escape, `:focus-visible` | Ver 05-handoff.md (QA) |
+| Testar 390 e 1280px, movimento reduzido, teclado, formulário válido e inválido, abas, subdiretório | Feito; resultados em 05-handoff.md |
+
+## 3. Tokens: do pacote para o Prisma
+
+| Pacote (`tokens.json` / `tokens.css`) | Prisma (`tokens.css`) | Nota |
 |---|---|---|
-| `AGENTS.md` | `AGENTS.md` (regras: tudo local, sem CDN, pt-BR) | Seguido: fontes, ícones e imagens locais; nenhuma dependência remota |
-| `tokens.json` / `tokens.css` | Variáveis CSS em `assets/overview/_astro/global.*.css` (tipografia, espaçamento, raios, curvas, cores Tailwind) + `assets/themes.js` (17 acentos) | Portadas para `tokens.css`, cada uma com o nome de origem em comentário |
-| Tema claro | `assets/modo-claro.css` + `assets/modo.js` (o DS **tem** modo claro oficial, como camada sobre o escuro) | É a base do tema: superfícies, tinta, linhas, sombras, vidro e acento escurecido vêm daqui, valor a valor |
-| `components.html` | `assets/components/index.html` (catálogo: cards modulares, layouts editoriais, benefícios, planos, acordeão, rodapé, fundos) | Origem das receitas de card, CTA, selo, acordeão, ícone com pedestal |
-| `starter.html` | `assets/overview/index.html` (a landing completa usada como base) | Origem do cabeçalho em vidro, do CTA com brilho e das entradas animadas |
+| `themes.cyan_asimov` `#06b6d4 / #0891b2 / #22d3ee / #67e8f9` | `--accent*` | O padrão do DS é Teal; o Prisma usa **Ciano**, um dos oito temas nomeados, porque casa com o cristal azul do logo. Trocar = as quatro variáveis + RGB |
+| `--ui-accent-rgb-space` | `--accent-rgb-space: 6 182 212` | |
+| `--radius-sm 8 / -md 16 / -card 24 / -pill` | `--r-control / --r-panel / --r-card / --r-pill` | |
+| `--space-1…24` | `--s-1…--s-24` | |
+| `--ease-out cubic-bezier(.2,.8,.2,1)`; `motion.reveal 1s`; `motion.card .5s (.4,0,.2,1)`; `motion.buttonSpin 3s` | `--ease-out`, `--ease-entry`, `--d-entry`, `--d-card`, `--ease-in-out`, `--d-spin` | |
+| `type.copy 18 / card 16 / meta 12` | `--text-xl 18 / --text-lg 16 / --text-xs 12` | App usa 13–15 para densidade (passos `app:`) |
+| `--success #4ade80 / --warning #fbbf24 / --danger #fb7185 / --info #60a5fa` (escuro) | `--success #15803d`, `--warning #b45309`, `--danger #be123c`, `--info #1d4ed8` | Mesma família de cor, escurecida para texto AA no branco |
+| `surface #050505`, `copy #b4b4b4`, `border-subtle/strong` (escuro) | `--page #f4f4f5`, `--surface #fff`, `--body #52525b`, `--line #e4e4e7`, `--line-strong #d4d4d8` | Do `modo-claro.css` |
 
-Como o modo claro já existe no DS, **não precisei derivar um tema claro do zero**. O que derivei foi o que o DS (feito para
-landing pages) não tem: componentes de aplicativo. Cada derivação está marcada com `app:` em `tokens.css` e listada na seção 4.
+## 4. Componentes do pacote portados
 
-## 2. Tokens portados
-
-### Cor
-- **Superfícies** (`modo-claro.css`): página `#f4f4f5` (`--claro-page`), superfície `#fff`, `surface-2` `#fafafa`, `sunken` `#ececee`.
-- **Tinta**: `#09090b` (títulos), `#52525b` (corpo), `#71717a` (secundário, 4,8:1 no branco), `#a1a1aa` (só decorativo).
-- **Linhas**: `#e4e4e7` e `#d4d4d8`. Hover `rgb(9 9 11 / .04)` (o hover do dropdown do cabeçalho claro).
-- **Vidro claro**: `rgb(255 255 255 / .7)`, borda `rgb(9 9 11 / .08)`, desfoque 10px, luz no topo `inset 0 1px rgb(255 255 255 / .7)`.
-- **Acento**: tema `cyan_asimov` (`#06b6d4 / #0891b2 / #22d3ee / #67e8f9`), que já era o do Prisma e casa com o cristal azul.
-  Derivadas pela receita do DS claro: `accent-ink = mix(accent-dark 78%, preto)` para texto (5,6:1), `accent-wash = mix(accent 9%, branco)`,
-  `accent-line = mix(accent 32%, branco)`. Trocar o tema = trocar as quatro variáveis `--accent*`.
-- **Tons de identidade** (`themes.js`, formações e trilhas): só no avatar de agente e no ícone de projeto. Antes, o tom pintava
-  cartões inteiros e perdia o sentido.
-- **Semânticas** (`app:`): o DS não define sucesso, aviso e erro. Usei a mesma base Tailwind do DS e escureci para texto AA,
-  como o DS faz com o acento.
-
-### Profundidade
-Regra do DS claro: *"no claro a profundidade vem da sombra, não do brilho"*. As três sombras são as do DS (`--claro-shadow-sm/md/lg`).
-O brilho do acento fica restrito a dois lugares: o CTA com brilho do login (`.button-glow`) e o botão de enviar (CTA em degradê).
-
-### Tipografia
-- **Inter** (400/500/600/700) e **Instrument Serif itálico**, os mesmos arquivos do DS (`cmp` idêntico).
-- Títulos em **peso 500 com tracking −0,025em e entrelinha 1,08** (`.section-title` do DS). Títulos de seção nunca em 600/700.
-- Instrument Serif itálico só como acento de marca: "Prisma" no logotipo, o nome da pessoa na saudação e o título do login.
-- Escala do DS (12 / 14 / 16 / 18 / 20 / 30 / 36 / 48) mais dois passos de app, 13 e 15, porque aplicativo pede mais densidade que landing page.
-- Rótulo em caixa alta com tracking 0,18em (`.trail-overview-v2-card__label`) só em contextos de metadado. Os "eyebrows" em toda página
-  saíram (ver inventário, problema 12).
-
-### Espaçamento, raios, movimento
-- Escala de 4px (`--spacing .25rem`).
-- Raios do DS: 8 (`radius-lg`), 12 (`radius-xl`), 16 (`radius-2xl`), 20 (cards do FAQ), 22 (cards compactos). 10px é `app:` para controles.
-- Curvas: `cubic-bezier(.23,1,.32,1)` (cards e FAQ do DS), `(.2,.8,.2,1)` (`fadeSlideIn`), `(.4,0,.2,1)` (padrão). Durações 150 ms
-  (padrão do DS), 350 ms (acordeão do DS), 400 ms (transform de card do DS), 1 s (`fadeSlideIn`).
-- Animações portadas como estão: `fadeSlideIn` (desfoque 8px + 30px), `pco-enter` (modal), giro da borda de luz do `.button-glow`,
-  acordeão por `grid-template-rows 0fr → 1fr`.
-
-### Ícones
-Família **Solar linear** (traço 1,5), a mesma do DS (`assets/icons/solar`). O DS vendoriza 20 ícones; o Prisma precisa de 95, que vendorizei
-da mesma fonte (API do Iconify, 15/10/2026) em `assets/js/icons.js`, sem chamada remota em tempo de execução. Três desenhos próprios no mesmo
-traço: `sidebar`, `stop`, `crystal-plus`. Licença CC BY 4.0 em `assets/icons/LICENSE.md`.
-
-## 3. Componentes portados do DS
-
-| Componente do Prisma | Origem no DS | Adaptação |
+| Pacote (`design-system.css` / `components.html`) | Prisma | Adaptação para o claro |
 |---|---|---|
-| `.card` | `.trail-card` claro (vidro + luz no topo + sombra mínima) | Sobre o painel branco, o vidro vira branco opaco; borda de vidro mantida |
-| `.card--interactive:hover` | `.formation-card:hover` claro | Borda pega o tom a 34% e a sombra sobe para `md`; transform em 400 ms |
-| `.card--dashed` | `.trail-card--more` claro | "Criar novo" dentro de grades |
-| `.btn--secondary` | `.index4-pricing-card__cta--outline` claro | Hover: borda `accent-line` + fundo `accent-wash` |
-| `.btn--accent` | `.index4-pricing-card__cta--primary` claro (degradê 135° + brilho) | Só em botão de ícone (enviar), onde o contraste exigido é 3:1 |
-| `.btn--glow` | `.button-glow` claro (vidro + borda cônica girando + halo) | CTA único do login |
-| `.badge--accent` | `.index4-pricing-badge` claro | Selo de destaque (Padrão, Admin) |
-| `.icon-chip--accent` | `.platform-row__icon` claro | Ícone de seção |
-| `.icon-chip--tone` | `.trail-card__icon` claro | Ícone de projeto com o tom dele |
-| `.disclosure` | `.faq-item` / `.faq-body` | Mesma mecânica e tempos (350 ms, ícone gira 180°) |
-| `.topbar` (celular) | `.cadence-header__nav` claro (vidro 78% + desfoque 16px) | Topo fixo do celular |
-| `.overlay__scrim` | `.pco-backdrop` claro (`rgb(24 24 27 / .45)`) | Fundo de modal |
-| `.dialog` | `.pco-dialog` + `pco-enter` | Entrada 12px + escala .99 |
-| `.crystal` | Logo do Prisma (ativo do produto) | Mantido; reflexo e refração mascarados pelo próprio logo |
+| `.btn`: pílula, borda forte, hover borda no acento + 8% do acento + sobe 1px (.25s) | `.btn` | Fundo branco; hover `--accent-wash` |
+| `.btn--solid`: degradê 135° accent-dark → accent, brilho do acento | `.btn--primary` / `.btn--solid` | As pontas escurecem até o texto branco passar AA: `--cta-from` (5,6:1) e `--cta-to` (4,7:1) |
+| `.btn--ghost`, `.btn--danger`, `.btn--small` (34px), `.btn--square` (40px, raio 10) | `.btn--ghost`, `.btn--danger-outline`, `.btn--sm`, `.icon-btn--outline` | |
+| `.button-glow` (3 camadas, borda cônica 3s, scale 1.05) | `.btn--glow` (só no login) | Vidro claro e halo do acento, como no `modo-claro.css` |
+| Campos: raio 8, padding 12px 14px, label 12px/500, ajuda e erro pequenos | `.input`, `.textarea`, `.select`, `.label`, `.hint`, `.field-error` | Fundo branco, borda `--line-strong`, anel do acento no foco |
+| `.tabs`: gap 24px, sublinhado e texto no acento | `.tabs` | Texto `--accent-ink`; sublinhado que desliza (UI Arc) |
+| `.segmented`: raio 8, interno 5 | `.seg` | Selecionado em superfície branca com sombra |
+| `.badge`: pílula, 10–11px, 500, tracking .04em | `.badge` | |
+| `.table-wrap` (raio 12) e `.data-table` | `.table-wrap`, `.table` | Cabeçalho fixo e `aria-sort` (app) |
+| `.metric` (padding 18, raio 12, valor 28px −.05em) | `.kpi` | Valor com número que rola (UI Arc) |
+| `.progress` (5px, degradê accent-dark → accent-light) | `.meter` | Degradê até o `accent` (o light some no branco) |
+| `.bar-chart` (degradê do acento a 20% até o acento, borda do light a 40%, raio 4 4 0 0) | `.chart__bar` | |
+| `.alert` (borda do acento a 25%, fundo a 6%, raio 10) | `.alert` + variantes semânticas | |
+| `.switch` 36×21 | `.switch` | Ligado com o degradê do CTA |
+| `.skeleton` (brilho 2s) | `.skel` | |
+| `.toast` (embaixo no centro, raio 12, fundo accent-dark 18% sobre `#101010`, borda do acento 35%) | `.toast` | Mantido escuro, como no pacote (contrasta com o claro); empilhado como no UI Arc |
+| `dialog` (raio 20, 480px) | `.dialog` | |
+| `.dashboard-side button[aria-selected]` (acento a 10%, texto no acento) | `.nav-item[aria-current]`, `.conv.is-active` | `--accent-wash` + `--accent-ink` |
+| `.eyebrow` | Não usado | Ruído em toda página (problema 12 do inventário) e contrário à regra de copy do UI Arc |
+| Aurora (WebGL) + paisagem | Paisagem de dia só no login | "Evite animação intensa atrás de formulários e tabelas" (`AGENTS.md`) |
 
-## 4. Componentes derivados para aplicativo (`app:`)
+Componentes de app que nem o pacote nem a camada clara têm (menu, popover, folha lateral, paleta ⌘K, número que rola,
+cartão de opção, migalha, zona de arquivo, estrelas) foram derivados só com estes tokens e com a interação do UI Arc.
 
-O DS não tem esses componentes. Todos usam só tokens do DS e seguem o padrão de interação do UI Arc (Fase 3):
-campo, área de texto, seleção, busca com ícone; caixa, rádio, cartão de opção, interruptor; segmentos e abas com indicador
-deslizante; pílulas de filtro; status com ponto; avatar; menu e popover; dica com atalho; modal, confirmação (com palavra digitada),
-folha lateral; toast empilhado com ação; esqueleto, vazio que ensina, erro com "Tentar de novo"; medidor; tabela com cabeçalho fixo e
-ordenação; bloco de código; zona de arquivo; estrelas; migalha; linha de lista; número que rola; paleta de comandos.
+## 5. Decisões de derivação (claro) e contraste AA
 
-**Decisões que valem para todos:**
-
-1. **Botão primário em tinta, não em acento.** Texto branco sobre `#06b6d4` dá 2,4:1 e não passa AA. Tinta sobre branco dá 19:1. O acento
-   fica para foco, seleção, progresso e o CTA de enviar.
-2. **Foco só pelo teclado** (`:focus-visible`), anel de 2px no acento com afastamento de 2px. Campos ganham anel de 3px `accent-ring`.
-3. **Painel principal elevado.** A página é o zinco do DS; o conteúdo vive num painel branco com borda de vidro, raio 20 e `shadow-sm`.
-   A barra lateral fica no zinco, sem caixa. É a tradução direta de "superfícies brancas sobre fundo zinco, profundidade por sombra".
-4. **Selecionado = superfície branca com sombra**, não cor. Na barra lateral e nos segmentos o item ativo "sobe" como um cartão.
-   O acento não disputa atenção com o conteúdo.
-5. **Pressionar encolhe** (botões 0,97, ícones 0,92, pílulas 0,96) em 100 ms: resposta imediata ao toque.
-6. **Texto essencial nunca em `--faint`** (`#a1a1aa` dá 2,6:1). `--muted` (4,8:1) é o mínimo para texto.
-
-## 5. Contraste (AA)
+1. **Foco** em `--accent-dark` (3,7:1 no branco), 2px, afastamento de 3px. O pacote usa `accent-light` (1,8:1 no branco) com 5px.
+2. **CTA sólido** do pacote com as duas pontas escurecidas (texto branco 5,6:1 e 4,7:1).
+3. **Texto secundário sobre o zinco** (barra lateral, login) usa `--muted-on-page` (5,2:1); `--muted` dá 4,4:1 ali.
+4. **Placeholder** em `--muted` (4,8:1); o `--faint` do `modo-claro.css` dá 2,6:1.
+5. **Selecionado na barra lateral** tingido de acento (como no pacote); **selecionado em segmentos** em superfície branca (sombra, regra do claro).
 
 | Par | Razão |
 |---|---|
 | `--ink` sobre branco | 19,6:1 |
 | `--body` sobre branco | 7,7:1 |
 | `--muted` sobre branco | 4,8:1 |
-| `--muted` sobre `--page` (#f4f4f5) | 4,4:1. Na barra lateral, o texto usa `--body`; `--muted` fica só nos ícones e rótulos de grupo (11px, 500, não essenciais) |
-| `--accent-ink` sobre branco | 5,6:1 |
-| `--accent-ink` sobre `--accent-wash` | 5,1:1 |
-| Branco sobre `--ink-2` (botão primário, toast) | 17,7:1 |
-| Branco sobre `--danger-solid` (botão perigo) | 4,7:1 |
-| Ícone branco sobre `--accent-dark` (enviar, 3:1 para não texto) | 3,7:1 |
-| `--danger` sobre `--danger-wash` | 6,0:1 |
+| `--muted-on-page` sobre `--page` | 5,2:1 |
+| `--accent-ink` sobre branco · sobre `--accent-wash` | 5,6:1 · 5,1:1 |
+| Branco sobre `--cta-from` · `--cta-to` | 5,6:1 · 4,7:1 |
+| Branco sobre `--danger-solid` | 4,7:1 |
+| Anel de foco `--focus` sobre branco | 3,7:1 |
+| Ícone branco sobre o degradê do botão enviar (não texto, 3:1) | 3,7:1 no `accent-dark` |
 
-## 6. Como usar
+O contraste foi medido no navegador, texto por texto, em 9 telas (05-handoff.md).
+
+## 6. Ícones
+
+O pacote usa SVGs próprios de traço ("adaptações locais, não cópias do Solar"); o repositório do DS usa Solar linear. O Prisma usa
+**Solar linear** (95 ícones, vendorizados em `icons.js`, sem chamada remota), porque o conjunto do pacote tem poucos ícones e o
+mesmo estilo de traço. Licença em `assets/icons/LICENSE.md`; gerador em `scripts/vendor-icons.py`.
+
+## 7. Como usar
 
 ```html
 <link rel="stylesheet" href="assets/css/tokens.css">
@@ -124,18 +119,9 @@ ordenação; bloco de código; zona de arquivo; estrelas; migalha; linha de list
 <link rel="stylesheet" href="assets/css/shell.css">
 <!-- chat.css e pages.css quando a tela precisar -->
 <link rel="stylesheet" href="assets/css/motion.css">
-...
-<script src="assets/js/icons.js"></script>
-<script src="assets/js/data.js"></script>
-<script src="assets/js/core.js"></script>
-<script src="assets/js/ui.js"></script>
-<script src="assets/js/shell.js"></script>
-<script src="assets/js/motion.js"></script>
-<script src="assets/js/pages/<tela>.js"></script>  <!-- termina com Prisma.ready() -->
+<script src="assets/js/icons.js"></script> … <script src="assets/js/pages/<tela>.js"></script>
 ```
 
-Regras para quem continuar:
-- Cor, raio, sombra, duração e curva **sempre por token**. Se faltar um, crie em `tokens.css` com a origem em comentário.
-- Antes de criar um componente, procure em `componentes.html`.
-- Copy em pt-BR, sóbria e descritiva: o que a coisa faz, sem adjetivo de marketing. Botões com verbo ("Criar projeto", "Salvar skill").
-- Sem eyebrow em caixa alta, sem travessão em copy, sem degradê decorativo fora dos dois lugares acima.
+- Cor, raio, sombra, espaço, duração e curva **sempre por token**. Faltou um? Crie em `tokens.css` com a origem em comentário.
+- Antes de criar um componente, veja `componentes.html`.
+- Copy em pt-BR, sóbria e descritiva. Botões com verbo. Sem eyebrow, sem travessão, sem degradê decorativo além do CTA, das barras e do brilho do login.
