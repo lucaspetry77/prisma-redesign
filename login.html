@@ -2,9 +2,13 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Entrar · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="description" content="Entre no Asimov Prisma com a sua conta da Asimov Academy.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/components.css">
@@ -12,29 +16,33 @@
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <main class="login">
+  <main class="login" id="conteudo">
     <section class="login__art" aria-label="Asimov Prisma">
-      <img src="assets/img/landscape-dia-1200.webp" srcset="assets/img/landscape-dia-768.webp 768w, assets/img/landscape-dia-1200.webp 1200w" sizes="55vw" alt="">
-      <span class="login__chip"><span data-crystal="badge" data-crystal-class="crystal-badge--round"></span>Asimov Prisma</span>
+      <img src="assets/img/landscape-dia-1200.webp" srcset="assets/img/landscape-dia-768.webp 768w, assets/img/landscape-dia-1200.webp 1200w" sizes="55vw" alt="" fetchpriority="high">
+      <span class="login__chip"><img src="assets/img/prisma-logo-128.webp" alt="" width="26" height="26" style="width:26px;height:26px">Asimov Prisma</span>
       <div class="login__art-inner">
-        <img class="brand__logo" src="assets/img/asimov-logo.svg" alt="Asimov Academy" width="120" height="37">
-        <p class="login__tagline" data-split="300">Sem prompt perfeito. Sem medo de errar. <em>Só comece.</em></p>
+        <img class="login__logo" src="assets/img/asimov-logo.svg" alt="Asimov Academy" width="92" height="28">
+        <p class="login__tagline" data-tagline>Sem prompt perfeito. Sem medo de errar. <em>Só comece.</em></p>
       </div>
     </section>
-
     <section class="login__side">
       <div class="login__card">
-        <div class="login__mark" data-crystal="hero"></div>
+        <div class="login__mark" data-mark aria-hidden="true"></div>
         <h1 class="login__title">Entre no <em>Prisma</em></h1>
         <p class="login__sub">A IA da Asimov para criar, analisar e automatizar, do seu jeito.</p>
-        <a class="btn btn--primary btn--glow btn--lg btn--block" href="index.html">Continuar como aluno<i class="i" data-icon="arrow-right"></i></a>
-        <p class="login__note"><i class="i i--sm" data-icon="lock"></i><span>Use a mesma conta que você já usa nos cursos da Asimov. Não precisa criar outra senha.</span></p>
+        <div data-alert style="width:100%;margin-bottom:16px;text-align:left"></div>
+        <a class="btn btn--glow btn--block" href="index.html" data-sso><span data-label>Continuar com a conta Asimov</span><i class="i" data-icon="arrow-right"></i></a>
+        <p class="login__note"><i class="i" data-icon="lock"></i><span>Use o mesmo login da plataforma de cursos. Não precisa criar outra conta nem outra senha.</span></p>
         <p class="login__legal">Ao entrar, você concorda com os <a href="#">Termos de uso</a> e a <a href="#">Política de privacidade</a>.</p>
+        <p class="sr-only" role="status" aria-live="polite" data-live></p>
       </div>
     </section>
   </main>
   <script src="assets/js/icons.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
-  <script>Prisma.hydrateIcons(); Prisma.motion.init();</script>
+  <script src="assets/js/pages/login.js"></script>
 </body>
 </html>
