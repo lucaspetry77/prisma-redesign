@@ -2,48 +2,54 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Projetos · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="description" content="Projetos agrupam conversas com contexto e arquivos em comum.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/pages.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="projetos">
-    <main class="main" id="conteudo">
+
+  <div class="app" data-page="projetos" data-nav="projetos" data-title="Projetos">
+    <main class="main" id="conteudo" tabindex="-1">
       <div class="page">
         <header class="page-head">
           <div class="page-head__text">
-            <span class="eyebrow">Projetos</span>
-            <h1 class="page-title">Conversas com contexto</h1>
-            <p class="page-sub">Organize conversas, arquivos e instruções por assunto. Tudo o que você conversa num projeto já começa sabendo dele.</p>
+            <h1 class="page-title">Projetos</h1>
+            <p class="page-sub">Agrupe conversas que têm contexto e arquivos em comum. Toda conversa num projeto já começa sabendo dele.</p>
           </div>
-          <div class="page-head__actions">
-            <button type="button" class="btn btn--primary" data-new-project><i class="i" data-icon="plus"></i>Novo projeto</button>
-          </div>
+          <div class="page-head__actions"><button type="button" class="btn btn--primary" data-new><i class="i " data-icon="plus"></i>Novo projeto</button></div>
         </header>
-
-        <div class="toolbar">
-          <div class="input-icon">
-            <i class="i i--sm" data-icon="search"></i>
-            <label class="sr-only" for="busca">Buscar projetos</label>
-            <input id="busca" class="input" type="search" placeholder="Buscar projetos" autocomplete="off">
+        <div class="toolbar" role="search">
+          <div class="input-icon toolbar__search"><i class="i " data-icon="search"></i><label class="sr-only" for="q">Buscar projetos</label><input id="q" class="input" type="search" placeholder="Buscar por nome ou contexto" autocomplete="off" data-search></div>
+          <label class="sr-only" for="sort">Ordenar projetos</label>
+          <select id="sort" class="select" style="width:auto" data-sort><option value="recentes">Atividade recente</option><option value="nome">Nome (A–Z)</option><option value="conversas">Mais conversas</option></select>
+          <span class="toolbar__spacer"></span>
+          <span class="toolbar__count" data-count aria-live="polite"></span>
+          <div class="seg seg--sm" role="group" aria-label="Visualização" data-view>
+            <button type="button" class="seg__btn" data-v="cards" aria-pressed="true" aria-label="Cartões" data-tip="Cartões"><i class="i " data-icon="grid"></i></button>
+            <button type="button" class="seg__btn" data-v="list" aria-pressed="false" aria-label="Lista" data-tip="Lista"><i class="i " data-icon="list"></i></button>
           </div>
         </div>
-
-        <div class="grid grid--3" data-projects></div>
+        <div data-projects></div>
       </div>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
+  <script src="assets/js/shell.js"></script>
   <script src="assets/js/pages/projects.js"></script>
 </body>
 </html>

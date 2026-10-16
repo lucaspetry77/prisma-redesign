@@ -2,71 +2,36 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Projeto · Asimov Prisma</title>
-  <link rel="icon" href="assets/img/prisma-favicon.png">
+  <meta name="description" content="Conversas, contexto e arquivos de um projeto.">
+  <meta name="theme-color" content="#f4f4f5">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/prisma-favicon.png" type="image/png">
+  <link rel="preload" href="assets/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/tokens.css">
-  <link rel="stylesheet" href="assets/css/base.css?v=credits-2">
-  <link rel="stylesheet" href="assets/css/components.css?v=credits-2">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/shell.css">
   <link rel="stylesheet" href="assets/css/chat.css">
   <link rel="stylesheet" href="assets/css/pages.css">
   <link rel="stylesheet" href="assets/css/motion.css">
 </head>
 <body>
-  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-  <div class="app" data-page="projetos">
-    <main class="main" id="conteudo">
-      <div class="page" style="padding-bottom:24px">
-        <a class="crumb" href="projetos.html"><i class="i" data-icon="chevron-left"></i>Projetos</a>
-        <header class="page-head" style="margin-bottom:22px">
-          <div class="page-head__text">
-            <div class="project-hero">
-              <span class="icon-chip" data-project-chip><i class="i" data-icon="folder"></i></span>
-              <h1 class="page-title" data-project-name>Projeto</h1>
-            </div>
-            <p class="page-sub">Tudo o que você conversar aqui já começa sabendo do contexto e dos arquivos.</p>
-          </div>
-          <div class="page-head__actions">
-            <button type="button" class="icon-btn icon-btn--bordered" data-project-more aria-haspopup="menu" aria-expanded="false" aria-label="Mais ações do projeto"><i class="i" data-icon="more"></i></button>
-          </div>
-        </header>
 
-        <div class="project-panels">
-          <section class="tone-card project-panel" style="--tone:var(--tone-teal);--tone-dark:var(--tone-teal-dark)" aria-labelledby="ctx-t">
-            <div class="project-panel__head">
-              <span class="icon-chip icon-chip--sm"><i class="i" data-icon="pencil"></i></span>
-              <h2 class="project-panel__title" id="ctx-t">Contexto</h2>
-              <span class="counter" data-ctx-count></span>
-            </div>
-            <div class="project-panel__box" data-ctx></div>
-          </section>
-
-          <section class="tone-card project-panel" style="--tone:var(--tone-orange);--tone-dark:var(--tone-orange-dark)" aria-labelledby="files-t">
-            <div class="project-panel__head">
-              <span class="icon-chip icon-chip--sm"><i class="i" data-icon="file"></i></span>
-              <h2 class="project-panel__title" id="files-t">Arquivos</h2>
-              <span class="counter" data-files-count>0 de 20</span>
-            </div>
-            <div class="project-panel__box" data-files></div>
-            <p class="project-panel__foot">Valem para todas as conversas deste projeto. Até 20 arquivos de texto, até 30 MB cada.</p>
-          </section>
-        </div>
-
-        <h2 class="section-label mt-32">Conversas neste projeto</h2>
-        <div class="card list-card" data-project-convs></div>
-      </div>
-
-      <div class="composer-dock" style="margin-top:auto">
-        <form class="composer" aria-label="Nova conversa neste projeto"></form>
-        <p class="composer-hint" id="composer-hint">A conversa nova já entra no projeto, com o contexto e os arquivos dele.</p>
-      </div>
+  <div class="app" data-page="projeto" data-nav="projetos" data-title="Projeto">
+    <main class="main" id="conteudo" tabindex="-1">
+      <div data-project></div>
     </main>
   </div>
-
   <script src="assets/js/icons.js"></script>
   <script src="assets/js/data.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/ui.js"></script>
   <script src="assets/js/motion.js"></script>
-  <script src="assets/js/pages/projects.js"></script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/composer.js"></script>
+  <script src="assets/js/pages/project.js"></script>
 </body>
 </html>
