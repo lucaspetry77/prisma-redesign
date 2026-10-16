@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QA · Asimov Prisma</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    body { padding: 32px; background: var(--page); }
+    main { max-width: 960px; margin: 0 auto; }
+    pre { white-space: pre-wrap; font: 12px/1.6 var(--font-mono); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-metric); padding: 16px; max-height: 60vh; overflow: auto; }
+  </style>
+</head>
+<body>
+  <main class="stack" style="--gap:16px">
+    <h1 class="t-title t-silver">QA do Prisma</h1>
+    <p class="t-body">Abre cada tela em 375px, 390px e 1280px e mede contraste AA de todo texto visível, foco visível em todo elemento focável,
+      estouro horizontal e movimento reduzido (<code>?movimento=reduzido</code>); depois roda os cenários de formulário inválido e válido.
+      Sirva a pasta do projeto (<code>python3 -m http.server 4180</code>) e abra <code>/qa/</code>. Leva cerca de 2 minutos.</p>
+    <div><button type="button" class="btn btn--primary" data-run>Rodar QA</button></div>
+    <pre data-out aria-live="polite"></pre>
+    <details><summary class="t-sm">Relatório completo (JSON)</summary><pre data-json></pre></details>
+  </main>
+  <script src="qa.js"></script>
+</body>
+</html>
