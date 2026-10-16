@@ -64,6 +64,7 @@
 .conv__more { position: absolute; right: 3px; top: 50%; transform: translateY(-50%); opacity: 0; }
 .conv:hover .conv__more, .conv:focus-within .conv__more, .conv__more[aria-expanded="true"] { opacity: 1; }
 .conv__rename { width: 100%; height: 32px; padding: 0 8px; border: 1px solid var(--accent); border-radius: var(--r-control); background: var(--surface); font-size: var(--text-sm); box-shadow: 0 0 0 3px var(--accent-ring); }
+.recents__all { margin: 8px 0 0 4px; color: var(--muted); }
 .recents__empty { padding: 8px 9px; font-size: var(--text-xs); color: var(--muted); line-height: 1.5; }
 
 /* Rodapé */

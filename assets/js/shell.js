@@ -92,7 +92,7 @@
   ];
 
   let cmdkOpen = null;
-  const cmdk = (initial = "") => {
+  const cmdk = (initial = "", { scope = null } = {}) => {
     if (cmdkOpen) { cmdkOpen.querySelector(".cmdk__input").focus(); return; }
     P.closePopover(false);
     const last = document.activeElement;
@@ -141,9 +141,9 @@
       const q = input.value.trim();
       const nq = P.norm(q);
       flat = [];
-      const groups = sources.map((s) => {
-        let items = q ? s.items.filter((it) => P.norm(`${it.title} ${it.meta || ""}`).includes(nq)) : (s.always ? s.items : s.label === "Conversas" ? s.items.slice(0, 5) : []);
-        if (s.limit) items = items.slice(0, s.limit);
+      const groups = sources.filter((s) => !scope || s.label === scope).map((s) => {
+        let items = q ? s.items.filter((it) => P.norm(`${it.title} ${it.meta || ""}`).includes(nq)) : (scope ? s.items : s.always ? s.items : s.label === "Conversas" ? s.items.slice(0, 5) : []);
+        if (s.limit && !scope) items = items.slice(0, s.limit);
         if (!items.length) return "";
         return `<div class="cmdk__group" role="group" aria-label="${esc(s.label)}"><div class="cmdk__label" aria-hidden="true">${esc(s.label)}</div>${items.map((it) => {
           const i = flat.push(it) - 1;
@@ -185,6 +185,7 @@
     list.addEventListener("click", (e) => { const b = e.target.closest(".cmdk__item"); if (b) go(flat[+b.dataset.i]); });
     layer.addEventListener("click", (e) => { if (e.target.closest("[data-close]")) closeCmdk(); });
     input.value = initial;
+    if (scope) input.placeholder = `Buscar em ${scope.toLowerCase()}…`;
     render();
     requestAnimationFrame(() => input.focus());
   };
@@ -199,7 +200,7 @@
           <a class="conv__link" href="chat.html?id=${c.id}" ${c.id === active ? 'aria-current="page"' : ""} title="${esc(c.title)}">${esc(c.title)}</a>
           <button type="button" class="icon-btn icon-btn--xs conv__more" aria-label="Ações de “${esc(c.title)}”" aria-haspopup="menu" aria-expanded="false">${icon("more")}</button>
         </li>`).join("")}</ul>
-    </section>`).join("")
+    </section>`).join("") + `<button type="button" class="btn btn--ghost btn--sm recents__all" data-all-convs>Ver todas as conversas</button>`
     : `<p class="recents__empty">Suas conversas aparecem aqui. Comece pelo <a class="link" href="index.html">novo chat</a>.</p>`;
 
   const ADMIN = [
@@ -366,6 +367,7 @@
 
     // Ações de cada conversa
     $("[data-recents]", aside)?.addEventListener("click", (e) => {
+      if (e.target.closest("[data-all-convs]")) { cmdk("", { scope: "Conversas" }); return; }
       const b = e.target.closest(".conv__more");
       if (!b) return;
       const li = b.closest(".conv");
